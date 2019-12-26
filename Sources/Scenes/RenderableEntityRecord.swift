@@ -16,11 +16,11 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import Igis
 
-class RenderableEntityRecord {
+internal class RenderableEntityRecord {
     private(set) var wasSetup : Bool
-    let renderableEntity : RenderableEntityProtocol
+    let renderableEntity : RenderableEntityBase
 
-    init(renderableEntity:RenderableEntityProtocol) {
+    init(renderableEntity:RenderableEntityBase) {
         self.wasSetup = false
         self.renderableEntity = renderableEntity
     }

@@ -16,38 +16,44 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import Igis
   
-class RenderableEntityBase : RenderableEntityProtocol {
+open class RenderableEntityBase {
 
-    func setup(canvas:Canvas) {
+    // setup() is invoked exactly once,
+    // either when the owning layer is first set up or,
+    // if the layer has already been setup,
+    // prior to the next render event
+    open func setup(canvas:Canvas) {
     }
     
-    func calculate(canvasId:Int, canvasSize:Size?) {
+    // calculate() is invoked prior to each render event
+    open func calculate(canvasId:Int, canvasSize:Size?) {
     }
     
-    func render(canvas:Canvas) {
+    // render() is invoked during each render cycle
+    open func render(canvas:Canvas) {
     }
 
-    func boundingRect() -> Rect {
+    open func boundingRect() -> Rect {
         return Rect(topLeft:Point(x:0, y:0), size:Size(width:0, height:0))
     }
     
-    func hitTest(location:Point) -> Bool  {
+    open func hitTest(location:Point) -> Bool  {
         return false
     }
 
-    func onMouseDown(location:Point) {
+    open func onMouseDown(location:Point) {
     }
     
-    func onMouseUp(location:Point) {
+    open func onMouseUp(location:Point) {
     }
     
-    func onClick(location:Point) {
+    open func onClick(location:Point) {
     }
 
-    func onMouseEnter(location:Point) {
+    open func onMouseEnter(location:Point) {
     }
     
-    func onMouseLeave(location:Point) {
+    open func onMouseLeave(location:Point) {
     }
       
 }

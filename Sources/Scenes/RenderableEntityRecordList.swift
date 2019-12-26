@@ -16,7 +16,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import Igis
 
-class RenderableEntityRecordList {
+internal class RenderableEntityRecordList {
     // Head refers to the beginning of the list
     // Tail refers to the end of the list
     private var list : [RenderableEntityRecord]
@@ -25,8 +25,24 @@ class RenderableEntityRecordList {
         list = [RenderableEntityRecord]()
     }
 
-    func entityRecord(entity:RenderableEntityProtocol) -> RenderableEntityRecord? {
+    var count : Int {
+        return list.count
+    }
+
+    func entityRecord(entity:RenderableEntityBase) -> RenderableEntityRecord? {
         return list.first(where: {$0.renderableEntity === entity})
+    }
+
+    func entityRecordIndex(entityRecord:RenderableEntityRecord) -> Int? {
+        return list.firstIndex(of:entityRecord)
+    }
+
+    func entityRecordIndex(entity:RenderableEntityBase) -> Int? {
+        if let entityRecord = entityRecord(entity:entity) {
+            return entityRecordIndex(entityRecord:entityRecord)
+        } else {
+            return nil
+        }
     }
 
     func insert(atHead entityRecord:RenderableEntityRecord) {
@@ -54,6 +70,8 @@ class RenderableEntityRecordList {
         list.insert(entityRecord, at:index)
     }
 
-
+    func swap(_ index1:Int, _ index2:Int) {
+        list.swapAt(index1, index2)
+    }
     
 }

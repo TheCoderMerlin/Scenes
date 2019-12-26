@@ -16,28 +16,11 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import Igis
   
-protocol RenderableEntityProtocol : AnyObject {
-
-    // setup() is invoked exactly once,
-    // either when the owning layer is first set up or,
-    // if the layer has already been setup,
-    // prior to the next render event
-    func setup(canvas:Canvas)
-
-    // calculate() is invoked prior to each render event
-    func calculate(canvasId:Int, canvasSize:Size?)
-
-    // render() is invoked during each render cycle
-    func render(canvas:Canvas)
-
-    func boundingRect() -> Rect
-    func hitTest(location:Point) -> Bool 
-
-    func onMouseDown(location:Point)
-    func onMouseUp(location:Point)
-    func onClick(location:Point)
-
-    func onMouseEnter(location:Point)
-    func onMouseLeave(location:Point)
-      
+public enum ZOrder<T> {
+    case back
+    case backward
+    case behind(object:T)
+    case inFrontOf(object:T)
+    case forward
+    case front
 }

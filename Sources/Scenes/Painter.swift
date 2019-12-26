@@ -16,7 +16,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import Igis
 
-class Painter : PainterProtocol {
+internal class Painter : PainterProtocol {
 
 
     required init() {

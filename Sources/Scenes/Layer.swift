@@ -16,15 +16,15 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import Igis
 
-class Layer {
+open class Layer {
 
     private var backToFrontRecords : RenderableEntityRecordList
 
-    init() {
+    public init() {
         backToFrontRecords = RenderableEntityRecordList()
     }
 
-    func insert(entity:RenderableEntityProtocol, at zLocation:ZLocation) {
+    public func insert(entity:RenderableEntityBase, at zLocation:ZOrder<RenderableEntityBase>) {
         let entityRecord = RenderableEntityRecord(renderableEntity:entity)
         
         switch (zLocation) {
@@ -49,7 +49,39 @@ class Layer {
         }
     }
 
-    func moveZ(of entity:RenderableEntityProtocol, zLocation:ZLocation) {
+    public func moveZ(of entity:RenderableEntityBase, to zLocation:ZOrder<RenderableEntityBase>) {
+        guard let entityRecordIndex = backToFrontRecords.entityRecordIndex(entity:entity) else {
+            fatalError("Failed to find renderableEntityRecord in the specified list")
+        }
+
+        switch (zLocation) {
+        case .back:
+            let otherRecordIndex = 0
+            backToFrontRecords.swap(otherRecordIndex, entityRecordIndex)
+        case .backward:
+            let otherRecordIndex = entityRecordIndex - 1
+            if otherRecordIndex >= 0 {
+                backToFrontRecords.swap(otherRecordIndex, entityRecordIndex)
+            }
+        case .behind(let behindEntity):
+            guard let otherRecordIndex = backToFrontRecords.entityRecordIndex(entity:behindEntity) else {
+                fatalError("Failed to find renderableEntityRecord in the specified list (behindEntity)")
+            }
+            backToFrontRecords.swap(otherRecordIndex, entityRecordIndex)
+        case .inFrontOf(let inFrontOfEntity):
+            guard let otherRecordIndex = backToFrontRecords.entityRecordIndex(entity:inFrontOfEntity) else {
+                fatalError("Failed to find renderableEntityRecord in the specified list (inFrontOfEntity)")
+            }
+            backToFrontRecords.swap(otherRecordIndex, entityRecordIndex)
+        case .forward:
+            let otherRecordIndex = entityRecordIndex + 1
+            if otherRecordIndex < backToFrontRecords.count {
+                backToFrontRecords.swap(otherRecordIndex, entityRecordIndex)
+            }
+        case .front:
+            let otherRecordIndex = backToFrontRecords.count - 1
+            backToFrontRecords.swap(otherRecordIndex, entityRecordIndex)
+        }
     }
 }
 

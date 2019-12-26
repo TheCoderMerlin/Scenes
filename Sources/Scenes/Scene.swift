@@ -15,12 +15,13 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
 import Igis
-  
-enum ZLocation {
-    case back
-    case backward
-    case behind(entity:RenderableEntityProtocol)
-    case inFrontOf(entity:RenderableEntityProtocol)
-    case forward
-    case front
+
+public class Scene {
+
+    private var backToFrontLayers : [Layer]
+
+    public init() {
+        backToFrontLayers = [Layer]()
+    }
 }
+
