@@ -16,12 +16,30 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import Igis
 
-public class Scene {
+open class Scene {
 
-    private var backToFrontLayers : [Layer]
+    private var backToFrontLayers : LayerList
 
     public init() {
-        backToFrontLayers = [Layer]()
+        backToFrontLayers = LayerList()
     }
+
+    public func insert(layer:Layer, at zLocation:ZOrder<Layer>) {
+        switch (zLocation) {
+        case .back:
+            backToFrontLayers.insert(atHead:layer)
+        case .backward:
+            fatalError("zOrder of .backward is not a valid option for insertion")
+        case .behind(let behindLayer):
+            backToFrontLayers.insert(layer:layer, before:behindLayer)
+        case .inFrontOf(let inFrontOfLayer):
+            backToFrontLayers.insert(layer:layer, after:inFrontOfLayer)
+        case .forward:
+            fatalError("zOrder of .foward is not a valid option for insertion")
+        case .front:
+            backToFrontLayers.insert(atTail:layer)
+        }
+    }
+    
 }
 

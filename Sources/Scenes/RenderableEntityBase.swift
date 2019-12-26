@@ -18,6 +18,12 @@ import Igis
   
 open class RenderableEntityBase {
 
+    internal let wasSetup : Bool
+
+    public init() {
+        wasSetup = false
+    }
+
     // setup() is invoked exactly once,
     // either when the owning layer is first set up or,
     // if the layer has already been setup,

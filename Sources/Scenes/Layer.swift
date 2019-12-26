@@ -85,3 +85,8 @@ open class Layer {
     }
 }
 
+extension Layer : Equatable {
+    public static func == (lhs:Layer, rhs: Layer) -> Bool {
+        return lhs === rhs
+    }
+}
