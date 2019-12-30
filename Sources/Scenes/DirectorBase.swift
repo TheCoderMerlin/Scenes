@@ -17,7 +17,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 import Foundation
 import Igis
 
-open class Director : PainterProtocol {
+open class DirectorBase : PainterProtocol {
     private var currentScene : Scene? 
 
     // ********************************************************************************

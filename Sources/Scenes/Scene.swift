@@ -22,7 +22,7 @@ open class Scene {
     internal private(set) var neverCalculated : Bool
     private var backToFrontList : ZOrderedList<Layer>
 
-    public private(set) weak var owner : Director?
+    public private(set) weak var owner : DirectorBase?
     
 
     // ********************************************************************************
@@ -36,7 +36,7 @@ open class Scene {
         owner = nil
     }
 
-    internal func internalSetup(canvas:Canvas, director:Director) {
+    internal func internalSetup(canvas:Canvas, director:DirectorBase) {
         precondition(!wasSetup, "Request to setup scene after already being setup")
         precondition(neverCalculated, "Request to setup scene after already being calculated")
         precondition(owner == nil, "Request to setup scene but owner is not nil")
@@ -55,7 +55,7 @@ open class Scene {
         wasSetup = true
     }
 
-    internal func internalCalculate(canvas:Canvas, director:Director) {
+    internal func internalCalculate(canvas:Canvas, director:DirectorBase) {
         // At this point, we must have already been set up
         precondition(!wasSetup, "Request to calculate scene prior to setup")
         precondition(owner != nil, "Request to calculate scene but owner is nil")
@@ -70,7 +70,7 @@ open class Scene {
         neverCalculated = false
     }
 
-    internal func internalRender(canvas:Canvas, director:Director) {
+    internal func internalRender(canvas:Canvas, director:DirectorBase) {
         // At this point, we must have already been set up
         precondition(!wasSetup, "Request to render scene prior to setup")
         precondition(owner != nil, "Request to render scene but owner is nil")
