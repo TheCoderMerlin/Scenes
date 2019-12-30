@@ -50,17 +50,19 @@ open class DirectorBase : PainterProtocol {
     }
 
     internal func internalRender(canvas:Canvas) {
+        // Terminate the current scene if so indicated
+        if shouldSceneTerminate() {
+            currentScene = nil
+        }
+        
         // Obtain a new scene, if available
         if currentScene == nil {
             currentScene = nextScene()
         }
 
-        // At this point, if we don't have a currentScene, we're done and exit,
-        // otherwise, process the render for the scene
+        // If we have a scene at this point, begin rendering
         if let currentScene = currentScene {
             internalRender(canvas:canvas, scene:currentScene)
-        } else {
-            exit(0)
         }
     }
     
@@ -95,11 +97,28 @@ open class DirectorBase : PainterProtocol {
 
     // ********************************************************************************
     // API FOLLOWS
+    // ********************************************************************************
+
+    
+    
+    // ********************************************************************************
+    // API FOLLOWS
     // These functions should be over-ridden by descendant classes
     // ********************************************************************************
+
+    // This function should be overridden to provide the next scene object to be rendered.
+    // It is invoked whenever a browser first connects and after shouldSceneTerminate() returns true.
     open func nextScene() -> Scene? {
         return nil
     }
+
+    // This function should be overridden for multi-scene presentations.
+    // It is invoked after a scene completes a rendering cycle.
+    open func shouldSceneTerminate() -> Bool {
+        return false
+    }
+
+    
     
 }
 
