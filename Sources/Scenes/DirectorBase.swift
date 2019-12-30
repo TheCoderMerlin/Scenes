@@ -51,7 +51,7 @@ open class DirectorBase : PainterProtocol {
 
     internal func internalRender(canvas:Canvas) {
         // Terminate the current scene if so indicated
-        if shouldSceneTerminate() {
+        if currentScene != nil && shouldSceneTerminate() {
             currentScene = nil
         }
         
