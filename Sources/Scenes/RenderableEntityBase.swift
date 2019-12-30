@@ -18,21 +18,82 @@ import Igis
   
 open class RenderableEntityBase {
 
-    internal let wasSetup : Bool
+    internal private(set) var wasSetup : Bool
+    internal private(set) var neverCalculated : Bool
+    
+    public private(set) weak var owner : Layer?
 
     public init() {
         wasSetup = false
+        neverCalculated = true
+        
+        owner = nil
     }
+
+    // ********************************************************************************
+    // Functions for internal use
+    // ********************************************************************************
+    internal func internalSetup(canvas:Canvas, layer:Layer) {
+        precondition(!wasSetup, "Request to setup entity after already being setup")
+        precondition(neverCalculated, "Request to setup entity after already being setup")
+        precondition(owner == nil, "Request to setup entity but owner is not nil")
+        
+        owner = layer
+        setup(canvas:canvas)
+        wasSetup = true
+    }
+
+    internal func internalCalculate(canvas:Canvas, layer:Layer) {
+        // In the event that this entity was added after the initial setup, it will not have been setup
+        // We therefore check again now
+        if !wasSetup {
+            internalSetup(canvas:canvas, layer:layer)
+        }
+
+        precondition(wasSetup, "Request to calculate entity prior to setup")
+        precondition(owner != nil, "Request to calculate entity but owner is nil")
+        precondition(canvas.canvasSize != nil, "Request to calculate entity but canvas.canvasSize is nil")
+
+        calculate(canvasSize:canvas.canvasSize!)
+
+        neverCalculated = false
+    }
+
+    internal func internalRender(canvas:Canvas, layer:Layer) {
+        // In the event that this entity was added after the initial setup, it will not have been calculated yet (or setup)
+        // We therefore check again now
+        if neverCalculated {
+            internalCalculate(canvas:canvas, layer:layer)
+        }
+
+        precondition(wasSetup, "Request to render entity prior to setup")
+        precondition(owner != nil, "Request to render entity but owner is nil")
+        precondition(!neverCalculated, "Request to render entity but never calculated")
+        
+        precondition(canvas.canvasSize != nil, "Request to render entity but canvas.canvasSize is nil")
+
+        render(canvas:canvas)
+    }
+    
+    // ********************************************************************************
+    // API FOLLOWS
+    // ********************************************************************************
+
+
+    // ********************************************************************************
+    // API FOLLOWS
+    // These functions should be over-ridden by descendant classes
+    // ********************************************************************************
 
     // setup() is invoked exactly once,
     // either when the owning layer is first set up or,
     // if the layer has already been setup,
-    // prior to the next render event
+    // prior to the next calculate event
     open func setup(canvas:Canvas) {
     }
     
     // calculate() is invoked prior to each render event
-    open func calculate(canvasId:Int, canvasSize:Size?) {
+    open func calculate(canvasSize:Size) {
     }
     
     // render() is invoked during each render cycle
@@ -62,4 +123,10 @@ open class RenderableEntityBase {
     open func onMouseLeave(location:Point) {
     }
       
+}
+
+extension RenderableEntityBase : Equatable {
+    public static func == (lhs:RenderableEntityBase, rhs:RenderableEntityBase) -> Bool {
+        return lhs === rhs
+    }
 }
