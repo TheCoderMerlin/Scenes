@@ -57,7 +57,7 @@ open class Scene {
 
     internal func internalCalculate(canvas:Canvas, director:DirectorBase) {
         // At this point, we must have already been set up
-        precondition(!wasSetup, "Request to calculate scene prior to setup")
+        precondition(wasSetup, "Request to calculate scene prior to setup")
         precondition(owner != nil, "Request to calculate scene but owner is nil")
 
         // Calculate all layers
@@ -72,7 +72,7 @@ open class Scene {
 
     internal func internalRender(canvas:Canvas, director:DirectorBase) {
         // At this point, we must have already been set up
-        precondition(!wasSetup, "Request to render scene prior to setup")
+        precondition(wasSetup, "Request to render scene prior to setup")
         precondition(owner != nil, "Request to render scene but owner is nil")
 
         // At this point, we must have already calculated
