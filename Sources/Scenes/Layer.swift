@@ -115,6 +115,9 @@ open class Layer {
                 }
             }
         }
+
+        // No entity was eligible in this layer for a mouseDown
+        return nil
     }
 
     internal func internalOnMouseClick(location:Point) {
