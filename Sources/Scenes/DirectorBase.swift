@@ -94,6 +94,13 @@ open class DirectorBase : PainterProtocol {
     }
     
     public func onMouseUp(location:Point) {
+        if let currentScene = currentScene,
+           currentScene.wasSetup {
+            let desiredMouseEvents = currentScene.wantsMouseEvents()
+            if desiredMouseEvents.contains(.downUp) || desiredMouseEvents.contains(.click) {
+                currentScene.internalOnMouseUp(location:location)
+            }
+        }
     }
     
     public func onMouseMove(location:Point) {

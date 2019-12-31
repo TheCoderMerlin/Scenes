@@ -20,6 +20,7 @@ open class Layer {
 
     internal private(set) var wasSetup : Bool
     internal private(set) var neverCalculated : Bool
+    internal private(set) weak var mostRecentMouseDownEntity : RenderableEntityBase?
     private var backToFrontList : ZOrderedList<RenderableEntityBase>
 
     public private(set) weak var owner : Scene?
@@ -31,6 +32,7 @@ open class Layer {
     public init() {
         wasSetup = false
         neverCalculated = true
+        mostRecentMouseDownEntity = nil
         backToFrontList = ZOrderedList<RenderableEntityBase>()
 
         owner = nil
@@ -92,10 +94,13 @@ open class Layer {
         postRender(canvas:canvas)
     }
 
-    internal func internalOnMouseDown(location:Point) {
+    internal func internalOnMouseDown(location:Point) -> Layer? {
         // At this point, we must have already been set up
         precondition(wasSetup, "Request to process onMouseDown prior to setup")
         precondition(owner != nil, "Request to process onMouseDown but owner is nil")
+
+        // Also, there must not be a mostRecentMouseDownEntity
+        precondition(mostRecentMouseDownEntity == nil, "Request to process onMouseDown but mostRecentMouseDownEntity is not nil")
 
         let frontToBackList = backToFrontList.list.reversed()
         for entity in frontToBackList {
@@ -104,6 +109,48 @@ open class Layer {
                 if desiredMouseEvents.contains(.downUp) || desiredMouseEvents.contains(.click) {
                     if entity.hitTest(location:location) {
                         entity.internalOnMouseDown(location:location)
+                        mostRecentMouseDownEntity = entity
+                        return self
+                    }
+                }
+            }
+        }
+    }
+
+    internal func internalOnMouseClick(location:Point) {
+        // At this point, we must have already been set up
+        precondition(wasSetup, "Request to process onMouseClick prior to setup")
+        precondition(owner != nil, "Request to process onMouseClick but owner is nil")
+
+        // Also, there must be a mostRecentMouseDownEntity
+        guard let mostRecentMouseDownEntity = mostRecentMouseDownEntity else {
+            fatalError("Request to process onMouseClick but mostRecentMouseDownEntity is nil")
+        }
+
+        if mostRecentMouseDownEntity.wantsMouseEvents().contains(.click) {
+            mostRecentMouseDownEntity.internalOnMouseClick(location:location)
+        }
+
+        // Terminate the mostRecentMouseDownEntity
+        self.mostRecentMouseDownEntity = nil
+    }
+
+    internal func internalOnMouseUp(location:Point) {
+        // At this point, we must have already been set up
+        precondition(wasSetup, "Request to process onMouseUp prior to setup")
+        precondition(owner != nil, "Request to process onMousUp but owner is nil")
+
+        // Also, there must not be a mostRecentMouseDownEntity
+        precondition(mostRecentMouseDownEntity != nil, "Request to process onMouseUp but mostRecentMouseDownEntity is not nil")
+
+        let frontToBackList = backToFrontList.list.reversed()
+        for entity in frontToBackList {
+            if entity.wasSetup {
+                let desiredMouseEvents = entity.wantsMouseEvents()
+                if desiredMouseEvents.contains(.downUp)  {
+                    if entity.hitTest(location:location) {
+                        entity.internalOnMouseUp(location:location)
+                        return
                     }
                 }
             }

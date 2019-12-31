@@ -20,6 +20,7 @@ open class Scene {
 
     internal private(set) var wasSetup : Bool
     internal private(set) var neverCalculated : Bool
+    internal private(set) weak var mostRecentMouseDownLayer : Layer?
     private var backToFrontList : ZOrderedList<Layer>
 
     public private(set) weak var owner : DirectorBase?
@@ -31,6 +32,7 @@ open class Scene {
     public init() {
         wasSetup = false
         neverCalculated = true
+        mostRecentMouseDownLayer = nil
         backToFrontList = ZOrderedList<Layer>()
 
         owner = nil
@@ -91,12 +93,45 @@ open class Scene {
         precondition(wasSetup, "Request to process onMouseDown prior to setup")
         precondition(owner != nil, "Request to process onMouseDown but owner is nil")
 
+        // Also, there must not be a mostRecentMouseDownEntity
+        precondition(mostRecentMouseDownLayer == nil, "Request to process onMouseDown but mostRecentMouseDownLayer is not nil")
+
         let frontToBackList = backToFrontList.list.reversed()
         for layer in frontToBackList {
             if layer.wasSetup {
                 let desiredMouseEvents = layer.wantsMouseEvents()
                 if desiredMouseEvents.contains(.downUp) || desiredMouseEvents.contains(.click) {
-                    layer.internalOnMouseDown(location:location)
+                    mostRecentMouseDownLayer = layer.internalOnMouseDown(location:location)
+                    if (mostRecentMouseDownLayer != nil) {
+                        return
+                    }
+                }
+            }
+        }
+    }
+
+    internal func internalOnMouseUp(location:Point) {
+        // At this point, we must have already been set up
+        precondition(wasSetup, "Request to process onMouseDown prior to setup")
+        precondition(owner != nil, "Request to process onMouseDown but owner is nil")
+
+        // If we have a mostRecentMouseDownLayer, we process the potential click first
+        if let mostRecentMouseDownLayer = mostRecentMouseDownLayer,
+           mostRecentMouseDownLayer.wantsMouseEvents().contains(.click) {
+            mostRecentMouseDownLayer.internalOnMouseClick(location:location)
+        }
+
+        // Terminate the moseRecentMouseDownLayer
+        mostRecentMouseDownLayer = nil
+        
+        // Now search for whatever object may have a mouseUp event (it may be the same object as the click)
+        let frontToBackList = backToFrontList.list.reversed()
+        for layer in frontToBackList {
+            if layer.wasSetup {
+                let desiredMouseEvents = layer.wantsMouseEvents()
+                if desiredMouseEvents.contains(.downUp) {
+                    layer.internalOnMouseUp(location:location)
+                    return
                 }
             }
         }

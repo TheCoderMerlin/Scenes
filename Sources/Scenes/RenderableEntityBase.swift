@@ -76,12 +76,26 @@ open class RenderableEntityBase {
     }
 
     internal func internalOnMouseDown(location:Point) {
-        precondition(wasSetup, "Request to process onMouseDwon prior to setup")
+        precondition(wasSetup, "Request to process onMouseDown prior to setup")
         precondition(owner != nil, "Request to process onMouseDown but owner is nil")
 
         onMouseDown(location:location)
     }
+
+    internal func internalOnMouseClick(location:Point) {
+        precondition(wasSetup, "Request to process onMouseClick prior to setup")
+        precondition(owner != nil, "Request to process onMouseClick but owner is nil")
+
+        onMouseClick(location:location)
+    }
     
+    internal func internalOnMouseUp(location:Point) {
+        precondition(wasSetup, "Request to process onMouseUp prior to setup")
+        precondition(owner != nil, "Request to process onMouseUp but owner is nil")
+
+        onMouseUp(location:location)
+    }
+
     // ********************************************************************************
     // API FOLLOWS
     // ********************************************************************************
@@ -127,7 +141,7 @@ open class RenderableEntityBase {
     open func onMouseUp(location:Point) {
     }
     
-    open func onClick(location:Point) {
+    open func onMouseClick(location:Point) {
     }
 
     open func onMouseEnter(location:Point) {
