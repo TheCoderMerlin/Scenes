@@ -142,6 +142,20 @@ open class Layer {
         self.mostRecentMouseDownEntity = nil
     }
 
+    internal func internalCancelPendingMouseClick(location:Point) {
+        // At this point, we must have already been set up
+        precondition(wasSetup, "Request to process onMouseClick prior to setup")
+        precondition(owner != nil, "Request to process onMouseClick but owner is nil")
+
+        // Also, there must be a mostRecentMouseDownEntity
+        if mostRecentMouseDownEntity == nil {
+            fatalError("Request to process cancelPendingMouseClick but mostRecentMouseDownEntity is nil")
+        }
+
+        // Terminate the mostRecentMouseDownEntity
+        self.mostRecentMouseDownEntity = nil
+    }
+
     internal func internalOnMouseUp(location:Point) {
         // At this point, we must have already been set up
         precondition(wasSetup, "Request to process onMouseUp prior to setup")

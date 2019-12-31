@@ -138,6 +138,25 @@ open class Scene {
         }
     }
 
+    internal func internalCancelPendingMouseClick() {
+        // This handles the cancellation of any pending click, because the mouseUp event
+        // occurred outside of the canvas
+        
+        // At this point, we must have already been set up
+        precondition(wasSetup, "Request to process onMouseDown prior to setup")
+        precondition(owner != nil, "Request to process onMouseDown but owner is nil")
+
+        // If we have a mostRecentMouseDownLayer, we process the cancellation
+        // We need to process this internal event even if the object itself does not want the click,
+        // in order to clear the mouse down event
+        if let mostRecentMouseDownLayer = mostRecentMouseDownLayer {
+            mostRecentMouseDownLayer.internalCancelPendingMouseClick()
+        }
+
+        // Terminate the mostRecentMouseDownLayer
+        mostRecentMouseDownLayer = nil
+    }
+    
     
     // ********************************************************************************
     // API FOLLOWS
