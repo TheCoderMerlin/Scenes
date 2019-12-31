@@ -108,7 +108,9 @@ open class Layer {
                 let desiredMouseEvents = entity.wantsMouseEvents()
                 if desiredMouseEvents.contains(.downUp) || desiredMouseEvents.contains(.click) {
                     if entity.hitTest(location:location) {
-                        entity.internalOnMouseDown(location:location)
+                        if desiredMouseEvents.contains(.downUp) {
+                            entity.internalOnMouseDown(location:location)
+                        }
                         mostRecentMouseDownEntity = entity
                         return self
                     }
@@ -131,7 +133,9 @@ open class Layer {
         }
 
         if mostRecentMouseDownEntity.wantsMouseEvents().contains(.click) {
-            mostRecentMouseDownEntity.internalOnMouseClick(location:location)
+            if mostRecentMouseDownEntity.hitTest(location:location) {
+                mostRecentMouseDownEntity.internalOnMouseClick(location:location)
+            }
         }
 
         // Terminate the mostRecentMouseDownEntity
