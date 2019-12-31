@@ -89,7 +89,8 @@ open class DirectorBase : PainterProtocol {
         if let currentScene = currentScene,
            currentScene.wasSetup {
             let desiredMouseEvents = currentScene.wantsMouseEvents()
-            if desiredMouseEvents.contains(.downUp) || desiredMouseEvents.contains(.click) {
+            let shouldInvoke = !desiredMouseEvents.intersection([.downUp, .click, .drag]).isEmpty
+            if shouldInvoke {
                 currentScene.internalOnMouseDown(location:location)
             }
         }
@@ -99,7 +100,8 @@ open class DirectorBase : PainterProtocol {
         if let currentScene = currentScene,
            currentScene.wasSetup {
             let desiredMouseEvents = currentScene.wantsMouseEvents()
-            if desiredMouseEvents.contains(.downUp) || desiredMouseEvents.contains(.click) {
+            let shouldInvoke = !desiredMouseEvents.intersection([.downUp, .click, .drag]).isEmpty
+            if shouldInvoke {
                 currentScene.internalOnMouseUp(location:location)
             }
         }
@@ -112,7 +114,8 @@ open class DirectorBase : PainterProtocol {
         if let currentScene = currentScene,
            currentScene.wasSetup {
             let desiredMouseEvents = currentScene.wantsMouseEvents()
-            if desiredMouseEvents.contains(.downUp) || desiredMouseEvents.contains(.click) {
+            let shouldInvoke = !desiredMouseEvents.intersection([.downUp, .click, .drag]).isEmpty
+            if shouldInvoke {
                 currentScene.internalCancelPendingMouseClick()
             }
         }
@@ -124,7 +127,8 @@ open class DirectorBase : PainterProtocol {
            currentScene.wasSetup {
             let movement = Point(x:location.x - previousMouseLocation.x, y:location.y - previousMouseLocation.y)
             let desiredMouseEvents = currentScene.wantsMouseEvents()
-            if desiredMouseEvents.contains(.move) || desiredMouseEvents.contains(.drag) {
+            let shouldInvoke = !desiredMouseEvents.intersection([.move, .drag]).isEmpty
+            if shouldInvoke {
                 currentScene.internalOnMouseMove(location:location, movement:movement)
             }
         }

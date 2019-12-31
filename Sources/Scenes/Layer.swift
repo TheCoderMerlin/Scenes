@@ -106,7 +106,8 @@ open class Layer {
         for entity in frontToBackList {
             if entity.wasSetup {
                 let desiredMouseEvents = entity.wantsMouseEvents()
-                if desiredMouseEvents.contains(.downUp) || desiredMouseEvents.contains(.click) {
+                let shouldInvoke = !desiredMouseEvents.intersection([.downUp, .click, .drag]).isEmpty
+                if shouldInvoke {
                     if entity.hitTest(location:location) {
                         if desiredMouseEvents.contains(.downUp) {
                             entity.internalOnMouseDown(location:location)

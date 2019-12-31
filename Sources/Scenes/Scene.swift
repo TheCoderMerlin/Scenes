@@ -100,7 +100,8 @@ open class Scene {
         for layer in frontToBackList {
             if layer.wasSetup {
                 let desiredMouseEvents = layer.wantsMouseEvents()
-                if desiredMouseEvents.contains(.downUp) || desiredMouseEvents.contains(.click) {
+                let shouldInvoke = !desiredMouseEvents.intersection([.downUp, .click, .drag]).isEmpty
+                if shouldInvoke {
                     mostRecentMouseDownLayer = layer.internalOnMouseDown(location:location)
                     if (mostRecentMouseDownLayer != nil) {
                         return
