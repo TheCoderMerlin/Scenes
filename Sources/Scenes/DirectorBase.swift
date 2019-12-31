@@ -126,10 +126,14 @@ open class DirectorBase : PainterProtocol {
            let currentScene = currentScene,
            currentScene.wasSetup {
             let movement = Point(x:location.x - previousMouseLocation.x, y:location.y - previousMouseLocation.y)
-            let desiredMouseEvents = currentScene.wantsMouseEvents()
-            let shouldInvoke = !desiredMouseEvents.intersection([.move, .drag]).isEmpty
-            if shouldInvoke {
-                currentScene.internalOnMouseMove(location:location, movement:movement)
+            // Oddly, moveMove is frequently invoked without any movement
+            /// There's no point in executing the event handler if this is the case
+            if (movement.x != 0 || movement.y != 0) {
+                let desiredMouseEvents = currentScene.wantsMouseEvents()
+                let shouldInvoke = !desiredMouseEvents.intersection([.move, .drag]).isEmpty
+                if shouldInvoke {
+                    currentScene.internalOnMouseMove(location:location, movement:movement)
+                }
             }
         }
         previousMouseLocation = location
