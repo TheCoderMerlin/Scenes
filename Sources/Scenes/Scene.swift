@@ -116,8 +116,9 @@ open class Scene {
         precondition(owner != nil, "Request to process onMouseDown but owner is nil")
 
         // If we have a mostRecentMouseDownLayer, we process the potential click first
-        if let mostRecentMouseDownLayer = mostRecentMouseDownLayer,
-           mostRecentMouseDownLayer.wantsMouseEvents().contains(.click) {
+        // We need to process this internal event even if the object itself does not want the click,
+        // in order to clear the mouse down event
+        if let mostRecentMouseDownLayer = mostRecentMouseDownLayer {
             mostRecentMouseDownLayer.internalOnMouseClick(location:location)
         }
 
