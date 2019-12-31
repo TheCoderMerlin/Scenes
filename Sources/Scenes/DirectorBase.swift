@@ -80,9 +80,17 @@ open class DirectorBase : PainterProtocol {
     }
     
     public func onClick(location:Point) {
+        // We ignore clicks, and handle onMouseDown, onMouseUp, and onMouseMove
     }
     
     public func onMouseDown(location:Point) {
+        if let currentScene = currentScene,
+           currentScene.wasSetup {
+            let desiredMouseEvents = currentScene.wantsMouseEvents()
+            if desiredMouseEvents.contains(.downUp) || desiredMouseEvents.contains(.click) {
+                currentScene.internalOnMouseDown(location:location)
+            }
+        }
     }
     
     public func onMouseUp(location:Point) {

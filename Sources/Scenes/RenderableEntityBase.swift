@@ -74,6 +74,13 @@ open class RenderableEntityBase {
 
         render(canvas:canvas)
     }
+
+    internal func internalOnMouseDown(location:Point) {
+        precondition(wasSetup, "Request to process onMouseDwon prior to setup")
+        precondition(owner != nil, "Request to process onMouseDown but owner is nil")
+
+        onMouseDown(location:location)
+    }
     
     // ********************************************************************************
     // API FOLLOWS
@@ -84,6 +91,12 @@ open class RenderableEntityBase {
     // API FOLLOWS
     // These functions should be over-ridden by descendant classes
     // ********************************************************************************
+
+    // This function is invoked when mouse actions occur
+    // Unless the function is overridden to return the desired mouseEvents, this entity will not process mouse events
+    open func wantsMouseEvents() -> MouseEventTypeSet {
+        return []
+    }
 
     // setup() is invoked exactly once,
     // either when the owning layer is first set up or,
@@ -105,7 +118,7 @@ open class RenderableEntityBase {
     }
     
     open func hitTest(location:Point) -> Bool  {
-        return false
+        return boundingRect().containment(target:location).contains(.containedFully)
     }
 
     open func onMouseDown(location:Point) {

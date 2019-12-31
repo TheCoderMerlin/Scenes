@@ -92,6 +92,25 @@ open class Layer {
         postRender(canvas:canvas)
     }
 
+    internal func internalOnMouseDown(location:Point) {
+        // At this point, we must have already been set up
+        precondition(wasSetup, "Request to process onMouseDown prior to setup")
+        precondition(owner != nil, "Request to process onMouseDown but owner is nil")
+
+        let frontToBackList = backToFrontList.list.reversed()
+        for entity in frontToBackList {
+            if entity.wasSetup {
+                let desiredMouseEvents = entity.wantsMouseEvents()
+                if desiredMouseEvents.contains(.downUp) || desiredMouseEvents.contains(.click) {
+                    if entity.hitTest(location:location) {
+                        entity.internalOnMouseDown(location:location)
+                    }
+                }
+            }
+        }
+    }
+
+    
     // ********************************************************************************
     // API FOLLOWS
     // ********************************************************************************
@@ -107,6 +126,12 @@ open class Layer {
     // API FOLLOWS
     // These functions should be over-ridden by descendant classes
     // ********************************************************************************
+
+    // This function is invoked when mouse actions occur
+    // Unless the function is overridden to return the desired mouseEvents, this layer will not process mouse events
+    open func wantsMouseEvents() -> MouseEventTypeSet {
+        return []
+    }
     
     // This function is invoked immediately prior to setting up entities
     open func preSetup(canvas:Canvas) {

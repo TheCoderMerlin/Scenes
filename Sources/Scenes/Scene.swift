@@ -86,6 +86,22 @@ open class Scene {
         postRender(canvas:canvas)
     }
 
+    internal func internalOnMouseDown(location:Point) {
+        // At this point, we must have already been set up
+        precondition(wasSetup, "Request to process onMouseDown prior to setup")
+        precondition(owner != nil, "Request to process onMouseDown but owner is nil")
+
+        let frontToBackList = backToFrontList.list.reversed()
+        for layer in frontToBackList {
+            if layer.wasSetup {
+                let desiredMouseEvents = layer.wantsMouseEvents()
+                if desiredMouseEvents.contains(.downUp) || desiredMouseEvents.contains(.click) {
+                    layer.internalOnMouseDown(location:location)
+                }
+            }
+        }
+    }
+
     
     // ********************************************************************************
     // API FOLLOWS
@@ -102,6 +118,12 @@ open class Scene {
     // API FOLLOWS
     // These functions should be over-ridden by descendant classes
     // ********************************************************************************
+
+    // This function is invoked when mouse actions occur
+    // Unless the function is overridden to return the desired mouseEvents, this scene will not process mouse events
+    open func wantsMouseEvents() -> MouseEventTypeSet {
+        return []
+    }
 
     // This function is invoked immediately prior to setting up layers
     open func preSetup(canvas:Canvas) {
