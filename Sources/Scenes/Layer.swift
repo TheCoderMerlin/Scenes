@@ -144,7 +144,7 @@ open class Layer {
         precondition(owner != nil, "Request to process onMousUp but owner is nil")
 
         // Also, there must not be a mostRecentMouseDownEntity
-        precondition(mostRecentMouseDownEntity != nil, "Request to process onMouseUp but mostRecentMouseDownEntity is not nil")
+        precondition(mostRecentMouseDownEntity == nil, "Request to process onMouseUp but mostRecentMouseDownEntity is not nil")
 
         let frontToBackList = backToFrontList.list.reversed()
         for entity in frontToBackList {
