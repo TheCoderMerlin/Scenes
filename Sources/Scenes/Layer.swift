@@ -178,6 +178,33 @@ open class Layer {
         }
     }
 
+    internal func internalOnMouseMove(location:Point, movement:Point) {
+        // At this point, we must have already been set up
+        precondition(wasSetup, "Request to process onMouseMove prior to setup")
+        precondition(owner != nil, "Request to process onMousMove but owner is nil")
+
+        let frontToBackList = backToFrontList.list.reversed()
+        for entity in frontToBackList {
+            if entity.wasSetup {
+                let desiredMouseEvents = entity.wantsMouseEvents()
+                if desiredMouseEvents.contains(.move)  {
+                    entity.internalOnMouseMove(location:location, movement:movement)
+                }
+            }
+        }
+    }
+
+    internal func internalOnMouseDrag(location:Point, movement:Point) {
+        // At this point, we must have already been set up
+        precondition(wasSetup, "Request to process onMouseDrag prior to setup")
+        precondition(owner != nil, "Request to process onMousDrag but owner is nil")
+
+        if let mostRecentMouseDownEntity = mostRecentMouseDownEntity,
+           mostRecentMouseDownEntity.wantsMouseEvents().contains(.drag) {
+            mostRecentMouseDownEntity.internalOnMouseDrag(location:location, movement:movement)
+        }
+        
+    }
     
     // ********************************************************************************
     // API FOLLOWS

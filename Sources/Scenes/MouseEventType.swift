@@ -15,9 +15,9 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
 public enum MouseEventType {
-    case enterLeave
     case downUp
-    case drag
     case click
+    
     case move
+    case drag
 }

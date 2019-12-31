@@ -157,6 +157,28 @@ open class Scene {
         mostRecentMouseDownLayer = nil
     }
     
+    internal func internalOnMouseMove(location:Point, movement:Point) {
+        // At this point, we must have already been set up
+        precondition(wasSetup, "Request to process onMouseMove prior to setup")
+        precondition(owner != nil, "Request to process onMouseMove but owner is nil")
+
+        // Handle movement by notifying all interested entities
+        let frontToBackList = backToFrontList.list.reversed()
+        for layer in frontToBackList {
+            if layer.wasSetup {
+                let desiredMouseEvents = layer.wantsMouseEvents()
+                if desiredMouseEvents.contains(.move) {
+                    layer.internalOnMouseMove(location:location, movement:movement)
+                }
+            }
+        }
+
+        // Handle a drag if requested
+        if let mostRecentMouseDownLayer = mostRecentMouseDownLayer,
+           mostRecentMouseDownLayer.wantsMouseEvents().contains(.drag) {
+            mostRecentMouseDownLayer.internalOnMouseDrag(location:location, movement:movement)
+        }
+    }
     
     // ********************************************************************************
     // API FOLLOWS

@@ -18,13 +18,15 @@ import Foundation
 import Igis
 
 open class DirectorBase : PainterProtocol {
-    private var currentScene : Scene? 
+    private var currentScene : Scene?
+    private var previousMouseLocation : Point?
 
     // ********************************************************************************
     // Functions for internal use
     // ********************************************************************************
     public required init() {
         currentScene = nil
+        previousMouseLocation = nil
     }
 
     open func framesPerSecond() -> Int {
@@ -117,6 +119,16 @@ open class DirectorBase : PainterProtocol {
     }
     
     public func onMouseMove(location:Point) {
+        if let previousMouseLocation = previousMouseLocation,
+           let currentScene = currentScene,
+           currentScene.wasSetup {
+            let movement = Point(x:location.x - previousMouseLocation.x, y:location.y - previousMouseLocation.y)
+            let desiredMouseEvents = currentScene.wantsMouseEvents()
+            if desiredMouseEvents.contains(.move) || desiredMouseEvents.contains(.drag) {
+                currentScene.internalOnMouseMove(location:location, movement:movement)
+            }
+        }
+        previousMouseLocation = location
     }
 
     public func onKeyDown(key:String, code:String, ctrlKey:Bool, shiftKey:Bool, altKey:Bool, metaKey:Bool) {
