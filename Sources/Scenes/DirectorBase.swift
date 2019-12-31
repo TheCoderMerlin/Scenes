@@ -84,7 +84,6 @@ open class DirectorBase : PainterProtocol {
     }
     
     public func onMouseDown(location:Point) {
-        print("mouse DOWN")
         if let currentScene = currentScene,
            currentScene.wasSetup {
             let desiredMouseEvents = currentScene.wantsMouseEvents()
@@ -95,7 +94,6 @@ open class DirectorBase : PainterProtocol {
     }
     
     public func onMouseUp(location:Point) {
-        print("mouse UP")
         if let currentScene = currentScene,
            currentScene.wasSetup {
             let desiredMouseEvents = currentScene.wantsMouseEvents()
@@ -106,7 +104,6 @@ open class DirectorBase : PainterProtocol {
     }
     
     public func onWindowMouseUp(location:Point) {
-        print("mouse CANCEL CLICK")
         // This handles the cancellation of any pending click, because the mouseUp event
         // occurred outside of the canvas
         
