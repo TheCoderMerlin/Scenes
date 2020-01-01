@@ -91,7 +91,7 @@ open class DirectorBase : PainterProtocol {
             let desiredMouseEvents = currentScene.wantsMouseEvents()
             let shouldInvoke = !desiredMouseEvents.intersection([.downUp, .click, .drag]).isEmpty
             if shouldInvoke {
-                currentScene.internalOnMouseDown(location:location)
+                currentScene.internalOnMouseDown(globalLocation:location)
             }
         }
     }
@@ -102,7 +102,7 @@ open class DirectorBase : PainterProtocol {
             let desiredMouseEvents = currentScene.wantsMouseEvents()
             let shouldInvoke = !desiredMouseEvents.intersection([.downUp, .click, .drag]).isEmpty
             if shouldInvoke {
-                currentScene.internalOnMouseUp(location:location)
+                currentScene.internalOnMouseUp(globalLocation:location)
             }
         }
     }
@@ -132,7 +132,7 @@ open class DirectorBase : PainterProtocol {
                 let desiredMouseEvents = currentScene.wantsMouseEvents()
                 let shouldInvoke = !desiredMouseEvents.intersection([.move, .drag]).isEmpty
                 if shouldInvoke {
-                    currentScene.internalOnMouseMove(location:location, movement:movement)
+                    currentScene.internalOnMouseMove(globalLocation:location, movement:movement)
                 }
             }
         }

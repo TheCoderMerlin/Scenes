@@ -88,7 +88,7 @@ open class Scene {
         postRender(canvas:canvas)
     }
 
-    internal func internalOnMouseDown(location:Point) {
+    internal func internalOnMouseDown(globalLocation:Point) {
         // At this point, we must have already been set up
         precondition(wasSetup, "Request to process onMouseDown prior to setup")
         precondition(owner != nil, "Request to process onMouseDown but owner is nil")
@@ -102,7 +102,7 @@ open class Scene {
                 let desiredMouseEvents = layer.wantsMouseEvents()
                 let shouldInvoke = !desiredMouseEvents.intersection([.downUp, .click, .drag]).isEmpty
                 if shouldInvoke {
-                    mostRecentMouseDownLayer = layer.internalOnMouseDown(location:location)
+                    mostRecentMouseDownLayer = layer.internalOnMouseDown(globalLocation:globalLocation)
                     if (mostRecentMouseDownLayer != nil) {
                         return
                     }
@@ -111,7 +111,7 @@ open class Scene {
         }
     }
 
-    internal func internalOnMouseUp(location:Point) {
+    internal func internalOnMouseUp(globalLocation:Point) {
         // At this point, we must have already been set up
         precondition(wasSetup, "Request to process onMouseDown prior to setup")
         precondition(owner != nil, "Request to process onMouseDown but owner is nil")
@@ -120,7 +120,7 @@ open class Scene {
         // We need to process this internal event even if the object itself does not want the click,
         // in order to clear the mouse down event
         if let mostRecentMouseDownLayer = mostRecentMouseDownLayer {
-            mostRecentMouseDownLayer.internalOnMouseClick(location:location)
+            mostRecentMouseDownLayer.internalOnMouseClick(globalLocation:globalLocation)
         }
 
         // Terminate the moseRecentMouseDownLayer
@@ -132,7 +132,7 @@ open class Scene {
             if layer.wasSetup {
                 let desiredMouseEvents = layer.wantsMouseEvents()
                 if desiredMouseEvents.contains(.downUp) {
-                    layer.internalOnMouseUp(location:location)
+                    layer.internalOnMouseUp(globalLocation:globalLocation)
                     return
                 }
             }
@@ -158,7 +158,7 @@ open class Scene {
         mostRecentMouseDownLayer = nil
     }
     
-    internal func internalOnMouseMove(location:Point, movement:Point) {
+    internal func internalOnMouseMove(globalLocation:Point, movement:Point) {
         // At this point, we must have already been set up
         precondition(wasSetup, "Request to process onMouseMove prior to setup")
         precondition(owner != nil, "Request to process onMouseMove but owner is nil")
@@ -169,7 +169,7 @@ open class Scene {
             if layer.wasSetup {
                 let desiredMouseEvents = layer.wantsMouseEvents()
                 if desiredMouseEvents.contains(.move) {
-                    layer.internalOnMouseMove(location:location, movement:movement)
+                    layer.internalOnMouseMove(globalLocation:globalLocation, movement:movement)
                 }
             }
         }
@@ -177,7 +177,7 @@ open class Scene {
         // Handle a drag if requested
         if let mostRecentMouseDownLayer = mostRecentMouseDownLayer,
            mostRecentMouseDownLayer.wantsMouseEvents().contains(.drag) {
-            mostRecentMouseDownLayer.internalOnMouseDrag(location:location, movement:movement)
+            mostRecentMouseDownLayer.internalOnMouseDrag(globalLocation:globalLocation, movement:movement)
         }
     }
     

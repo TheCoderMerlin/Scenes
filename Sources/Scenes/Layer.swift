@@ -94,7 +94,7 @@ open class Layer {
         postRender(canvas:canvas)
     }
 
-    internal func internalOnMouseDown(location:Point) -> Layer? {
+    internal func internalOnMouseDown(globalLocation:Point) -> Layer? {
         // At this point, we must have already been set up
         precondition(wasSetup, "Request to process onMouseDown prior to setup")
         precondition(owner != nil, "Request to process onMouseDown but owner is nil")
@@ -108,9 +108,9 @@ open class Layer {
                 let desiredMouseEvents = entity.wantsMouseEvents()
                 let shouldInvoke = !desiredMouseEvents.intersection([.downUp, .click, .drag]).isEmpty
                 if shouldInvoke {
-                    if entity.hitTest(location:location) {
+                    if entity.hitTest(globalLocation:globalLocation) {
                         if desiredMouseEvents.contains(.downUp) {
-                            entity.internalOnMouseDown(location:location)
+                            entity.internalOnMouseDown(globalLocation:globalLocation)
                         }
                         mostRecentMouseDownEntity = entity
                         return self
@@ -123,7 +123,7 @@ open class Layer {
         return nil
     }
 
-    internal func internalOnMouseClick(location:Point) {
+    internal func internalOnMouseClick(globalLocation:Point) {
         // At this point, we must have already been set up
         precondition(wasSetup, "Request to process onMouseClick prior to setup")
         precondition(owner != nil, "Request to process onMouseClick but owner is nil")
@@ -134,8 +134,8 @@ open class Layer {
         }
 
         if mostRecentMouseDownEntity.wantsMouseEvents().contains(.click) {
-            if mostRecentMouseDownEntity.hitTest(location:location) {
-                mostRecentMouseDownEntity.internalOnMouseClick(location:location)
+            if mostRecentMouseDownEntity.hitTest(globalLocation:globalLocation) {
+                mostRecentMouseDownEntity.internalOnMouseClick(globalLocation:globalLocation)
             }
         }
 
@@ -157,7 +157,7 @@ open class Layer {
         self.mostRecentMouseDownEntity = nil
     }
 
-    internal func internalOnMouseUp(location:Point) {
+    internal func internalOnMouseUp(globalLocation:Point) {
         // At this point, we must have already been set up
         precondition(wasSetup, "Request to process onMouseUp prior to setup")
         precondition(owner != nil, "Request to process onMousUp but owner is nil")
@@ -170,8 +170,8 @@ open class Layer {
             if entity.wasSetup {
                 let desiredMouseEvents = entity.wantsMouseEvents()
                 if desiredMouseEvents.contains(.downUp)  {
-                    if entity.hitTest(location:location) {
-                        entity.internalOnMouseUp(location:location)
+                    if entity.hitTest(globalLocation:globalLocation) {
+                        entity.internalOnMouseUp(globalLocation:globalLocation)
                         return
                     }
                 }
@@ -179,7 +179,7 @@ open class Layer {
         }
     }
 
-    internal func internalOnMouseMove(location:Point, movement:Point) {
+    internal func internalOnMouseMove(globalLocation:Point, movement:Point) {
         // At this point, we must have already been set up
         precondition(wasSetup, "Request to process onMouseMove prior to setup")
         precondition(owner != nil, "Request to process onMousMove but owner is nil")
@@ -189,20 +189,20 @@ open class Layer {
             if entity.wasSetup {
                 let desiredMouseEvents = entity.wantsMouseEvents()
                 if desiredMouseEvents.contains(.move)  {
-                    entity.internalOnMouseMove(location:location, movement:movement)
+                    entity.internalOnMouseMove(globalLocation:globalLocation, movement:movement)
                 }
             }
         }
     }
 
-    internal func internalOnMouseDrag(location:Point, movement:Point) {
+    internal func internalOnMouseDrag(globalLocation:Point, movement:Point) {
         // At this point, we must have already been set up
         precondition(wasSetup, "Request to process onMouseDrag prior to setup")
         precondition(owner != nil, "Request to process onMousDrag but owner is nil")
 
         if let mostRecentMouseDownEntity = mostRecentMouseDownEntity,
            mostRecentMouseDownEntity.wantsMouseEvents().contains(.drag) {
-            mostRecentMouseDownEntity.internalOnMouseDrag(location:location, movement:movement)
+            mostRecentMouseDownEntity.internalOnMouseDrag(globalLocation:globalLocation, movement:movement)
         }
         
     }

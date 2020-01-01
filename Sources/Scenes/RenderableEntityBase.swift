@@ -75,39 +75,43 @@ open class RenderableEntityBase {
         render(canvas:canvas)
     }
 
-    internal func internalOnMouseDown(location:Point) {
+    internal func internalOnMouseDown(globalLocation:Point) {
         precondition(wasSetup, "Request to process onMouseDown prior to setup")
         precondition(owner != nil, "Request to process onMouseDown but owner is nil")
 
-        onMouseDown(location:location)
+        let localLocation = local(fromGlobal:globalLocation)
+        onMouseDown(localLocation:localLocation)
     }
 
-    internal func internalOnMouseClick(location:Point) {
+    internal func internalOnMouseClick(globalLocation:Point) {
         precondition(wasSetup, "Request to process onMouseClick prior to setup")
         precondition(owner != nil, "Request to process onMouseClick but owner is nil")
 
-        onMouseClick(location:location)
+        let localLocation = local(fromGlobal:globalLocation)
+        onMouseClick(localLocation:localLocation)
     }
     
-    internal func internalOnMouseUp(location:Point) {
+    internal func internalOnMouseUp(globalLocation:Point) {
         precondition(wasSetup, "Request to process onMouseUp prior to setup")
         precondition(owner != nil, "Request to process onMouseUp but owner is nil")
 
-        onMouseUp(location:location)
+        let localLocation = local(fromGlobal:globalLocation)
+        onMouseUp(localLocation:localLocation)
     }
 
-    internal func internalOnMouseMove(location:Point, movement:Point) {
+    internal func internalOnMouseMove(globalLocation:Point, movement:Point) {
         precondition(wasSetup, "Request to process onMouseMove prior to setup")
         precondition(owner != nil, "Request to process onMouseMove but owner is nil")
 
-        onMouseMove(location:location, movement:movement)
+        onMouseMove(globalLocation:globalLocation, movement:movement)
     }
 
-    internal func internalOnMouseDrag(location:Point, movement:Point) {
+    internal func internalOnMouseDrag(globalLocation:Point, movement:Point) {
         precondition(wasSetup, "Request to process onMouseDrag prior to setup")
         precondition(owner != nil, "Request to process onMouseDrag but owner is nil")
 
-        onMouseDrag(location:location, movement:movement)
+        let localLocation = local(fromGlobal:globalLocation)
+        onMouseDrag(localLocation:localLocation, movement:movement)
     }
 
 
@@ -115,6 +119,15 @@ open class RenderableEntityBase {
     // API FOLLOWS
     // ********************************************************************************
 
+    public func local(fromGlobal:Point) -> Point {
+        let topLeft = boundingRect().topLeft
+        return Point(x:fromGlobal.x - topLeft.x, y:fromGlobal.y - topLeft.y)
+    }
+
+    public func global(fromLocal:Point) -> Point {
+        let topLeft = boundingRect().topLeft
+        return Point(x:fromLocal.x + topLeft.x, y:fromLocal.y + topLeft.y)
+    }
 
     // ********************************************************************************
     // API FOLLOWS
@@ -142,27 +155,29 @@ open class RenderableEntityBase {
     open func render(canvas:Canvas) {
     }
 
+    // Must be over-ridden to return the boundingRect of the entity, in global coordinates
     open func boundingRect() -> Rect {
         return Rect(topLeft:Point(x:0, y:0), size:Size(width:0, height:0))
     }
     
-    open func hitTest(location:Point) -> Bool  {
-        return boundingRect().containment(target:location).contains(.containedFully)
+    // Must be over-ridden to return true iff the location generates a hit
+    open func hitTest(globalLocation:Point) -> Bool  {
+        return boundingRect().containment(target:globalLocation).contains(.containedFully)
     }
 
-    open func onMouseDown(location:Point) {
+    open func onMouseDown(localLocation:Point) {
     }
     
-    open func onMouseUp(location:Point) {
+    open func onMouseUp(localLocation:Point) {
     }
     
-    open func onMouseClick(location:Point) {
+    open func onMouseClick(localLocation:Point) {
     }
 
-    open func onMouseMove(location:Point, movement:Point) {
+    open func onMouseMove(globalLocation:Point, movement:Point) {
     }
     
-    open func onMouseDrag(location:Point, movement:Point) {
+    open func onMouseDrag(localLocation:Point, movement:Point) {
     }
       
 }
