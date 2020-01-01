@@ -5,7 +5,8 @@ IGIS.
 
 ## Usage
 
-### Library Before use, build Igis and Scenes and set the LD_LIBRARY_PATH environment variable to include the library's
+### Library
+Before use, build Igis and Scenes and set the LD_LIBRARY_PATH environment variable to include the library's
 location.  In order to use the library, use the project ScenesShellD as a starting point.
 
 ### Background
