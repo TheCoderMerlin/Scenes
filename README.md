@@ -204,7 +204,7 @@ entity and indicate whether or not an object is "hit" at a particlar point:
 
 If interaction with the mouse is desired, the below functions may be overridden.
 
-````swift
+```swift
    open func wantsMouseEvents() -> MouseEventTypeSet 
 
    open func onMouseDown(localLocation:Point)
