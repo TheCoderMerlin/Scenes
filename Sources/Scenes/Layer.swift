@@ -102,6 +102,11 @@ open class Layer {
         // Also, there must not be a mostRecentMouseDownEntity
         precondition(mostRecentMouseDownEntity == nil, "Request to process onMouseDown but mostRecentMouseDownEntity is not nil")
 
+        // Invoke the layer's own event
+        if wantsMouseEvents().contains(.downUp) {
+            onMouseDown(globalLocation:globalLocation)
+        }
+
         let frontToBackList = backToFrontList.list.reversed()
         for entity in frontToBackList {
             if entity.wasSetup {
@@ -165,6 +170,11 @@ open class Layer {
         // Also, there must not be a mostRecentMouseDownEntity
         precondition(mostRecentMouseDownEntity == nil, "Request to process onMouseUp but mostRecentMouseDownEntity is not nil")
 
+        // Invoke the layer's own event
+        if wantsMouseEvents().contains(.downUp) {
+            onMouseUp(globalLocation:globalLocation)
+        }
+
         let frontToBackList = backToFrontList.list.reversed()
         for entity in frontToBackList {
             if entity.wasSetup {
@@ -183,6 +193,11 @@ open class Layer {
         // At this point, we must have already been set up
         precondition(wasSetup, "Request to process onMouseMove prior to setup")
         precondition(owner != nil, "Request to process onMousMove but owner is nil")
+
+        // Invoke the layer's own event
+        if wantsMouseEvents().contains(.move) {
+            onMouseMove(globalLocation:globalLocation, movement:movement)
+        }
 
         let frontToBackList = backToFrontList.list.reversed()
         for entity in frontToBackList {
@@ -228,6 +243,22 @@ open class Layer {
     open func wantsMouseEvents() -> MouseEventTypeSet {
         return []
     }
+
+    // This function is invoked immediately prior to any corresponding entity events
+    // The correct wantsMouseEvents mask must be provided or the method is ignored
+    open func onMouseDown(globalLocation:Point) {
+    }
+
+    // This function is invoked immediately prior to any corresponding entity events
+    // The correct wantsMouseEvents mask must be provided or the method is ignored
+    open func onMouseUp(globalLocation:Point) {
+    }
+
+    // This function is invoked immediately prior to any corresponding entity events
+    // The correct wantsMouseEvents mask must be provided or the method is ignored
+    open func onMouseMove(globalLocation:Point, movement:Point) {
+    }
+
     
     // This function is invoked immediately prior to setting up entities
     open func preSetup(canvas:Canvas) {
@@ -252,6 +283,8 @@ open class Layer {
     // This function is invoked immediately after render entities
     open func postRender(canvas:Canvas) {
     }
+
+
 
 }
 

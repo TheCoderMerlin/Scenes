@@ -83,6 +83,27 @@ If interactivity via the mouse is desired, the following method must be overridd
 
 Note that the same method, *wantsMouseEvents*() also must be overridden at the level of *both* the layer and entity.
 
+If interactivity with the *Scene* is desired, the following methods may be overriden.
+In general, however, most mouse interaction usually occurs within the
+RenderableEntityBase.
+
+```swift
+    // This function is invoked immediately prior to any corresponding entity events
+    // The correct wantsMouseEvents mask must be provided or the method is ignored
+    open func onMouseDown(globalLocation:Point) {
+    }
+
+    // This function is invoked immediately prior to any corresponding entity events
+    // The correct wantsMouseEvents mask must be provided or the method is ignored
+    open func onMouseUp(globalLocation:Point) {
+    }
+
+    // This function is invoked immediately prior to any corresponding entity events
+    // The correct wantsMouseEvents mask must be provided or the method is ignored
+    open func onMouseMove(globalLocation:Point, movement:Point) {
+    }
+```
+
 Additional methods available include:
 
 ```swift
@@ -135,6 +156,27 @@ If interactivity via the mouse is desired, the following method must be overridd
 ```swift
     override func wantsMouseEvents() -> MouseEventTypeSet 
 
+```
+
+If interactivity with the *Layer* is desired, the following methods may be overriden.
+In general, however, most mouse interaction usually occurs within the
+RenderableEntityBase.
+
+```swift
+    // This function is invoked immediately prior to any corresponding entity events
+    // The correct wantsMouseEvents mask must be provided or the method is ignored
+    open func onMouseDown(globalLocation:Point) {
+    }
+
+    // This function is invoked immediately prior to any corresponding entity events
+    // The correct wantsMouseEvents mask must be provided or the method is ignored
+    open func onMouseUp(globalLocation:Point) {
+    }
+
+    // This function is invoked immediately prior to any corresponding entity events
+    // The correct wantsMouseEvents mask must be provided or the method is ignored
+    open func onMouseMove(globalLocation:Point, movement:Point) {
+    }
 ```
 
 Additional methods available include:
