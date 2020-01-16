@@ -139,10 +139,6 @@ open class DirectorBase : PainterProtocol {
         previousMouseLocation = location
     }
 
-    public func onKeyDown(key:String, code:String, ctrlKey:Bool, shiftKey:Bool, altKey:Bool, metaKey:Bool) {
-    }
-
-
     // ********************************************************************************
     // API FOLLOWS
     // ********************************************************************************
@@ -166,7 +162,9 @@ open class DirectorBase : PainterProtocol {
         return false
     }
 
-    
+    open func onKeyDown(key:String, code:String, ctrlKey:Bool, shiftKey:Bool, altKey:Bool, metaKey:Bool) {
+    }
+
     
 }
 
