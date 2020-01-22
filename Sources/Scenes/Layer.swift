@@ -22,6 +22,8 @@ open class Layer {
     internal private(set) var neverCalculated : Bool
     internal private(set) weak var mostRecentMouseDownEntity : RenderableEntityBase?
     private var backToFrontList : ZOrderedList<RenderableEntityBase>
+    private var transforms : [Transform]?
+    private var alpha : Alpha?
 
     public private(set) weak var owner : Scene?
 
@@ -86,12 +88,33 @@ open class Layer {
         precondition(owner != nil, "Request to render layer but owner is nil")
         precondition(!neverCalculated, "Request to render layer but never calculated")
 
+        // Apply alpha and transforms if specified
+        let restoreStateRequired = (transforms != nil || alpha != nil)
+        if restoreStateRequired {
+            let state = State(mode:.save)
+            canvas.render(state)
+
+            if let transforms = transforms {
+                canvas.render(transforms)
+            }
+
+            if let alpha = alpha {
+                canvas.render(alpha)
+            }
+        }
+        
         // Render all entities
         preRender(canvas:canvas)
         for entity in backToFrontList.list {
             entity.internalRender(canvas:canvas, layer:self)
         }
         postRender(canvas:canvas)
+
+        // Restore state if required
+        if restoreStateRequired {
+            let state = State(mode:.restore)
+            canvas.render(state)
+        }
     }
 
     internal func internalOnMouseDown(globalLocation:Point) -> Layer? {
@@ -225,13 +248,27 @@ open class Layer {
     // ********************************************************************************
     // API FOLLOWS
     // ********************************************************************************
+
+    // This function should only be invoked during init(), setup(), or calculate()
     public func insert(entity:RenderableEntityBase, at zLocation:ZOrder<RenderableEntityBase>) {
         backToFrontList.insert(object:entity, at:zLocation)
     }
 
+    // This function should only be invoked during init(), setup(), or calculate()
     public func moveZ(of entity:RenderableEntityBase, to zLocation:ZOrder<RenderableEntityBase>) {
         backToFrontList.moveZ(of:entity, to:zLocation)
     }
+
+    // This function should only be invoked during init(), setup(), or calculate()
+    public func setTransforms(transforms:[Transform]?) {
+        self.transforms = transforms
+    }
+
+    // This function should only be invoked during init(), setup(), or calculate()
+    public func setAlpha(alpha:Alpha?) {
+        self.alpha = alpha
+    }
+    
 
     // ********************************************************************************
     // API FOLLOWS
