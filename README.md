@@ -151,6 +151,18 @@ class ForegroundLayer : Layer {
 }
 ```
 
+Layers support alpha and transforms.  The following methods may be invoked:
+```swift
+    // This function should only be invoked during init(), setup(), or calculate()
+    public func setTransforms(transforms:[Transform]?) 
+
+
+    // This function should only be invoked during init(), setup(), or calculate()
+    public func setAlpha(alpha:Alpha?) 
+
+```
+
+
 If interactivity via the mouse is desired, the following method must be overridden:
 
 ```swift
