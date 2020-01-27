@@ -75,12 +75,6 @@ open class DirectorBase : PainterProtocol {
         }
     }
 
-    public func onCanvasResize(size:Size) {
-    }
-    
-    public func onWindowResize(size:Size) {
-    }
-    
     public func onClick(location:Point) {
         // We ignore clicks, and handle onMouseDown, onMouseUp, and onMouseMove
     }
@@ -147,7 +141,7 @@ open class DirectorBase : PainterProtocol {
     
     // ********************************************************************************
     // API FOLLOWS
-    // These functions should be over-ridden by descendant classes
+    // These functions MAY be over-ridden by descendant classes
     // ********************************************************************************
 
     // This function should be overridden to provide the next scene object to be rendered.
@@ -165,6 +159,12 @@ open class DirectorBase : PainterProtocol {
     open func onKeyDown(key:String, code:String, ctrlKey:Bool, shiftKey:Bool, altKey:Bool, metaKey:Bool) {
     }
 
+    open func onCanvasResize(size:Size) {
+    }
+    
+    open func onWindowResize(size:Size) {
+    }
+    
     
 }
 
