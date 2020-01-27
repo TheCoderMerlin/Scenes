@@ -20,6 +20,8 @@ open class RenderableEntityBase {
 
     internal private(set) var wasSetup : Bool
     internal private(set) var neverCalculated : Bool
+    private var transforms : [Transform]?
+    private var alpha : Alpha?
     
     public private(set) weak var owner : Layer?
 
@@ -69,10 +71,31 @@ open class RenderableEntityBase {
         precondition(wasSetup, "Request to render entity prior to setup")
         precondition(owner != nil, "Request to render entity but owner is nil")
         precondition(!neverCalculated, "Request to render entity but never calculated")
-        
         precondition(canvas.canvasSize != nil, "Request to render entity but canvas.canvasSize is nil")
 
+        // Apply alpha and transforms if specified
+        let restoreStateRequired = (transforms != nil || alpha != nil)
+        if restoreStateRequired {
+            let state = State(mode:.save)
+            canvas.render(state)
+
+            if let transforms = transforms {
+                canvas.render(transforms)
+            }
+
+            if let alpha = alpha {
+                canvas.render(alpha)
+            }
+        }
+        
+        // Render entity
         render(canvas:canvas)
+
+        // Restore state if required
+        if restoreStateRequired {
+            let state = State(mode:.restore)
+            canvas.render(state)
+        }
     }
 
     internal func internalOnMouseDown(globalLocation:Point) {
@@ -129,6 +152,16 @@ open class RenderableEntityBase {
         return Point(x:fromLocal.x + topLeft.x, y:fromLocal.y + topLeft.y)
     }
 
+    // This function should only be invoked during init(), setup(), or calculate()
+    public func setTransforms(transforms:[Transform]?) {
+        self.transforms = transforms
+    }
+
+    // This function should only be invoked during init(), setup(), or calculate()
+    public func setAlpha(alpha:Alpha?) {
+        self.alpha = alpha
+    }
+    
     // ********************************************************************************
     // API FOLLOWS
     // These functions should be over-ridden by descendant classes

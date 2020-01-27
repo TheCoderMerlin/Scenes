@@ -256,6 +256,17 @@ entity and indicate whether or not an object is "hit" at a particlar point:
     open func hitTest(globalLocation:Point) -> Bool 
 ```
 
+RenderableEntityBases support alpha and transforms.  The following methods may be invoked:
+```swift
+    // This function should only be invoked during init(), setup(), or calculate()
+    public func setTransforms(transforms:[Transform]?) 
+
+
+    // This function should only be invoked during init(), setup(), or calculate()
+    public func setAlpha(alpha:Alpha?) 
+
+```
+
 If interaction with the mouse is desired, the below functions may be overridden.
 
 ```swift
