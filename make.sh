@@ -108,6 +108,13 @@ if [ -f $manifestPath ]; then
 	    
 	    # Build the LD_LIBRARY_PATH
 	    LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$libraryPath"
+
+	    # Define a new variable of the form DYLIB_$project_PATH to contain the library path for the
+	    # specified library.  The library may refer to this environment variable to find files
+	    # relative to itself.
+	    dylibVariableName=DYLIB_${project}_PATH
+	    printf -v $dylibVariableName "%s" "$libraryPath"
+	    export $dylibVariableName
 	fi 
     done < "$manifestPath"
 
@@ -115,6 +122,10 @@ else
     echo "No manifest found at $manifestPath"
 fi
 
+# Export required variables
+export LD_LIBRARY_PATH
+
 # Whether or not there was a manifest, we evaluate the command line
+
 eval "$commandLine"
 echo "Done"
