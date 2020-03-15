@@ -1,1 +1,2 @@
-MerlinMake/make.sh
+#!/bin/bash
+makeSwift "$@"

@@ -1,4 +1,0 @@
-[submodule "MerlinMake"]
-	path = MerlinMake
-	url = https://github.com/TheCoderMerlin/MerlinMake
-	branch = master
