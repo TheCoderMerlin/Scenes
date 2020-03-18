@@ -1,7 +1,7 @@
 /*
 Scenes provides a Swift object library with support for renderable entities,
 layers, and scenes.  Scenes runs on top of IGIS.
-Copyright (C) 2019 Tango Golf Digital, LLC
+Copyright (C) 2019,2020 Tango Golf Digital, LLC
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
@@ -17,44 +17,70 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 import Igis
 
 open class Layer {
-
+    internal static let unnamed = "Unnamed"
+    internal static var id = 0
+    
     internal private(set) var wasSetup : Bool
+    internal private(set) var wasTorndown : Bool
     internal private(set) var neverCalculated : Bool
-    internal private(set) weak var mostRecentMouseDownEntity : RenderableEntityBase?
-    private var backToFrontList : ZOrderedList<RenderableEntityBase>
+    internal private(set) weak var mostRecentMouseDownEntity : RenderableEntity?
+    private var backToFrontList : ZOrderedList<RenderableEntity>
     private var transforms : [Transform]?
     private var alpha : Alpha?
 
-    public private(set) weak var owner : Scene?
+    public private(set) weak var owningScene : Scene?
+    public let name : String
 
     // ********************************************************************************
     // Functions for internal use
     // ********************************************************************************
     
-    public init() {
+    public init(name:String?=nil) {
         wasSetup = false
+        wasTorndown = false
         neverCalculated = true
         mostRecentMouseDownEntity = nil
-        backToFrontList = ZOrderedList<RenderableEntityBase>()
+        backToFrontList = ZOrderedList<RenderableEntity>()
 
-        owner = nil
+        // Generate a unique name.  This is required to determine equality for the Dispacther.
+        self.name = "Layer:\(Self.id):\(name ?? Self.unnamed)"
+        Self.id += 1
+
+        owningScene = nil
     }
 
     internal func internalSetup(canvas:Canvas, scene:Scene) {
         precondition(!wasSetup, "Request to setup layer after already being setup")
         precondition(neverCalculated, "Request to setup layer after already being calculated")
-        precondition(owner == nil, "Request to setup layer but owner is not nil")
+        precondition(owningScene == nil, "Request to setup layer but owningScene is not nil")
         
-        owner = scene
+        owningScene = scene
 
         // Setup all entities
         preSetup(canvas:canvas)
         for entity in backToFrontList.list {
-            entity.internalSetup(canvas:canvas, layer:self)
+            if !entity.wasSetup {
+                entity.internalSetup(canvas:canvas, layer:self)
+            }
         }
         postSetup(canvas:canvas)
 
         wasSetup = true
+    }
+
+    internal func internalTeardown() {
+        precondition(wasSetup, "Request to teardown layer that was not yet setup")
+        precondition(!wasTorndown, "Request to teardown layer that was already torn down")
+
+        preTeardown()
+        for entity in backToFrontList.list {
+            if entity.wasSetup && !entity.wasTorndown {
+                entity.internalTeardown()
+            }
+        }
+        postTeardown()
+
+        wasTorndown = true
     }
 
     internal func internalCalculate(canvas:Canvas, scene:Scene) {
@@ -65,7 +91,7 @@ open class Layer {
         }
 
         precondition(wasSetup, "Request to calculate layer prior to setup")
-        precondition(owner != nil, "Request to calculate layer but owner is nil")
+        precondition(owningScene != nil, "Request to calculate layer but owningScene is nil")
 
         // Calculate all entities
         preCalculate(canvas:canvas)
@@ -85,7 +111,7 @@ open class Layer {
         }
 
         precondition(wasSetup, "Request to render layer prior to setup")
-        precondition(owner != nil, "Request to render layer but owner is nil")
+        precondition(owningScene != nil, "Request to render layer but owningScene is nil")
         precondition(!neverCalculated, "Request to render layer but never calculated")
 
         // Apply alpha and transforms if specified
@@ -117,145 +143,21 @@ open class Layer {
         }
     }
 
-    internal func internalOnMouseDown(globalLocation:Point) -> Layer? {
-        // At this point, we must have already been set up
-        precondition(wasSetup, "Request to process onMouseDown prior to setup")
-        precondition(owner != nil, "Request to process onMouseDown but owner is nil")
-
-        // Also, there must not be a mostRecentMouseDownEntity
-        precondition(mostRecentMouseDownEntity == nil, "Request to process onMouseDown but mostRecentMouseDownEntity is not nil")
-
-        // Invoke the layer's own event
-        if wantsMouseEvents().contains(.downUp) {
-            onMouseDown(globalLocation:globalLocation)
-        }
-
-        let frontToBackList = backToFrontList.list.reversed()
-        for entity in frontToBackList {
-            if entity.wasSetup {
-                let desiredMouseEvents = entity.wantsMouseEvents()
-                let shouldInvoke = !desiredMouseEvents.intersection([.downUp, .click, .drag]).isEmpty
-                if shouldInvoke {
-                    if entity.hitTest(globalLocation:globalLocation) {
-                        if desiredMouseEvents.contains(.downUp) {
-                            entity.internalOnMouseDown(globalLocation:globalLocation)
-                        }
-                        mostRecentMouseDownEntity = entity
-                        return self
-                    }
-                }
-            }
-        }
-
-        // No entity was eligible in this layer for a mouseDown
-        return nil
+    internal var backToFrontEntityList : ZOrderedList<RenderableEntity> {
+        return backToFrontList
     }
 
-    internal func internalOnMouseClick(globalLocation:Point) {
-        // At this point, we must have already been set up
-        precondition(wasSetup, "Request to process onMouseClick prior to setup")
-        precondition(owner != nil, "Request to process onMouseClick but owner is nil")
-
-        // Also, there must be a mostRecentMouseDownEntity
-        guard let mostRecentMouseDownEntity = mostRecentMouseDownEntity else {
-            fatalError("Request to process onMouseClick but mostRecentMouseDownEntity is nil")
-        }
-
-        if mostRecentMouseDownEntity.wantsMouseEvents().contains(.click) {
-            if mostRecentMouseDownEntity.hitTest(globalLocation:globalLocation) {
-                mostRecentMouseDownEntity.internalOnMouseClick(globalLocation:globalLocation)
-            }
-        }
-
-        // Terminate the mostRecentMouseDownEntity
-        self.mostRecentMouseDownEntity = nil
-    }
-
-    internal func internalCancelPendingMouseClick() {
-        // At this point, we must have already been set up
-        precondition(wasSetup, "Request to process onMouseClick prior to setup")
-        precondition(owner != nil, "Request to process onMouseClick but owner is nil")
-
-        // Also, there must be a mostRecentMouseDownEntity
-        if mostRecentMouseDownEntity == nil {
-            fatalError("Request to process cancelPendingMouseClick but mostRecentMouseDownEntity is nil")
-        }
-
-        // Terminate the mostRecentMouseDownEntity
-        self.mostRecentMouseDownEntity = nil
-    }
-
-    internal func internalOnMouseUp(globalLocation:Point) {
-        // At this point, we must have already been set up
-        precondition(wasSetup, "Request to process onMouseUp prior to setup")
-        precondition(owner != nil, "Request to process onMousUp but owner is nil")
-
-        // Also, there must not be a mostRecentMouseDownEntity
-        precondition(mostRecentMouseDownEntity == nil, "Request to process onMouseUp but mostRecentMouseDownEntity is not nil")
-
-        // Invoke the layer's own event
-        if wantsMouseEvents().contains(.downUp) {
-            onMouseUp(globalLocation:globalLocation)
-        }
-
-        let frontToBackList = backToFrontList.list.reversed()
-        for entity in frontToBackList {
-            if entity.wasSetup {
-                let desiredMouseEvents = entity.wantsMouseEvents()
-                if desiredMouseEvents.contains(.downUp)  {
-                    if entity.hitTest(globalLocation:globalLocation) {
-                        entity.internalOnMouseUp(globalLocation:globalLocation)
-                        return
-                    }
-                }
-            }
-        }
-    }
-
-    internal func internalOnMouseMove(globalLocation:Point, movement:Point) {
-        // At this point, we must have already been set up
-        precondition(wasSetup, "Request to process onMouseMove prior to setup")
-        precondition(owner != nil, "Request to process onMousMove but owner is nil")
-
-        // Invoke the layer's own event
-        if wantsMouseEvents().contains(.move) {
-            onMouseMove(globalLocation:globalLocation, movement:movement)
-        }
-
-        let frontToBackList = backToFrontList.list.reversed()
-        for entity in frontToBackList {
-            if entity.wasSetup {
-                let desiredMouseEvents = entity.wantsMouseEvents()
-                if desiredMouseEvents.contains(.move)  {
-                    entity.internalOnMouseMove(globalLocation:globalLocation, movement:movement)
-                }
-            }
-        }
-    }
-
-    internal func internalOnMouseDrag(globalLocation:Point, movement:Point) {
-        // At this point, we must have already been set up
-        precondition(wasSetup, "Request to process onMouseDrag prior to setup")
-        precondition(owner != nil, "Request to process onMousDrag but owner is nil")
-
-        if let mostRecentMouseDownEntity = mostRecentMouseDownEntity,
-           mostRecentMouseDownEntity.wantsMouseEvents().contains(.drag) {
-            mostRecentMouseDownEntity.internalOnMouseDrag(globalLocation:globalLocation, movement:movement)
-        }
-        
-    }
-    
     // ********************************************************************************
     // API FOLLOWS
     // ********************************************************************************
 
     // This function should only be invoked during init(), setup(), or calculate()
-    public func insert(entity:RenderableEntityBase, at zLocation:ZOrder<RenderableEntityBase>) {
+    public func insert(entity:RenderableEntity, at zLocation:ZOrder<RenderableEntity>) {
         backToFrontList.insert(object:entity, at:zLocation)
     }
 
     // This function should only be invoked during init(), setup(), or calculate()
-    public func moveZ(of entity:RenderableEntityBase, to zLocation:ZOrder<RenderableEntityBase>) {
+    public func moveZ(of entity:RenderableEntity, to zLocation:ZOrder<RenderableEntity>) {
         backToFrontList.moveZ(of:entity, to:zLocation)
     }
 
@@ -268,33 +170,38 @@ open class Layer {
     public func setAlpha(alpha:Alpha?) {
         self.alpha = alpha
     }
+
+    public var scene : Scene {
+        guard let owningScene = owningScene else {
+            fatalError("owningScene required")
+        }
+        return owningScene
+    }
     
+    public var director : Director {
+        return scene.director
+    }
+
+    public var dispatcher : Dispatcher {
+        return director.dispatcher
+    }
+    
+    // ********************************************************************************
+    // DEBUG API FOLLOWS
+    // ********************************************************************************
+    
+    // Prints list of entities from back to front
+    public func debugEntityList() {
+        print("==================== \(name) debugEntityList")
+        for entity in backToFrontList.list {
+            print("\t\(entity.name)")
+        }
+    }
 
     // ********************************************************************************
     // API FOLLOWS
     // These functions should be over-ridden by descendant classes
     // ********************************************************************************
-
-    // This function is invoked when mouse actions occur
-    // Unless the function is overridden to return the desired mouseEvents, this layer will not process mouse events
-    open func wantsMouseEvents() -> MouseEventTypeSet {
-        return []
-    }
-
-    // This function is invoked immediately prior to any corresponding entity events
-    // The correct wantsMouseEvents mask must be provided or the method is ignored
-    open func onMouseDown(globalLocation:Point) {
-    }
-
-    // This function is invoked immediately prior to any corresponding entity events
-    // The correct wantsMouseEvents mask must be provided or the method is ignored
-    open func onMouseUp(globalLocation:Point) {
-    }
-
-    // This function is invoked immediately prior to any corresponding entity events
-    // The correct wantsMouseEvents mask must be provided or the method is ignored
-    open func onMouseMove(globalLocation:Point, movement:Point) {
-    }
 
     
     // This function is invoked immediately prior to setting up entities
@@ -303,6 +210,14 @@ open class Layer {
     
     // This function is invoked immediately after setting up entities
     open func postSetup(canvas:Canvas) {
+    }
+
+    // This function is invoked immediately prior to tearing down layers
+    open func preTeardown() {
+    }
+
+    // This function is invoked immediately after tearing down layers
+    open func postTeardown() {
     }
 
     // This function is invoked immediately prior to calculating entities
@@ -321,8 +236,12 @@ open class Layer {
     open func postRender(canvas:Canvas) {
     }
 
-
-
+    // This function is invoked to determine whether or not a layer is transparent
+    // to entity mouse events
+    // If true, the layer's entities will not intercept such events
+    open func isMouseTransparent() -> Bool {
+        return false
+    }
 }
 
 extension Layer : Equatable {

@@ -79,7 +79,6 @@ internal class ZOrderedList<T:Equatable>  {
         }
     }
 
-
     public func moveZ(of object:T, to zLocation:ZOrder<T>) {
         guard let index = objectIndex(object:object) else {
             fatalError("Failed to find index object in the specified list")
@@ -87,8 +86,8 @@ internal class ZOrderedList<T:Equatable>  {
 
         switch (zLocation) {
         case .back:
-            let otherIndex = 0
-            swap(otherIndex, index)
+            let object = list.remove(at:index)
+            list.insert(object, at:0)
         case .backward:
             let otherIndex = index - 1
             if otherIndex >= 0 {
@@ -110,8 +109,8 @@ internal class ZOrderedList<T:Equatable>  {
                 swap(otherIndex, index)
             }
         case .front:
-            let otherIndex = count - 1
-            swap(otherIndex, index)
+            let object = list.remove(at:index)
+            list.append(object)
         }
     }
 }

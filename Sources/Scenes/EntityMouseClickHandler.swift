@@ -1,7 +1,9 @@
+import Igis
+
 /*
 Scenes provides a Swift object library with support for renderable entities,
 layers, and scenes.  Scenes runs on top of IGIS.
-Copyright (C) 2019 Tango Golf Digital, LLC
+Copyright (C) 2020 Tango Golf Digital, LLC
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
@@ -14,10 +16,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-public enum MouseEventType {
-    case downUp
-    case click
-    
-    case move
-    case drag
+public protocol EntityMouseClickHandler : EventHandler, RenderableEntity {
+    func onEntityMouseClick(globalLocation:Point)
 }
+
