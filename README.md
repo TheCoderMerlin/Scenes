@@ -96,27 +96,47 @@ The **RenderableEntity** provides the majority of rendering and interactive func
 the required methods and working with the **Dispatcher** to register events of interest.
 
 In addition to the initializer, the *setup*() method may be used to setup any required parameters that require
-the *Canvas*.
+the *Canvas*.  It's also useful for registering handlers with the dispatcher.  If so used, the _teardown_ method is available to unregister the handlers.
 
 ```swift
-   // setup() is invoked exactly once,
-   // either when the owning layer is first set up or,
-   // if the layer has already been setup,
-   // prior to the next calculate event
-   override func setup(canvasSize:Size, canvas:Canvas) 
+    // setup() is invoked exactly once,
+    // either when the owning layer is first set up or,
+    // if the layer has already been setup,
+    // prior to the next calculate event
+    // This is the appropriate location to register event handlers
+    override func setup(canvasSize:Size, canvas:Canvas)
 
+    // teardown() is invoked exactly once
+    // when the scene is torndown prior to a
+    // transition
+    // This is the appropriate location to unregister event handlers
+    override func teardown() 
 ```
 
-Then, for each render cycle, the *calculate*() method is invoked to allow objects to perform any calculations
+For each render cycle, the *calculate*() method is invoked to allow objects to perform any calculations
 required prior to rendering, then the *render*() method is invoked to perform the actual rendering.
 Objects are calculated and rendered in back-to-front order as specified by the *Layer*.
 
 ```swift
-  // calculate() is invoked prior to each render event
-  override func calculate(canvasSize:Size)
+    // calculate() is invoked prior to each render event
+    override func calculate(canvasSize:Size)
+    
+    // render() is invoked during each render cycle
+    override func render(canvas:Canvas) 
+```
 
-  // render() is invoked during each render cycle
-  override func render(canvas:Canvas)
+In order to support the EntityMouse* events, the following methods are available:
+```swift
+    // Must be over-ridden to return the boundingRect of the entity, in global coordinates
+    override func boundingRect() -> Rect 
+    
+    // Must be over-ridden to return true iff the location generates a hit
+    override func hitTest(globalLocation:Point) -> Bool
+
+    // This function is invoked to determine whether or not an entity is transparent
+    // to entity mouse events
+    // If true, the entity will not intercept such events
+    override func isMouseTransparent() -> Bool
 ```
 
 **RenderableEntity**s support alpha and transforms.  The following methods may be invoked:
