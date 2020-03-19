@@ -15,7 +15,7 @@ A subclassed **Director** is responsible for transitioning from one **Scene** to
 It is generally helpful to provide unique and meaninful names to these objects for easier debugging.
 
 #### Event Overview
-_Scenes_ provides a multitude of events to which objects can respond.  Objects that are interested in a particular event declare their conformance to the relevant protocol and then register to receive the desired event.  It's important that each such object unregister no later than their teardown() method.  The **Dispatcher** is responsible for maintaining registrations and raising events.
+_Scenes_ provides a multitude of events to which objects can respond.  Objects that are interested in a particular event declare their conformance to the relevant protocol and then register to receive the desired event.  It's important that each such object unregister no later than their _teardown_() method.  The **Dispatcher** is responsible for maintaining registrations and raising events.
 
 ### Director
 The first action which a **Director** must take is to enqueue _at least_ one **Scene**.
@@ -31,7 +31,7 @@ class ShellDirector : Director {
     }
 }
 ```
-The **Scene** will continue executing until the *transitionToNextScene()* method is invoked. At that point, the currently executing **Scene** will terminate and the **Director** will continue with the next enqueued **Scene**, if any.  If no such **Scene** has been enqueued, the session will terminate.  Consequently, the general means of transitioning from one **Scene** to another involves first enqueuing the next **Scene** via *enqueueScene()* followed by invoking *transitionToNextScene()*.
+The **Scene** will continue executing until the _transitionToNextScene_() method is invoked. At that point, the currently executing **Scene** will terminate and the **Director** will continue with the next enqueued **Scene**, if any.  If no such **Scene** has been enqueued, the session will terminate.  Consequently, the general means of transitioning from one **Scene** to another involves first enqueuing the next **Scene** via _enqueueScene_() followed by invoking _transitionToNextScene_().
 
 The **Director** is also responsible for specifying the frame rate.  For most projects, 30fps is ideal.  Results will be suboptimal is the frame rate is too slow or too fast.  Some experimentation may be required for your particular application.
 
@@ -42,7 +42,7 @@ The **Director** is also responsible for specifying the frame rate.  For most pr
 ```
 
 ### Scene
-The **Scene** is responsbile for providing the required **Layer**s for the application.  Each **Layer** is inserted into the **Scene** using the _insert()_ method.  **Layer**s (and **RenderableEntity**s) are ordered and rendering will occur in that specific order.  This enables graphic objects to consistently appear above or below other objects.  It also enables _Scenes_ to perform hit-testing to find the top-most object which intercepts a mouse event.  While a **Scene** doesn't _require_ more than one **Layer**, non-trivial **Scene**s will generally use at least three **Layer**s.  The background tends to be non-interactive and back-most, the middle tends to be interactive, and the front-most is often used for displaying data.  Other common **Layer**s involve control panels or multiple backgrounds for parallax.
+The **Scene** is responsbile for providing the required **Layer**s for the application.  Each **Layer** is inserted into the **Scene** using the _insert_() method.  **Layer**s (and **RenderableEntity**s) are ordered and rendering will occur in that specific order.  This enables graphic objects to consistently appear above or below other objects.  It also enables _Scenes_ to perform hit-testing to find the top-most object which intercepts a mouse event.  While a **Scene** doesn't _require_ more than one **Layer**, non-trivial **Scene**s will generally use at least three **Layer**s.  The background tends to be non-interactive and back-most, the middle tends to be interactive, and the front-most is often used for displaying data.  Other common **Layer**s involve control panels or multiple backgrounds for parallax.
 
 ```swift
 /*
@@ -66,9 +66,8 @@ class MainScene : Scene {
 }
 ```
 
-
 ### Layer
-The **Layer** is responsbile for providing subclassed **RenderableEntity** objects.  **Layer**s are rendered from back to front, based on their current location as determined by the **Scene**.  While the **Layer** may handle any high-level events for entities, in the general case the **Layer** will simply insert the required **RenerableEntity**s into the **Layer**.  For example:
+The **Layer** is responsbile for providing subclassed **RenderableEntity** objects.  **Layer**s are rendered from back to front, based on their current location as determined by the **Scene**.  While the **Layer** may handle any high-level events for entities, in the general case the **Layer** will simply insert the required **RenderableEntity**s into the **Layer**.  For example:
 
 ```swift
 class MainBackgroundLayer : Layer {
@@ -87,7 +86,6 @@ class MainBackgroundLayer : Layer {
 ```swift
     // This function should only be invoked during init(), setup(), or calculate()
     public func setTransforms(transforms:[Transform]?) 
-
 
     // This function should only be invoked during init(), setup(), or calculate()
     public func setAlpha(alpha:Alpha?) 
@@ -118,8 +116,7 @@ Objects are calculated and rendered in back-to-front order as specified by the *
   override func calculate(canvasSize:Size)
 
   // render() is invoked during each render cycle
-  override func render(canvas:Canvas) 
-	    
+  override func render(canvas:Canvas)
 ```
 
 **RenderableEntity**s support alpha and transforms.  The following methods may be invoked:
@@ -129,10 +126,61 @@ Objects are calculated and rendered in back-to-front order as specified by the *
 
 
     // This function should only be invoked during init(), setup(), or calculate()
-    public func setAlpha(alpha:Alpha?) 
-
+    public func setAlpha(alpha:Alpha?)
 ```
 
+### Interactivity
+Interactions occur through the use of events.  When an event occurs, the _dispatcher_ informs all registered objects of the event.  In order to receive an event objects must:
+1. _Declare conformance_ with the desired protocol
+1. _Implement_ the required functionality to conform to the protocol
+1. _Register_ with the _dispatcher_ for each desired event (most often in the _setup_() method)
+1. _Unregister_ with the _dispatcher_ when events are no longer desired (most often in the _teardown_() method)
+
+The following table lists the available events for each object type:
+Protocol                 | Event              | Scenes             | Layers             | Renderable Entity  | 
+------------------------ | ------------------ | ------------------ | ------------------ | -----------------  |
+KeyDownHandler           | onKeyDown          | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+KeyUpHandler             | onKeyUp            | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+MouseDownHandler         | onMouseDown        | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | 
+MouseUpHandler           | onMouseUp          | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | 
+MouseMoveHandler         | onMouseMove        | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | 
+EntityMouseDownHandler   | onEntityMouseDown  | :x:                | :x:                | :heavy_check_mark: |
+EntityMouseUpHandler     | onEntityMouseUp    | :x:                | :x:                | :heavy_check_mark: |
+EntityMouseClickHandler  | onEntityMouseClick | :x:                | :x:                | :heavy_check_mark: |
+EntityMouseDragHandler   | onEntityMouseDrag  | :x:                | :x:                | :heavy_check_mark: |
+CanvasResizeHandler      | onCanvasResize     | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | 
+WindowResizeHandler      | onWindowResize     | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | 
+
+Protocol signatures:
+```swift
+// Key Presses
+func onKeyDown(key:String, code:String, ctrlKey:Bool, shiftKey:Bool, altKey:Bool, metaKey:Bool)
+func onKeyUp(key:String, code:String, ctrlKey:Bool, shiftKey:Bool, altKey:Bool, metaKey:Bool)
+
+// General Mouse Events
+func onMouseDown(globalLocation:Point)
+func onMouseUp(globalLocation:Point)
+func onMouseMove(globalLocation:Point, movement:Point)
+
+// Entity Mouse Events (relies on hit-testing)
+func onEntityMouseDown(globalLocation:Point)
+func onEntityMouseUp(globalLocation:Point)
+func onEntityMouseClick(globalLocation:Point)
+func onEntityMouseDrag(globalLocation:Point, movement:Point)
+
+// Re-sizing Events
+func onCanvasResize(size:Size)
+func onWindowResize(size:Size)
+```
+
+### Convenience Properties
+In order to conveniently access other objects in the _Scenes_ hierarchy, the following convenience properties are defined:
+Property   | Director           | Scenes             | Layers             | Renderable Entity  |
+---------- | ------------------ | ------------------ | ------------------ | ------------------ |
+dispatcher | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |  
+director   | :x:                | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+scene      | :x:                | :x:                | :heavy_check_mark: | :heavy_check_mark: |
+layer      | :x:                | :x:                | :x:                | :heavy_check_mark: | 
 
 ### ZOrder
 ZOrder is used to indicate where in a *Scene* a *Layer* should be placed, and where in a *Layer* a **RenderableEntity** should be placed.  The _insert_() method is used to insert an object, and the _moveZ_() method is used to move an object.
