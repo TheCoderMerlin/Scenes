@@ -1,157 +1,89 @@
 # Scenes
-
-Scenes provides a Swift object library with support for renderable entities, layers, and scenes.  Scenes runs on top of
-IGIS.
+_Scenes_ provides a Swift object library with support for **Scene**s, **Layer**s, and **RenderableEntity**s along with an event **Dispatcher**.  _Scenes_ runs on top of IGIS.
 
 ## Usage
 
 ### Library
-Before use, build Igis and Scenes and set the LD_LIBRARY_PATH environment variable to include the library's
-location.  In order to use the library, use the project ScenesShellD as a starting point.
+In order to use the library, use the project _ScenesShell_ as a starting point.
 
 ### Background
+_Scenes_ provides a framework for quickly and easily building complex, interactive graphic applications using Igis.
 
-Scenes provides a framework for quickly and easily building scenes using Igis.
+#### Class Hierarchy Overview
+A subclassed **Director** is responsible for transitioning from one **Scene** to another.  Each **Scene** is constructed of one or more **Layer**s.  For example, a single **Scene** may be constructed of a background **Layer**, an interaction **Layer**, and a foreground **Layer**.  **Layer**s are themselves constructed of one or more **RenderableEntity**s.  These objects are responsible for providing the rendering and (most of) the interaction for a **Layer**.
 
-A **Director**, based upon the **DirectorBase** class, informs Scenes as to the next **Scene** to be loaded.
+It is generally helpful to provide unique and meaninful names to these objects for easier debugging.
 
-Each **Scene** is constructed of one or more **Layer**s.  For example, a single *Scene* may be constructed of a
-background *Layer*, a middle-ground *Layer*, and a foreground *Layer*.
-
-Each **Layer** is constructed of one or more **RenderableEntityBase** objects.  These objects are responsible for
-providing the rendering and interaction for the *Layer*.
+#### Event Overview
+_Scenes_ provides a multitude of events to which objects can respond.  Objects that are interested in a particular event declare their conformance to the relevant protocol and then register to receive the desired event.  It's important that each such object unregister no later than their teardown() method.  The **Dispatcher** is responsible for maintaining registrations and raising events.
 
 ### Director
-
-The **Director** is responsible for providing the next **Scene** to be rendered.  The director accomplishes this task
-with the *nextScene()* method.
-
+The first action which a **Director** must take is to enqueue _at least_ one **Scene**.
 ```swift
-
-    // This function should be overridden to provide the next scene object to be rendered.
-    // It is invoked whenever a browser first connects and after shouldSceneTerminate() returns true.
-    open func nextScene() -> Scene? {
-        return nil
+/*
+ This class is primarily responsible for transitioning between Scenes.
+ At a minimum, it must enqueue the first Scene.
+*/
+class ShellDirector : Director {
+    required init() {
+        super.init()
+        enqueueScene(scene:MainScene())
     }
+}
 ```
+The **Scene** will continue executing until the *transitionToNextScene()* method is invoked. At that point, the currently executing **Scene** will terminate and the **Director** will continue with the next enqueued **Scene**, if any.  If no such **Scene** has been enqueued, the session will terminate.  Consequently, the general means of transitioning from one **Scene** to another involves first enqueuing the next **Scene** via *enqueueScene()* followed by invoking *transitionToNextScene()*.
 
-Each project requires at least one *Scene*.  The *Scene* will continue executing until the *shouldSceneTerminate()*
-function returns true.  At that point, the currently executing *Scene* will terminate and the *Director* will
-invoke the *nextScene()* method to load the next available *Scene*, if any.
+The **Director** is also responsible for specifying the frame rate.  For most projects, 30fps is ideal.  Results will be suboptimal is the frame rate is too slow or too fast.  Some experimentation may be required for your particular application.
 
 ```swift
-  // This function should be overridden for multi-scene presentations.
-  // It is invoked after a scene completes a rendering cycle.
-  open func shouldSceneTerminate() -> Bool {
-      return false
-  }
+    override func framesPerSecond() -> Int {
+        return 30
+    }
 ```
 
 ### Scene
-
-The **Scene** is responsbile for providing the required *Layer*s for rendering and handling any high-level events
-for the *Layer*s.  However, in the general case, the *Scene* will simply insert the required *Layer*s into the
-Scene.  For example:
+The **Scene** is responsbile for providing the required **Layer**s for the application.  Each **Layer** is inserted into the **Scene** using the _insert()_ method.  **Layer**s (and **RenderableEntity**s) are ordered and rendering will occur in that specific order.  This enables graphic objects to consistently appear above or below other objects.  It also enables _Scenes_ to perform hit-testing to find the top-most object which intercepts a mouse event.  While a **Scene** doesn't _require_ more than one **Layer**, non-trivial **Scene**s will generally use at least three **Layer**s.  The background tends to be non-interactive and back-most, the middle tends to be interactive, and the front-most is often used for displaying data.  Other common **Layer**s involve control panels or multiple backgrounds for parallax.
 
 ```swift
-class FirstScene : Scene {
-    let backgroundLayer : Layer
-    let foregroundLayer : Layer
+/*
+   This class is responsible for implementing a single Scene.
+   Scenes projects require at least one Scene but may have many.
+   A Scene is comprised of one or more Layers.
+   Layers are generally added in the constructor.
+ */
+class MainScene : Scene {
 
-    override init() {
-        let backgroundColor = Color(.purple)
-	let textColor = Color(.white)
-        backgroundLayer = BackgroundLayer(backgroundColor:backgroundColor, textColor:textColor)
-        foregroundLayer = ForegroundLayer()
-	
-        super.init()
-
-        insert(layer:backgroundLayer, at:.front)
-	insert(layer:foregroundLayer, at:.front)
+    let backgroundLayer = MainBackgroundLayer()    // subclassed Layer
+    let interactionLayer = MainInteractionLayer()  // subclassed Layer
+    let foregroundLayer = MainForegroundLayer()    // subclassed Layer
+    
+    init() {
+        super.init(name:"Main")
+        insert(layer:backgroundLayer, at:.back)
+        insert(layer:interactionLayer, at:.front)
+        insert(layer:foregroundLayer, at:.front)
     }
 }
 ```
 
-If interactivity via the mouse is desired, the following method must be overridden:
-
-```swift
-   // This function is invoked when mouse actions occur
-   // Unless the function is overridden to return the desired mouseEvents, this scene will not process mouse events
-   open func wantsMouseEvents() -> MouseEventTypeSet 
-
-```
-
-Note that the same method, *wantsMouseEvents*() also must be overridden at the level of *both* the layer and entity.
-
-If interactivity with the *Scene* is desired, the following methods may be overriden.
-In general, however, most mouse interaction usually occurs within the
-RenderableEntityBase.
-
-```swift
-    // This function is invoked immediately prior to any corresponding entity events
-    // The correct wantsMouseEvents mask must be provided or the method is ignored
-    open func onMouseDown(globalLocation:Point) {
-    }
-
-    // This function is invoked immediately prior to any corresponding entity events
-    // The correct wantsMouseEvents mask must be provided or the method is ignored
-    open func onMouseUp(globalLocation:Point) {
-    }
-
-    // This function is invoked immediately prior to any corresponding entity events
-    // The correct wantsMouseEvents mask must be provided or the method is ignored
-    open func onMouseMove(globalLocation:Point, movement:Point) {
-    }
-```
-
-Additional methods available include:
-
-```swift
-    // This function is invoked immediately prior to setting up layers
-    open func preSetup(canvas:Canvas)
-
-    // This function is invoked immediately after setting up layers
-    open func postSetup(canvas:Canvas)
-
-    // This function is invoked immediately prior to calculating layers
-    open func preCalculate(canvas:Canvas)
-
-    // This function is invoked immediately after calculating layers
-    open func postCalculate(canvas:Canvas) 
-
-    // This function is invoked immediately prior to rendering layers
-    open func preRender(canvas:Canvas) 
-
-    // This function is invoked immediately after rendering layers
-    open func postRender(canvas:Canvas)
-
-```
 
 ### Layer
-
-The **Layer** is responsbile for providing the required *RenderableEntityBase* objects grouped into their
-respective layer.  *Layer*s are rendered from back to front, based on their current location as determined by
-the *Scene*.  The *Layer* may handle any high-level events for for entities, but in the general case the *Layer*
-will simply insert the required *RenerableEntityBase*s into the *Layer*.  For example:
+The **Layer** is responsbile for providing subclassed **RenderableEntity** objects.  **Layer**s are rendered from back to front, based on their current location as determined by the **Scene**.  While the **Layer** may handle any high-level events for entities, in the general case the **Layer** will simply insert the required **RenerableEntity**s into the **Layer**.  For example:
 
 ```swift
-class ForegroundLayer : Layer {
-    let white : Box
-    let yellow : Box
+class MainBackgroundLayer : Layer {
 
-    override init() {
-        white = Box(name: "White", color:Color(.white), rect:Rect(topLeft:Point(x:100, y:100), size:Size(width:100, height:100)))
-        yellow = Box(name: "Yellow", color:Color(.yellow), rect:Rect(topLeft:Point(x:300, y:100), size:Size(width:100, height:100)))
-
-        super.init()
-
-        insert(entity:white, at:.front)
-        insert(entity:yellow, at:.front)
+    let background = Background() // subclassed RenderableEntity
+    
+    init() {
+        super.init(name:"MainBackground")
+        insert(entity:background, at:.back)
     }
+    
 }
 ```
 
-Layers support alpha and transforms.  The following methods may be invoked:
+**Layer**s support alpha and transforms.  The following methods may be invoked:
 ```swift
     // This function should only be invoked during init(), setup(), or calculate()
     public func setTransforms(transforms:[Transform]?) 
@@ -159,66 +91,11 @@ Layers support alpha and transforms.  The following methods may be invoked:
 
     // This function should only be invoked during init(), setup(), or calculate()
     public func setAlpha(alpha:Alpha?) 
-
 ```
 
-
-If interactivity via the mouse is desired, the following method must be overridden:
-
-```swift
-    override func wantsMouseEvents() -> MouseEventTypeSet 
-
-```
-
-If interactivity with the *Layer* is desired, the following methods may be overriden.
-In general, however, most mouse interaction usually occurs within the
-RenderableEntityBase.
-
-```swift
-    // This function is invoked immediately prior to any corresponding entity events
-    // The correct wantsMouseEvents mask must be provided or the method is ignored
-    open func onMouseDown(globalLocation:Point) {
-    }
-
-    // This function is invoked immediately prior to any corresponding entity events
-    // The correct wantsMouseEvents mask must be provided or the method is ignored
-    open func onMouseUp(globalLocation:Point) {
-    }
-
-    // This function is invoked immediately prior to any corresponding entity events
-    // The correct wantsMouseEvents mask must be provided or the method is ignored
-    open func onMouseMove(globalLocation:Point, movement:Point) {
-    }
-```
-
-Additional methods available include:
-
-```swift
-    // This function is invoked immediately prior to setting up layers
-    open func preSetup(canvas:Canvas) 
-
-    // This function is invoked immediately after setting up layers
-    open func postSetup(canvas:Canvas) 
-
-    // This function is invoked immediately prior to calculating layers
-    open func preCalculate(canvas:Canvas) 
-
-    // This function is invoked immediately after calculating layers
-    open func postCalculate(canvas:Canvas)
-
-    // This function is invoked immediately prior to rendering layers
-    open func preRender(canvas:Canvas) 
-
-    // This function is invoked immediately after rendering layers
-    open func postRender(canvas:Canvas)
-	    
-```
-
-
-### RenderableEntityBase
-
-The **RenderableEntityBase** provides the majority of rendering and interactive functionality by overriding
-the required methods.
+### RenderableEntity
+The **RenderableEntity** provides the majority of rendering and interactive functionality by overriding
+the required methods and working with the **Dispatcher** to register events of interest.
 
 In addition to the initializer, the *setup*() method may be used to setup any required parameters that require
 the *Canvas*.
@@ -228,7 +105,7 @@ the *Canvas*.
    // either when the owning layer is first set up or,
    // if the layer has already been setup,
    // prior to the next calculate event
-   open func setup(canvas:Canvas) 
+   override func setup(canvasSize:Size, canvas:Canvas) 
 
 ```
 
@@ -238,25 +115,14 @@ Objects are calculated and rendered in back-to-front order as specified by the *
 
 ```swift
   // calculate() is invoked prior to each render event
-  open func calculate(canvasSize:Size)
+  override func calculate(canvasSize:Size)
 
   // render() is invoked during each render cycle
-  open func render(canvas:Canvas) 
+  override func render(canvas:Canvas) 
 	    
 ```
 
-In order to provide correct interaction, two functions must be overridden to provide the dimensions of the
-entity and indicate whether or not an object is "hit" at a particlar point:
-
-```swift
-    // Must be over-ridden to return the boundingRect of the entity, in global coordinates
-    open func boundingRect() -> Rect 
-
-    // Must be over-ridden to return true iff the location generates a hit
-    open func hitTest(globalLocation:Point) -> Bool 
-```
-
-RenderableEntityBases support alpha and transforms.  The following methods may be invoked:
+**RenderableEntity**s support alpha and transforms.  The following methods may be invoked:
 ```swift
     // This function should only be invoked during init(), setup(), or calculate()
     public func setTransforms(transforms:[Transform]?) 
@@ -267,47 +133,42 @@ RenderableEntityBases support alpha and transforms.  The following methods may b
 
 ```
 
-If interaction with the mouse is desired, the below functions may be overridden.
-
-```swift
-   open func wantsMouseEvents() -> MouseEventTypeSet 
-
-   open func onMouseDown(localLocation:Point)
-
-   open func onMouseUp(localLocation:Point) 
-
-   open func onMouseClick(localLocation:Point) 
-
-   open func onMouseMove(globalLocation:Point, movement:Point) 
-
-   open func onMouseDrag(localLocation:Point, movement:Point) 
-	 
-```
-
-### MouseEventType
-
-```swift
-public enum MouseEventType {
-    case downUp
-    case click
-
-    case move
-    case drag
-}
-```
 
 ### ZOrder
+ZOrder is used to indicate where in a *Scene* a *Layer* should be placed, and where in a *Layer* a **RenderableEntity** should be placed.  The _insert_() method is used to insert an object, and the _moveZ_() method is used to move an object.
+```swift
+// For a Scene:
+    public func insert(layer:Layer, at zLocation:ZOrder<Layer>) {
+        backToFrontList.insert(object:layer, at:zLocation)
+    }
 
-ZOrder is used to indicate where in a *Scene* a *Layer* should be placed, and where in a *Layer* a
-*RenderableEntityBase* should be placed.
+    public func moveZ(of layer:Layer, to zLocation:ZOrder<Layer>) {
+        backToFrontList.moveZ(of:layer, to:zLocation)
+    }
 
+// For a Layer:
+    // This function should only be invoked during init(), setup(), or calculate()
+    public func insert(entity:RenderableEntity, at zLocation:ZOrder<RenderableEntity>) {
+        backToFrontList.insert(object:entity, at:zLocation)
+    }
+    
+    // This function should only be invoked during init(), setup(), or calculate()
+    public func moveZ(of entity:RenderableEntity, to zLocation:ZOrder<RenderableEntity>) {
+        backToFrontList.moveZ(of:entity, to:zLocation)
+    }
+
+```
+Available ZOrders:
 ```swift
 public enum ZOrder<T> {
-    case back
-    case backward
-    case behind(object:T)
-    case inFrontOf(object:T)
-    case forward
-    case front
+    case back                   // Place (or move) the object at the back-most position
+    case backward		// Place (or move) the object backward from its current position
+    case behind(object:T)       // Place (or move) the object behind the specified object
+    case inFrontOf(object:T)    // Place (or move) the object in front of the specified object
+    case forward                // Place (or move) the object foreward from its current position
+    case front	                // Place (or move) the object to the front-most position
 }
 ```
+
+### Rendering
+For more information about rendering methods, see the documentation for [Igis](https://github.com/TheCoderMerlin/Igis).
