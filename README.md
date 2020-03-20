@@ -202,6 +202,13 @@ director   | :x:                | :heavy_check_mark: | :heavy_check_mark: | :hea
 scene      | :x:                | :x:                | :heavy_check_mark: | :heavy_check_mark: |
 layer      | :x:                | :x:                | :x:                | :heavy_check_mark: | 
 
+### Coordinates
+All mouse events specify coordinates using the global coordinate system.  Translation between global and entity-local coordinate systems (based upon the topLeft of the entity's bounding box) using the following methods:
+```swift
+  public func local(fromGlobal:Point) -> Point 
+  public func global(fromLocal:Point) -> Point
+```
+
 ### ZOrder
 ZOrder is used to indicate where in a *Scene* a *Layer* should be placed, and where in a *Layer* a **RenderableEntity** should be placed.  The _insert_() method is used to insert an object, and the _moveZ_() method is used to move an object.
 ```swift
