@@ -53,17 +53,18 @@ open class Layer {
         precondition(!wasSetup, "Request to setup layer after already being setup")
         precondition(neverCalculated, "Request to setup layer after already being calculated")
         precondition(owningScene == nil, "Request to setup layer but owningScene is not nil")
+        precondition(canvas.canvasSize != nil, "Request to setup layer but canvas.canvasSize is nil")
         
         owningScene = scene
 
         // Setup all entities
-        preSetup(canvas:canvas)
+        preSetup(canvasSize:canvas.canvasSize!, canvas:canvas)
         for entity in backToFrontList.list {
             if !entity.wasSetup {
                 entity.internalSetup(canvas:canvas, layer:self)
             }
         }
-        postSetup(canvas:canvas)
+        postSetup(canvasSize:canvas.canvasSize!, canvas:canvas)
 
         wasSetup = true
     }
@@ -205,11 +206,11 @@ open class Layer {
 
     
     // This function is invoked immediately prior to setting up entities
-    open func preSetup(canvas:Canvas) {
+    open func preSetup(canvasSize:Size, canvas:Canvas) {
     }
     
     // This function is invoked immediately after setting up entities
-    open func postSetup(canvas:Canvas) {
+    open func postSetup(canvasSize:Size, canvas:Canvas) {
     }
 
     // This function is invoked immediately prior to tearing down layers

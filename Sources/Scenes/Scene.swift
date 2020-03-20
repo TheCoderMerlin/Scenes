@@ -51,17 +51,18 @@ open class Scene {
         precondition(!wasSetup, "Request to setup scene after already being setup")
         precondition(neverCalculated, "Request to setup scene after already being calculated")
         precondition(owningDirector == nil, "Request to setup scene but owningDirector is not nil")
+        precondition(canvas.canvasSize != nil, "Request to setup scene but canvas.canvasSize is nil")
         
         owningDirector = director
 
         // Setup all layers
-        preSetup(canvas:canvas)
+        preSetup(canvasSize:canvas.canvasSize!, canvas:canvas)
         for layer in backToFrontList.list {
             if !layer.wasSetup {
                 layer.internalSetup(canvas:canvas, scene:self)
             }
         }
-        postSetup(canvas:canvas)
+        postSetup(canvasSize:canvas.canvasSize!, canvas:canvas)
         
         wasSetup = true
     }
@@ -147,11 +148,11 @@ open class Scene {
 
     
     // This function is invoked immediately prior to setting up layers
-    open func preSetup(canvas:Canvas) {
+    open func preSetup(canvasSize:Size, canvas:Canvas) {
     }
     
     // This function is invoked immediately after setting up layers
-    open func postSetup(canvas:Canvas) {
+    open func postSetup(canvasSize:Size, canvas:Canvas) {
     }
 
     // This function is invoked immediately prior to tearing down layers
