@@ -14,8 +14,12 @@ A subclassed **Director** is responsible for transitioning from one **Scene** to
 
 It is generally helpful to provide unique and meaninful names to these objects for easier debugging.
 
+<img src="https://i.imgur.com/rBNo6Bk.jpg" height="400"/>
+
 #### Event Overview
 _Scenes_ provides a multitude of events to which objects can respond.  Objects that are interested in a particular event declare their conformance to the relevant protocol and then register to receive the desired event.  It's important that each such object unregister no later than their _teardown_() method.  The **Dispatcher** is responsible for maintaining registrations and raising events.
+
+<img src="https://i.imgur.com/cUWo4hx.jpg" height="500"/>
 
 ### Director
 The first action which a **Director** must take is to enqueue _at least_ one **Scene**.
@@ -148,6 +152,10 @@ In order to support the EntityMouse* events, the following methods are available
     // This function should only be invoked during init(), setup(), or calculate()
     public func setAlpha(alpha:Alpha?)
 ```
+
+An overview of the order of method calls throughout the class hierarchy is as follows:
+
+<img src="https://i.imgur.com/geg9BfH.jpg" height="700"/>
 
 ### Interactivity
 Interactions occur through the use of events.  When an event occurs, the _dispatcher_ informs all registered objects of the event.  In order to receive an event objects must:
