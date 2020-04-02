@@ -39,7 +39,9 @@ public class Dispatcher {
     private var registeredEntityMouseUpHandlers    = [EntityMouseUpHandler]()
     private var registeredEntityMouseClickHandlers = [EntityMouseClickHandler]()
     private var registeredEntityMouseDragHandlers = [EntityMouseDragHandler]()
-    private var mostRecentEntityMouseDownHandler : EntityMouseDownHandler? = nil
+
+    // Keep track of the name for EntityMouseClick/EntityMouseDrag events
+    private var mostRecentEntityNameForMouseClickOrDrag : String? = nil
 
     // Mouse State
     private var previousMouseLocation : Point? = nil
@@ -148,8 +150,8 @@ public class Dispatcher {
         // Raise the event for entities
         raiseEntityMouseUpEvent(globalLocation:globalLocation)
 
-        // Clear the most recent entity mouseDown handler
-        mostRecentEntityMouseDownHandler = nil
+        // Clear the most recent name for handling clicks and drags
+        mostRecentEntityNameForMouseClickOrDrag = nil
     }
 
     // ========== WindowMouseUpHandler ==========
@@ -235,8 +237,8 @@ public class Dispatcher {
     }
 
     internal func raiseEntityMouseDownEvent(globalLocation:Point) {
-        // This is easy if there are no registered handlers
-        if !registeredEntityMouseDownHandlers.isEmpty {
+        // We only need to proceed if we have either EntityMouseDown, EntityMouseClick, or EntityMouseDrag handlers
+        if !registeredEntityMouseDownHandlers.isEmpty || !registeredEntityMouseClickHandlers.isEmpty || !registeredEntityMouseDragHandlers.isEmpty {
             guard let director = director else {
                 fatalError("raiseEntityMouseDownEvent requires a director")
             }
@@ -251,15 +253,39 @@ public class Dispatcher {
                 // Otherwise, this is likely an error
                 for entity in frontToBackList {
                     if entity.hitTest(globalLocation:globalLocation) {
-                        let matchingRegisteredEntities = registeredEntityMouseDownHandlers.filter {$0.name == entity.name}
-                        precondition(matchingRegisteredEntities.count <= 1, "raiseEntityMouseDownEvent found non-unique entity names for '\(entity.name)'")
-                        if matchingRegisteredEntities.count == 1 {
-                            let handler = matchingRegisteredEntities[0]
+                        // Find a candidate for EntityMouseDown
+                        let matchingRegisteredMouseDownEntities = registeredEntityMouseDownHandlers.filter {$0.name == entity.name}
+                        precondition(matchingRegisteredMouseDownEntities.count <= 1, "raiseEntityMouseDownEvent found non-unique entity names for '\(entity.name) for EntityMouseDown'")
+
+                        // Find a candidate for EntityMouseClick
+                        let matchingRegisteredMouseClickEntities = registeredEntityMouseClickHandlers.filter {$0.name == entity.name}
+                        precondition(matchingRegisteredMouseClickEntities.count <= 1, "raiseEntityMouseDownEvent found non-unique entity names for '\(entity.name)' for EntityMouseClick'")
+
+                        // Find a candidate for EntityMouseDrag
+                        let matchingRegisteredMouseDragEntities = registeredEntityMouseDragHandlers.filter {$0.name == entity.name}
+                        precondition(matchingRegisteredMouseDragEntities.count <= 1, "raiseEntityMouseDownEvent found non-unique entity names for '\(entity.name)' for EntityMouseDrag")
+
+                        // Track to see if we consume the event so that we can offer a helpful error message
+                        var eventWasConsumed = false
+
+                        // Handle EntityMouseDown
+                        if matchingRegisteredMouseDownEntities.count == 1 {
+                            let handler = matchingRegisteredMouseDownEntities[0]
                             handler.onEntityMouseDown(globalLocation:globalLocation)
-                            mostRecentEntityMouseDownHandler = handler
-                        } else {
-                            print("WARNING: hitTest for entity '\(entity.name)' intercepted hit for raiseEntityMouseDown event but is unregistered")
+                            eventWasConsumed = true
                         }
+
+                        // and/or handle EntityMouseDrag or EntityMouseClick
+                        if matchingRegisteredMouseClickEntities.count == 1 || matchingRegisteredMouseDragEntities.count == 1 {
+                            mostRecentEntityNameForMouseClickOrDrag = entity.name
+                            eventWasConsumed = true
+                        }
+
+                        if !eventWasConsumed {
+                            print("WARNING: hitTest for entity '\(entity.name)' intercepted hit for raiseEntityMouseDown/Click/Drag event but is unregistered")
+                        }
+
+                        // We only search for the top-most entity that has a hit-test that succeeds
                         break
                     }
                 }
@@ -279,8 +305,8 @@ public class Dispatcher {
     }
 
     internal func raiseEntityMouseUpEvent(globalLocation:Point) {
-        // This is easy if there are no registered handlers
-        if !registeredEntityMouseUpHandlers.isEmpty {
+        // We only need to proceed if we have either EntityMouseUpHandlers or EntityMouseClickHandlers
+        if !registeredEntityMouseUpHandlers.isEmpty || !registeredEntityMouseClickHandlers.isEmpty {
             guard let director = director else {
                 fatalError("raiseEntityMouseUpEvent requires a director")
             }
@@ -295,16 +321,36 @@ public class Dispatcher {
                 // Otherwise, this is likely an error
                 for entity in frontToBackList {
                     if entity.hitTest(globalLocation:globalLocation) {
-                        let matchingRegisteredEntities = registeredEntityMouseUpHandlers.filter {$0.name == entity.name}
-                        precondition(matchingRegisteredEntities.count <= 1, "raiseEntityMouseUpEvent found non-unique entity names for '\(entity.name)'")
-                        if matchingRegisteredEntities.count == 1 {
-                            let handler = matchingRegisteredEntities[0]
-                            handler.onEntityMouseUp(globalLocation:globalLocation)
+                        // Find a candidate for EntityMouseUp
+                        let matchingRegisteredMouseUpEntities = registeredEntityMouseUpHandlers.filter {$0.name == entity.name}
+                        precondition(matchingRegisteredMouseUpEntities.count <= 1, "raiseEntityMouseUpEvent found non-unique entity names for '\(entity.name)' for EntityMouseUp")
 
-                            // Raise a click event for this entity
-                            raiseEntityMouseClickEvent(globalLocation:globalLocation, entityMouseUpHandler:handler)
-                        } else {
-                            print("WARNING: hitTest for entity '\(entity.name)' intercepted hit for raiseEntityMouseUp event but is unregistered")
+                        // Track to see if we consume the event so that we can offer a helpful error message
+                        var wasEventConsumed = false
+
+                        // Handle EntityMouseClick
+                        if let mostRecentEntityNameForMouseClickOrDrag = mostRecentEntityNameForMouseClickOrDrag,
+                           entity.name == mostRecentEntityNameForMouseClickOrDrag {
+                            // Find a candiate for EntityMouseClick
+                            let matchingRegisteredMouseClickEntities = registeredEntityMouseClickHandlers.filter {$0.name == entity.name}
+                            precondition(matchingRegisteredMouseClickEntities.count <= 1, "raiseEntityMouseUpEvent found non-unique entity names for '\(entity.name)' for EntityMouseClick")
+                            
+                            if matchingRegisteredMouseClickEntities.count == 1 {
+                                let handler = matchingRegisteredMouseClickEntities[0]
+                                handler.onEntityMouseClick(globalLocation:globalLocation)
+                                wasEventConsumed = true
+                            }
+                        }
+                        
+                        // and/or Handle EntityMouseUp
+                        if matchingRegisteredMouseUpEntities.count == 1 {
+                            let handler = matchingRegisteredMouseUpEntities[0]
+                            handler.onEntityMouseUp(globalLocation:globalLocation)
+                            wasEventConsumed = true
+                        }
+
+                        if !wasEventConsumed {
+                            print("WARNING: hitTest for entity '\(entity.name)' intercepted hit for raiseEntityMouseUp/Click event but is unregistered")
                         }
                         break
                     }
@@ -325,18 +371,11 @@ public class Dispatcher {
         registeredEntityMouseClickHandlers.removeAll(where: {$0.name == handler.name})
     }
 
+    /* NOTE:  This event is raised by raiseEntityMouseUpEvent
     internal func raiseEntityMouseClickEvent(globalLocation:Point, entityMouseUpHandler:EntityMouseUpHandler) {
-        // This is easy if there are no registered handlers or if the upHandler was different than the downHandler
-        if let mostRecentEntityMouseDownHandler = mostRecentEntityMouseDownHandler,
-           !registeredEntityMouseClickHandlers.isEmpty && (mostRecentEntityMouseDownHandler.name == entityMouseUpHandler.name) {
-            let matchingRegisteredEntities = registeredEntityMouseClickHandlers.filter {$0.name == entityMouseUpHandler.name}
-            precondition(matchingRegisteredEntities.count <= 1, "raiseEntityMouseClickEvent found non-unique entity names for '\(entityMouseUpHandler.name)'")
-            if matchingRegisteredEntities.count == 1 {
-                let handler = matchingRegisteredEntities[0]
-                handler.onEntityMouseClick(globalLocation:globalLocation)
-            }
-        }
+    
     }
+     */
     
     // ========== EntityMouseDragHandler ==========
     public func registerEntityMouseDragHandler(handler:EntityMouseDragHandler) {
@@ -350,11 +389,11 @@ public class Dispatcher {
     }
 
     internal func raiseEntityMouseDragEvent(globalLocation:Point, movement:Point) {
-        // This is easy if there are no registered handlers or if there's no moseRecentEntityMouseDownHandler
-        if let mostRecentEntityMouseDownHandler = mostRecentEntityMouseDownHandler,
+        // This is easy if there is not a mostRecentEntityNameFrMouseClickOrDrag or there are no registered handlers 
+        if let mostRecentEntityNameForMouseClickOrDrag = mostRecentEntityNameForMouseClickOrDrag,
            !registeredEntityMouseDragHandlers.isEmpty {
-            let matchingRegisteredEntities = registeredEntityMouseDragHandlers.filter {$0.name == mostRecentEntityMouseDownHandler.name}
-            precondition(matchingRegisteredEntities.count <= 1, "raiseEntityMouseDragEvent found non-unique entity names for '\(mostRecentEntityMouseDownHandler.name)'")
+            let matchingRegisteredEntities = registeredEntityMouseDragHandlers.filter {$0.name == mostRecentEntityNameForMouseClickOrDrag}
+            precondition(matchingRegisteredEntities.count <= 1, "raiseEntityMouseDragEvent found non-unique entity names for '\(mostRecentEntityNameForMouseClickOrDrag)'")
             if matchingRegisteredEntities.count == 1 {
                 let handler = matchingRegisteredEntities[0]
                 handler.onEntityMouseDrag(globalLocation:globalLocation, movement:movement)
