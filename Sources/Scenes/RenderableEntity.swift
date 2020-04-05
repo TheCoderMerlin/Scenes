@@ -141,6 +141,30 @@ open class RenderableEntity {
         self.alpha = alpha
     }
 
+    // Applies specified or current transforms to the specified point
+    // If no transforms are current, returns the original point
+    public func applyTransforms(toPoint:Point, transforms:[Transform]? = nil) -> Point {
+        if let transforms = transforms ?? self.transforms {
+            let matrix = Transform.multiply(transforms:transforms)
+            let transformedPoint = matrix.apply(toPoint:toPoint)
+            return transformedPoint
+        } else {
+            return toPoint
+        }
+    }
+
+    // Applies specified or current transforms to the specified points
+    // If no transforms are current, returns the original points
+    public func applyTransforms(toPoints:[Point], transforms:[Transform]? = nil) -> [Point] {
+        if let transforms = transforms ?? self.transforms {
+            let matrix = Transform.multiply(transforms:transforms)
+            let transformedPoints = matrix.apply(toPoints:toPoints)
+            return transformedPoints
+        } else {
+            return toPoints
+        }
+    }
+
     public var layer : Layer {
         guard let owningLayer = owningLayer else {
             fatalError("owningLayer required")

@@ -1,6 +1,6 @@
 # Scenes
 _Scenes_ provides a Swift object library with support for **Scene**s, **Layer**s, and **RenderableEntity**s along with an event **Dispatcher**.  _Scenes_ runs on top of IGIS.
-
+ 
 ## Usage
 
 ### Library
@@ -146,8 +146,15 @@ In order to support the EntityMouse* events, the following methods are available
 **RenderableEntity**s support alpha and transforms.  The following methods may be invoked:
 ```swift
     // This function should only be invoked during init(), setup(), or calculate()
-    public func setTransforms(transforms:[Transform]?) 
+    public func setTransforms(transforms:[Transform]?)
 
+    // To convert an arbitrary point (for example, globalLocation) to its actual location
+    // using either specific or current transforms:
+    public func applyTransforms(toPoint:Point, transforms:[Transform]? = nil) -> Point
+
+    // To convert a series of arbitrary points to their actual location
+    // using either specific or current transforms:
+    public func applyTransforms(toPoints:[Point], transforms:[Transform]? = nil) -> [Point]
 
     // This function should only be invoked during init(), setup(), or calculate()
     public func setAlpha(alpha:Alpha?)
