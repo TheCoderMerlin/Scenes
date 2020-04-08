@@ -1,5 +1,3 @@
-import Igis
-
 /*
 Scenes provides a Swift object library with support for renderable entities,
 layers, and scenes.  Scenes runs on top of IGIS.
@@ -15,6 +13,8 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
+
+import Igis
 
 public protocol EntityMouseDownHandler : EventHandler, RenderableEntity {
     func onEntityMouseDown(globalLocation:Point)

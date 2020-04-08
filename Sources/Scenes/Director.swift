@@ -116,6 +116,26 @@ open class Director : PainterProtocol, CustomStringConvertible {
         } 
         return entityList
     }
+
+    // Provides an ordered list front-to-back of all objects in teh current scene
+    // Returns nil if no scene is current
+    // Iff ignoreIsMouseTransparent will exclude any layers or entities
+    // which are transparent
+    internal func frontToBackList(ignoreIsMouseTransparent:Bool) -> Array<RenderableEntity>? {
+        var frontToBackList : Array<RenderableEntity>? = nil
+        if let backToFrontList = backToFrontList(ignoreIsMouseTransparent:ignoreIsMouseTransparent) {
+            frontToBackList = backToFrontList.reversed()
+        }
+        return frontToBackList
+    }
+
+    internal func frontMostEntity(atGlobalLocation globalLocation:Point, ignoreIsMouseTransparent:Bool = true) -> RenderableEntity? {
+        var entity : RenderableEntity? = nil
+        if let entityList = frontToBackList(ignoreIsMouseTransparent:ignoreIsMouseTransparent) {
+            entity = entityList.first(where: {$0.hitTest(globalLocation:globalLocation)})
+        } 
+        return entity
+    }
     
     public func render(canvas:Canvas) {
         // Do nothing until we have a canvasSize
