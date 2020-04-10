@@ -22,25 +22,23 @@ public class Dispatcher {
     private weak var director : Director?
     
     // Key Handlers
-    private var registeredKeyDownHandlers = [KeyDownHandler]()
-    private var registeredKeyUpHandlers   = [KeyUpHandler]()
+    private var registeredKeyDownHandlers = EventHandlers<KeyDownHandler>()
+    private var registeredKeyUpHandlers   = EventHandlers<KeyUpHandler>()
 
     // Resize Handlers
-    private var registeredCanvasResizeHandlers = [CanvasResizeHandler]()
-    private var registeredWindowResizeHandlers = [WindowResizeHandler]()
+    private var registeredCanvasResizeHandlers = EventHandlers<CanvasResizeHandler>()
+    private var registeredWindowResizeHandlers = EventHandlers<WindowResizeHandler>()
 
     // Mouse Handlers
-    private var registeredMouseDownHandlers = [MouseDownHandler]()
-    private var registeredMouseUpHandlers   = [MouseUpHandler]()
-    private var registeredMouseMoveHandlers = [MouseMoveHandler]()
+    private var registeredMouseDownHandlers = EventHandlers<MouseDownHandler>()
+    private var registeredMouseUpHandlers   = EventHandlers<MouseUpHandler>()
+    private var registeredMouseMoveHandlers = EventHandlers<MouseMoveHandler>()
 
     // Entity Mouse Handlers
-    private var registeredEntityMouseDownHandlers  = [EntityMouseDownHandler]()
-    private var registeredEntityMouseUpHandlers    = [EntityMouseUpHandler]()
-    private var registeredEntityMouseClickHandlers = [EntityMouseClickHandler]()
-    private var registeredEntityMouseDragHandlers  = [EntityMouseDragHandler]()
-    private var registeredEntityMouseEnterHandlers = [EntityMouseEnterHandler]()
-    private var registeredEntityMouseLeaveHandlers = [EntityMouseLeaveHandler]()
+    private var registeredEntityMouseDownHandlers  = EventHandlers<EntityMouseDownHandler>()
+    private var registeredEntityMouseUpHandlers    = EventHandlers<EntityMouseUpHandler>()
+    private var registeredEntityMouseClickHandlers = EventHandlers<EntityMouseClickHandler>()
+    private var registeredEntityMouseDragHandlers  = EventHandlers<EntityMouseDragHandler>()
 
     // Keep track of the name for EntityMouseClick/EntityMouseDrag events
     private var mostRecentEntityNameForMouseClickOrDrag : String? = nil
@@ -70,12 +68,14 @@ public class Dispatcher {
         debugListRegisteredHandlers(handlers:registeredEntityMouseDragHandlers, name:"entityMouseDrag")
     }
     
-    internal func debugListRegisteredHandlers(handlers:[EventHandler], name:String) {
+    internal func debugListRegisteredHandlers<EventHandlerType>(handlers:EventHandlers<EventHandlerType>, name:String) {
         if !handlers.isEmpty {
             print("========== \(name) handlers")
-            for handler in handlers {
-                print("\t\(handler.name)")
-            }
+            handlers.forEach {
+                guard let handler = $0 as? EventHandler else {
+                    fatalError("Failed to cast handler as EventHandler")
+                }
+                print("\t\(handler.name)") }
         }
     }
 
@@ -88,53 +88,41 @@ public class Dispatcher {
 
     // ========== KeyDownHandler ==========
     public func registerKeyDownHandler(handler:KeyDownHandler) {
-        precondition(!registeredKeyDownHandlers.contains(where: {$0.name == handler.name}), "registerKeyDownHandler() Unable to register handler '\(handler.name)' because it has already been registered.")
-        registeredKeyDownHandlers.append(handler)
+        registeredKeyDownHandlers.register(handler)
     }
 
     public func unregisterKeyDownHandler(handler:KeyDownHandler) {
-        precondition(registeredKeyDownHandlers.contains(where: {$0.name == handler.name}), "unregisterKeyDownHandler() Unable to unregister handler '\(handler.name)' because it isn't registered.")
-        registeredKeyDownHandlers.removeAll(where: {$0.name == handler.name})
+        registeredKeyDownHandlers.unregister(handler)
     }
 
     internal func raiseKeyDownEvent(key:String, code:String, ctrlKey:Bool, shiftKey:Bool, altKey:Bool, metaKey:Bool) {
-        for handler in registeredKeyDownHandlers {
-            handler.onKeyDown(key:key, code:code, ctrlKey:ctrlKey, shiftKey:shiftKey, altKey:altKey, metaKey:metaKey)
-        }
+        registeredKeyDownHandlers.forEach {$0.onKeyDown(key:key, code:code, ctrlKey:ctrlKey, shiftKey:shiftKey, altKey:altKey, metaKey:metaKey)}
     }
 
     // ========== KeyUpHandler ==========
     public func registerKeyUpHandler(handler:KeyUpHandler) {
-        precondition(!registeredKeyUpHandlers.contains(where: {$0.name == handler.name}), "registerKeyUpHandler() Unable to register handler '\(handler.name)' because it has already been registered.")
-        registeredKeyUpHandlers.append(handler)
+        registeredKeyUpHandlers.register(handler)
     }
 
     public func unregisterKeyUpHandler(handler:KeyUpHandler) {
-        precondition(registeredKeyUpHandlers.contains(where: {$0.name == handler.name}), "unregisterKeyUpHandler() Unable to unregister handler '\(handler.name)' because it isn't registered.")
-        registeredKeyUpHandlers.removeAll(where: {$0.name == handler.name})
+        registeredKeyUpHandlers.unregister(handler)
     }
 
     internal func raiseKeyUpEvent(key:String, code:String, ctrlKey:Bool, shiftKey:Bool, altKey:Bool, metaKey:Bool) {
-        for handler in registeredKeyUpHandlers {
-            handler.onKeyUp(key:key, code:code, ctrlKey:ctrlKey, shiftKey:shiftKey, altKey:altKey, metaKey:metaKey)
-        }
+        registeredKeyUpHandlers.forEach {$0.onKeyUp(key:key, code:code, ctrlKey:ctrlKey, shiftKey:shiftKey, altKey:altKey, metaKey:metaKey)}
     }
     
     // ========== MouseDownHandler ==========
     public func registerMouseDownHandler(handler:MouseDownHandler) {
-        precondition(!registeredMouseDownHandlers.contains(where: {$0.name == handler.name}), "registerMouseDownHandler() Unable to register handler '\(handler.name)' because it has already been registered.")
-        registeredMouseDownHandlers.append(handler)
+        registeredMouseDownHandlers.register(handler)
     }
 
     public func unregisterMouseDownHandler(handler:MouseDownHandler) {
-        precondition(registeredMouseDownHandlers.contains(where: {$0.name == handler.name}), "unregisterMouseDownHandler() Unable to unregister handler '\(handler.name)' because it isn't registered.")
-        registeredMouseDownHandlers.removeAll(where: {$0.name == handler.name})
+        registeredMouseDownHandlers.unregister(handler)
     }
 
     internal func raiseMouseDownEvent(globalLocation:Point) {
-        for handler in registeredMouseDownHandlers {
-            handler.onMouseDown(globalLocation:globalLocation)
-        }
+        registeredMouseDownHandlers.forEach {$0.onMouseDown(globalLocation:globalLocation)}
 
         // Raise the event for entities
         raiseEntityMouseDownEvent(globalLocation:globalLocation)
@@ -142,19 +130,15 @@ public class Dispatcher {
     
     // ========== MouseUpHandler ==========
     public func registerMouseUpHandler(handler:MouseUpHandler) {
-        precondition(!registeredMouseUpHandlers.contains(where: {$0.name == handler.name}), "registerMouseUpHandler() Unable to register handler '\(handler.name)' because it has already been registered.")
-        registeredMouseUpHandlers.append(handler)
+        registeredMouseUpHandlers.register(handler)
     }
 
     public func unregisterMouseUpHandler(handler:MouseUpHandler) {
-        precondition(registeredMouseUpHandlers.contains(where: {$0.name == handler.name}), "unregisterMouseUpHandler() Unable to unregister handler '\(handler.name)' because it isn't registered.")
-        registeredMouseUpHandlers.removeAll(where: {$0.name == handler.name})
+        registeredMouseUpHandlers.unregister(handler)
     }
 
     internal func raiseMouseUpEvent(globalLocation:Point) {
-        for handler in registeredMouseUpHandlers {
-            handler.onMouseUp(globalLocation:globalLocation)
-        }
+        registeredMouseUpHandlers.forEach {$0.onMouseUp(globalLocation:globalLocation)}
 
         // Raise the event for entities
         raiseEntityMouseUpEvent(globalLocation:globalLocation)
@@ -171,49 +155,13 @@ public class Dispatcher {
         raiseMouseUpEvent(globalLocation:globalLocation)
     }
     
-    // ========== CanvasResizeHandler ==========
-    public func registerCanvasResizeHandler(handler:CanvasResizeHandler) {
-        precondition(!registeredCanvasResizeHandlers.contains(where: {$0.name == handler.name}), "registerCanvasResizeHandler() Unable to register handler '\(handler.name)' because it has already been registered.")
-        registeredCanvasResizeHandlers.append(handler)
-    }
-
-    public func unregisterCanvasResizeHandler(handler:CanvasResizeHandler) {
-        precondition(registeredCanvasResizeHandlers.contains(where: {$0.name == handler.name}), "unregisterCanvasResizeHandler() Unable to unregister handler '\(handler.name)' because it isn't registered.")
-        registeredCanvasResizeHandlers.removeAll(where: {$0.name == handler.name})
-    }
-
-    internal func raiseCanvasResizeEvent(size:Size) {
-        for handler in registeredCanvasResizeHandlers {
-            handler.onCanvasResize(size:size)
-        }
-    }
-
-    // ========== WindowResizeHandler ==========
-    public func registerWindowResizeHandler(handler:WindowResizeHandler) {
-        precondition(!registeredWindowResizeHandlers.contains(where: {$0.name == handler.name}), "registerWindowResizeHandler() Unable to register handler '\(handler.name)' because it has already been registered.")
-        registeredWindowResizeHandlers.append(handler)
-    }
-
-    public func unregisterWindowResizeHandler(handler:WindowResizeHandler) {
-        precondition(registeredWindowResizeHandlers.contains(where: {$0.name == handler.name}), "unregisterWindowResizeHandler() Unable to unregister handler '\(handler.name)' because it isn't registered.")
-        registeredWindowResizeHandlers.removeAll(where: {$0.name == handler.name})
-    }
-
-    internal func raiseWindowResizeEvent(size:Size) {
-        for handler in registeredWindowResizeHandlers {
-            handler.onWindowResize(size:size)
-        }
-    }
-
     // ========== MouseMoveHandler ==========
     public func registerMouseMoveHandler(handler:MouseMoveHandler) {
-        precondition(!registeredMouseMoveHandlers.contains(where: {$0.name == handler.name}), "registerMouseMoveHandler() Unable to register handler '\(handler.name)' because it has already been registered.")
-        registeredMouseMoveHandlers.append(handler)
+        registeredMouseMoveHandlers.register(handler)
     }
 
     public func unregisterMouseMoveHandler(handler:MouseMoveHandler) {
-        precondition(registeredMouseMoveHandlers.contains(where: {$0.name == handler.name}), "unregisterMouseMoveHandler() Unable to unregister handler '\(handler.name)' because it isn't registered.")
-        registeredMouseMoveHandlers.removeAll(where: {$0.name == handler.name})
+        registeredMouseMoveHandlers.unregister(handler)
     }
 
     internal func raiseMouseMoveEvent(globalLocation:Point) {
@@ -222,9 +170,7 @@ public class Dispatcher {
             // We sometimes receive this "Move" event even when there is no movement
             // We ignore these
             if (movement.x != 0 || movement.y != 0) {
-                for handler in registeredMouseMoveHandlers {
-                    handler.onMouseMove(globalLocation:globalLocation, movement:movement)
-                }
+                registeredMouseMoveHandlers.forEach {$0.onMouseMove(globalLocation:globalLocation, movement:movement)}
 
                 // raise a entityMouseDrag in case an entity was previously mouse-downed
                 raiseEntityMouseDragEvent(globalLocation:globalLocation, movement:movement)
@@ -233,16 +179,40 @@ public class Dispatcher {
         previousMouseLocation = globalLocation
     }
 
+    // ========== CanvasResizeHandler ==========
+    public func registerCanvasResizeHandler(handler:CanvasResizeHandler) {
+        registeredCanvasResizeHandlers.register(handler)
+    }
+
+    public func unregisterCanvasResizeHandler(handler:CanvasResizeHandler) {
+        registeredCanvasResizeHandlers.unregister(handler)
+    }
+
+    internal func raiseCanvasResizeEvent(size:Size) {
+        registeredCanvasResizeHandlers.forEach {$0.onCanvasResize(size:size)}
+    }
+
+    // ========== WindowResizeHandler ==========
+    public func registerWindowResizeHandler(handler:WindowResizeHandler) {
+        registeredWindowResizeHandlers.register(handler)
+    }
+
+    public func unregisterWindowResizeHandler(handler:WindowResizeHandler) {
+        registeredWindowResizeHandlers.unregister(handler)
+    }
+
+    internal func raiseWindowResizeEvent(size:Size) {
+        registeredWindowResizeHandlers.forEach {$0.onWindowResize(size:size)}
+    }
+
 
     // ========== EntityMouseDownHandler ==========
     public func registerEntityMouseDownHandler(handler:EntityMouseDownHandler) {
-        precondition(!registeredEntityMouseDownHandlers.contains(where: {$0.name == handler.name}), "registerEntityMouseDownHandler() Unable to register handler '\(handler.name)' because it has already been registered.")
-        registeredEntityMouseDownHandlers.append(handler)
+        registeredEntityMouseDownHandlers.register(handler)
     }
 
     public func unregisterEntityMouseDownHandler(handler:EntityMouseDownHandler) {
-        precondition(registeredEntityMouseDownHandlers.contains(where: {$0.name == handler.name}), "unregisterEntityMouseDownHandler() Unable to unregister handler '\(handler.name)' because it isn't registered.")
-        registeredEntityMouseDownHandlers.removeAll(where: {$0.name == handler.name})
+        registeredEntityMouseDownHandlers.unregister(handler)
     }
 
     internal func raiseEntityMouseDownEvent(globalLocation:Point) {
@@ -250,30 +220,23 @@ public class Dispatcher {
         if !registeredEntityMouseDownHandlers.isEmpty || !registeredEntityMouseClickHandlers.isEmpty || !registeredEntityMouseDragHandlers.isEmpty {
             // Find the frontMostEntity (if any).  This entity will receive the event(s) provided that it's defined a handler
             if let entity = frontMostEntity(atGlobalLocation:globalLocation, ignoreIsMouseTransparent:true) {
-                // Find a candidate for EntityMouseDown
-                let matchingRegisteredMouseDownEntities = registeredEntityMouseDownHandlers.filter {$0.name == entity.name}
-                precondition(matchingRegisteredMouseDownEntities.count <= 1, "raiseEntityMouseDownEvent found non-unique entity names for '\(entity.name) for EntityMouseDown'")
-
-                // Find a candidate for EntityMouseClick
-                let matchingRegisteredMouseClickEntities = registeredEntityMouseClickHandlers.filter {$0.name == entity.name}
-                precondition(matchingRegisteredMouseClickEntities.count <= 1, "raiseEntityMouseDownEvent found non-unique entity names for '\(entity.name)' for EntityMouseClick'")
-
-                // Find a candidate for EntityMouseDrag
-                let matchingRegisteredMouseDragEntities = registeredEntityMouseDragHandlers.filter {$0.name == entity.name}
-                precondition(matchingRegisteredMouseDragEntities.count <= 1, "raiseEntityMouseDownEvent found non-unique entity names for '\(entity.name)' for EntityMouseDrag")
+                
+                // Find a candidates for EntityMouseDown, EntityMouseClick, and EntityMouseDrag which may (or may not defined) for this object
+                let entityMouseDownHandler  = registeredEntityMouseDownHandlers.find(handlerName:entity.name)
+                let entityMouseClickHandler = registeredEntityMouseClickHandlers.find(handlerName:entity.name)
+                let entityMouseDragHandler  = registeredEntityMouseDragHandlers.find(handlerName:entity.name)
 
                 // Track to see if we consume the event so that we can offer a helpful error message
                 var eventWasConsumed = false
 
                 // Handle EntityMouseDown
-                if matchingRegisteredMouseDownEntities.count == 1 {
-                    let handler = matchingRegisteredMouseDownEntities[0]
+                if let handler = entityMouseDownHandler {
                     handler.onEntityMouseDown(globalLocation:globalLocation)
                     eventWasConsumed = true
                 }
 
                 // and/or handle EntityMouseDrag or EntityMouseClick
-                if matchingRegisteredMouseClickEntities.count == 1 || matchingRegisteredMouseDragEntities.count == 1 {
+                if entityMouseClickHandler != nil || entityMouseDragHandler != nil {
                     mostRecentEntityNameForMouseClickOrDrag = entity.name
                     eventWasConsumed = true
                 }
@@ -287,13 +250,11 @@ public class Dispatcher {
 
     // ========== EntityMouseUpHandler ==========
     public func registerEntityMouseUpHandler(handler:EntityMouseUpHandler) {
-        precondition(!registeredEntityMouseUpHandlers.contains(where: {$0.name == handler.name}), "registerEntityMouseUpHandler() Unable to register handler '\(handler.name)' because it has already been registered.")
-        registeredEntityMouseUpHandlers.append(handler)
+        registeredEntityMouseUpHandlers.register(handler)
     }
 
     public func unregisterEntityMouseUpHandler(handler:EntityMouseUpHandler) {
-        precondition(registeredEntityMouseUpHandlers.contains(where: {$0.name == handler.name}), "unregisterEntityMouseUpHandler() Unable to unregister handler '\(handler.name)' because it isn't registered.")
-        registeredEntityMouseUpHandlers.removeAll(where: {$0.name == handler.name})
+        registeredEntityMouseUpHandlers.unregister(handler)
     }
 
     internal func raiseEntityMouseUpEvent(globalLocation:Point) {
@@ -302,8 +263,7 @@ public class Dispatcher {
             // Find the frontMostEntity (if any).  This entity will receive the event(s) provided that it's defined a handler
             if let entity = frontMostEntity(atGlobalLocation:globalLocation, ignoreIsMouseTransparent:true) {
                 // Find a candidate for EntityMouseUp
-                let matchingRegisteredMouseUpEntities = registeredEntityMouseUpHandlers.filter {$0.name == entity.name}
-                precondition(matchingRegisteredMouseUpEntities.count <= 1, "raiseEntityMouseUpEvent found non-unique entity names for '\(entity.name)' for EntityMouseUp")
+                let entityMouseUpHandler = registeredEntityMouseUpHandlers.find(handlerName:entity.name)
 
                 // Track to see if we consume the event so that we can offer a helpful error message
                 var wasEventConsumed = false
@@ -312,19 +272,16 @@ public class Dispatcher {
                 if let mostRecentEntityNameForMouseClickOrDrag = mostRecentEntityNameForMouseClickOrDrag,
                    entity.name == mostRecentEntityNameForMouseClickOrDrag {
                     // Find a candiate for EntityMouseClick
-                    let matchingRegisteredMouseClickEntities = registeredEntityMouseClickHandlers.filter {$0.name == entity.name}
-                    precondition(matchingRegisteredMouseClickEntities.count <= 1, "raiseEntityMouseUpEvent found non-unique entity names for '\(entity.name)' for EntityMouseClick")
-                    
-                    if matchingRegisteredMouseClickEntities.count == 1 {
-                        let handler = matchingRegisteredMouseClickEntities[0]
+                    let entityMouseClickHandler = registeredEntityMouseClickHandlers.find(handlerName:entity.name)
+
+                    if let handler = entityMouseClickHandler {
                         handler.onEntityMouseClick(globalLocation:globalLocation)
                         wasEventConsumed = true
                     }
                 }
                 
                 // and/or Handle EntityMouseUp
-                if matchingRegisteredMouseUpEntities.count == 1 {
-                    let handler = matchingRegisteredMouseUpEntities[0]
+                if let handler = entityMouseUpHandler {
                     handler.onEntityMouseUp(globalLocation:globalLocation)
                     wasEventConsumed = true
                 }
@@ -339,13 +296,11 @@ public class Dispatcher {
     
     // ========== EntityMouseClickHandler ==========
     public func registerEntityMouseClickHandler(handler:EntityMouseClickHandler) {
-        precondition(!registeredEntityMouseClickHandlers.contains(where: {$0.name == handler.name}), "registerEntityMouseClickHandler() Unable to register handler '\(handler.name)' because it has already been registered.")
-        registeredEntityMouseClickHandlers.append(handler)
+        registeredEntityMouseClickHandlers.register(handler)
     }
 
     public func unregisterEntityMouseClickHandler(handler:EntityMouseClickHandler) {
-        precondition(registeredEntityMouseClickHandlers.contains(where: {$0.name == handler.name}), "unregisterEntityMouseClickHandler() Unable to unregister handler '\(handler.name)' because it isn't registered.")
-        registeredEntityMouseClickHandlers.removeAll(where: {$0.name == handler.name})
+        registeredEntityMouseClickHandlers.unregister(handler)
     }
 
     /* NOTE:  This event is raised by raiseEntityMouseUpEvent
@@ -356,28 +311,23 @@ public class Dispatcher {
     
     // ========== EntityMouseDragHandler ==========
     public func registerEntityMouseDragHandler(handler:EntityMouseDragHandler) {
-        precondition(!registeredEntityMouseDragHandlers.contains(where: {$0.name == handler.name}), "registerEntityMouseDragHandler() Unable to register handler '\(handler.name)' because it has already been registered.")
-        registeredEntityMouseDragHandlers.append(handler)
+        registeredEntityMouseDragHandlers.register(handler)
     }
 
     public func unregisterEntityMouseDragHandler(handler:EntityMouseDragHandler) {
-        precondition(registeredEntityMouseDragHandlers.contains(where: {$0.name == handler.name}), "unregisterEntityMouseDragHandler() Unable to unregister handler '\(handler.name)' because it isn't registered.")
-        registeredEntityMouseDragHandlers.removeAll(where: {$0.name == handler.name})
+        registeredEntityMouseDragHandlers.unregister(handler)
     }
 
     internal func raiseEntityMouseDragEvent(globalLocation:Point, movement:Point) {
         // This is easy if there is not a mostRecentEntityNameFrMouseClickOrDrag or there are no registered handlers 
         if let mostRecentEntityNameForMouseClickOrDrag = mostRecentEntityNameForMouseClickOrDrag,
            !registeredEntityMouseDragHandlers.isEmpty {
-            let matchingRegisteredEntities = registeredEntityMouseDragHandlers.filter {$0.name == mostRecentEntityNameForMouseClickOrDrag}
-            precondition(matchingRegisteredEntities.count <= 1, "raiseEntityMouseDragEvent found non-unique entity names for '\(mostRecentEntityNameForMouseClickOrDrag)'")
-            if matchingRegisteredEntities.count == 1 {
-                let handler = matchingRegisteredEntities[0]
+            let entityMouseDragHandler = registeredEntityMouseDragHandlers.find(handlerName:mostRecentEntityNameForMouseClickOrDrag)
+
+            if let handler = entityMouseDragHandler {
                 handler.onEntityMouseDrag(globalLocation:globalLocation, movement:movement)
             }
         }
     }
     
-    
-
 }

@@ -18,29 +18,26 @@ import Foundation
 import Igis
 
 open class Director : PainterProtocol, CustomStringConvertible {
-    internal static let unnamed = "Unnamed"
-    internal static var id = 0
-    
+    private let uniqueName : UniqueName
     private var sceneQueue : [Scene]
     private var shouldTransitionToNextScene : Bool
     private var currentScene : Scene?
     public lazy var dispatcher = Dispatcher(director:self)
 
-    public let name : String
-
     // ********************************************************************************
     // Functions for internal use
     // ********************************************************************************
     public required init() {
+        uniqueName = UniqueName(objectType:Self.self, name:"Director")
         sceneQueue = [Scene]()
         shouldTransitionToNextScene = false
         currentScene = nil
-        
-        // Generate a unique name.  This is required to determine equality for the Dispacther.
-        self.name = "Director:\(Self.id)"
-        Self.id += 1
     }
 
+    public var name : String {
+        return uniqueName.fullname
+    }
+    
     open func framesPerSecond() -> Int {
         return 10
     }

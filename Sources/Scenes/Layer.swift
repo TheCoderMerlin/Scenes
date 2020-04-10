@@ -17,9 +17,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 import Igis
 
 open class Layer {
-    internal static let unnamed = "Unnamed"
-    internal static var id = 0
-    
+    private let uniqueName : UniqueName
     internal private(set) var wasSetup : Bool
     internal private(set) var wasTorndown : Bool
     internal private(set) var neverCalculated : Bool
@@ -29,24 +27,24 @@ open class Layer {
     private var alpha : Alpha?
 
     public private(set) weak var owningScene : Scene?
-    public let name : String
 
     // ********************************************************************************
     // Functions for internal use
     // ********************************************************************************
     
     public init(name:String?=nil) {
+        uniqueName = UniqueName(objectType:Self.self, name:name)
         wasSetup = false
         wasTorndown = false
         neverCalculated = true
         mostRecentMouseDownEntity = nil
         backToFrontList = ZOrderedList<RenderableEntity>()
 
-        // Generate a unique name.  This is required to determine equality for the Dispacther.
-        self.name = "Layer:\(Self.id):\(name ?? Self.unnamed)"
-        Self.id += 1
-
         owningScene = nil
+    }
+
+    public var name : String {
+        return uniqueName.fullname
     }
 
     internal func internalSetup(canvas:Canvas, scene:Scene) {

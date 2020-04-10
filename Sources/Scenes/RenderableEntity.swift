@@ -17,9 +17,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 import Igis
   
 open class RenderableEntity {
-    internal static let unnamed = "Unnamed"
-    internal static var id = 0
-    
+    private let uniqueName : UniqueName
     internal private(set) var wasSetup : Bool
     internal private(set) var wasTorndown : Bool
     internal private(set) var neverCalculated : Bool
@@ -27,18 +25,18 @@ open class RenderableEntity {
     private var alpha : Alpha?
     
     public private(set) weak var owningLayer : Layer?
-    public let name : String
 
     public init(name:String?=nil) {
+        uniqueName = UniqueName(objectType:Self.self, name:name)
         wasSetup = false
         wasTorndown = false
         neverCalculated = true
 
-        // Generate a unique name.  This is required to determine equality for the Dispacther.
-        self.name = "RenderableEntity:\(Self.id):\(name ?? Self.unnamed)"
-        Self.id += 1
-        
         owningLayer = nil
+    }
+
+    public var name : String {
+        return uniqueName.fullname
     }
 
     // ********************************************************************************
