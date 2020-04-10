@@ -39,9 +39,14 @@ public class Dispatcher {
     private var registeredEntityMouseUpHandlers    = EventHandlers<EntityMouseUpHandler>()
     private var registeredEntityMouseClickHandlers = EventHandlers<EntityMouseClickHandler>()
     private var registeredEntityMouseDragHandlers  = EventHandlers<EntityMouseDragHandler>()
+    private var registeredEntityMouseEnterHandlers = EventHandlers<EntityMouseEnterHandler>()
+    private var registeredEntityMouseLeaveHandlers = EventHandlers<EntityMouseLeaveHandler>()
 
     // Keep track of the name for EntityMouseClick/EntityMouseDrag events
     private var mostRecentEntityNameForMouseClickOrDrag : String? = nil
+
+    // Keep track of the name for EntityMouseEnter/EntityMouseLeave events
+    private var mostRecentEntityNameForMouseEnterOrLeave : String? = nil
 
     // Mouse State
     private var previousMouseLocation : Point? = nil
@@ -66,6 +71,8 @@ public class Dispatcher {
         debugListRegisteredHandlers(handlers:registeredEntityMouseUpHandlers, name:"entityMouseUp")
         debugListRegisteredHandlers(handlers:registeredEntityMouseClickHandlers, name:"entityMouseClick")
         debugListRegisteredHandlers(handlers:registeredEntityMouseDragHandlers, name:"entityMouseDrag")
+        debugListRegisteredHandlers(handlers:registeredEntityMouseEnterHandlers, name:"entityMouseEnter")
+        debugListRegisteredHandlers(handlers:registeredEntityMouseLeaveHandlers, name:"entityMouseLeave")
     }
     
     internal func debugListRegisteredHandlers<EventHandlerType>(handlers:EventHandlers<EventHandlerType>, name:String) {
@@ -174,6 +181,9 @@ public class Dispatcher {
 
                 // raise a entityMouseDrag in case an entity was previously mouse-downed
                 raiseEntityMouseDragEvent(globalLocation:globalLocation, movement:movement)
+
+                // raise an entityMouseEnterLeave is case an entity wants these events
+                raiseEntityMouseEnterLeaveHandler(globalLocation:globalLocation)
             }
         }
         previousMouseLocation = globalLocation
@@ -247,6 +257,60 @@ public class Dispatcher {
             }
         }
     }
+
+    // ========== EntityMouseEnterHandler ==========
+    public func registerEntityMouseEnterHandler(handler:EntityMouseEnterHandler) {
+        registeredEntityMouseEnterHandlers.register(handler)
+    }
+
+    public func unregisterEntityMouseEnterHandler(handler:EntityMouseEnterHandler) {
+        registeredEntityMouseEnterHandlers.unregister(handler)
+    }
+
+    internal func raiseEntityMouseEnterLeaveHandler(globalLocation:Point) {
+        // We only need to proceed if we have an entityMouseEnter/entityMouseLeave handler
+        if !registeredEntityMouseEnterHandlers.isEmpty || !registeredEntityMouseLeaveHandlers.isEmpty {
+            // Find the frontMostEntity
+            let entity = frontMostEntity(atGlobalLocation:globalLocation, ignoreIsMouseTransparent:true)
+
+            // If we currently have an entity which received an enter and we are no longer on that entity,
+            // we issue a mouseLeave (it it handles this event)
+            if let mostRecentEntityNameForMouseEnterOrLeave = mostRecentEntityNameForMouseEnterOrLeave,
+               entity == nil || (entity!.name != mostRecentEntityNameForMouseEnterOrLeave),
+               let handler = registeredEntityMouseLeaveHandlers.find(handlerName:mostRecentEntityNameForMouseEnterOrLeave) {
+                handler.onEntityMouseLeave(globalLocation:globalLocation)
+            }
+            
+            // If we have a frontMostEntity which is different than the current entity,
+            // we issue a mouseEnter (if it handles this event)
+            if let entity = entity,
+               (mostRecentEntityNameForMouseEnterOrLeave == nil) || (mostRecentEntityNameForMouseEnterOrLeave! != entity.name),
+                let handler = registeredEntityMouseEnterHandlers.find(handlerName:entity.name) {
+                    handler.onEntityMouseEnter(globalLocation:globalLocation)
+            }
+            
+            // Set the new most recent entity to the frontMost entity (if any)
+            self.mostRecentEntityNameForMouseEnterOrLeave = entity?.name
+        }
+    }
+
+    
+    // ========== EntityMouseEnterLeave ==========
+    public func registerEntityMouseLeaveHandler(handler:EntityMouseLeaveHandler) {
+        registeredEntityMouseLeaveHandlers.register(handler)
+    }
+
+    public func unregisterEntityMouseLeaveHandler(handler:EntityMouseLeaveHandler) {
+        registeredEntityMouseLeaveHandlers.unregister(handler)
+    }
+
+    // Note:  This event is raised by raiseEntityMouseEnterLeaveHandler
+    /*
+    internal func raiseEntityMouseLeaveHandler(globalLocation:Point) {
+        
+    }
+     */
+    
 
     // ========== EntityMouseUpHandler ==========
     public func registerEntityMouseUpHandler(handler:EntityMouseUpHandler) {
