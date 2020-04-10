@@ -183,6 +183,8 @@ EntityMouseDownHandler   | onEntityMouseDown  | :x:                | :x:        
 EntityMouseUpHandler     | onEntityMouseUp    | :x:                | :x:                | :heavy_check_mark: |
 EntityMouseClickHandler  | onEntityMouseClick | :x:                | :x:                | :heavy_check_mark: |
 EntityMouseDragHandler   | onEntityMouseDrag  | :x:                | :x:                | :heavy_check_mark: |
+EntityMouseEnterHandler  | onEntityMouseEnter | :x:                | :x:                | :heavy_check_mark: |
+EntityMouseLeaveHandler  | onEntityMouseLeave | :x:                | :x:                | :heavy_check_mark: |
 CanvasResizeHandler      | onCanvasResize     | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | 
 WindowResizeHandler      | onWindowResize     | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | 
 
@@ -202,6 +204,8 @@ func onEntityMouseDown(globalLocation:Point)
 func onEntityMouseUp(globalLocation:Point)
 func onEntityMouseClick(globalLocation:Point)
 func onEntityMouseDrag(globalLocation:Point, movement:Point)
+func onEntityMouseEnter(globalLocation:Point)
+func onEntityMouseLeave(globalLocation:Point)
 
 // Re-sizing Events
 func onCanvasResize(size:Size)
