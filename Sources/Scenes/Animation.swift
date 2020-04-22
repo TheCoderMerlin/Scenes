@@ -26,8 +26,9 @@ public class Animation : Equatable {
         }
 
         if state == .playing {
-            let percent = tween.ease.apply(percent:elapsedTime/tween.duration)
-            tween.update(percent:percent)
+            let percent = elapsedTime/tween.duration
+            let easePercent = tween.ease.apply(percent:percent)
+            tween.update(percent:easePercent)
             
             if percent >= 1 {
                 state = .completed
