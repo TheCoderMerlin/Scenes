@@ -56,6 +56,8 @@ open class Director : PainterProtocol, CustomStringConvertible {
         if !scene.wasSetup {
             scene.internalSetup(canvas:canvas, director:self)
         }
+        // update animationManager if there is a currently running scene after scene is setup
+        animationManager.updateFrame()
 
         scene.internalCalculate(canvas:canvas, director:self)
         scene.internalRender(canvas:canvas, director:self)
@@ -76,7 +78,6 @@ open class Director : PainterProtocol, CustomStringConvertible {
 
         // If we have a scene at this point, begin rendering
         if let currentScene = currentScene {
-            animationManager.updateFrame() // update animationManager if there is an active scene
             internalRender(canvas:canvas, scene:currentScene)
         }
     }

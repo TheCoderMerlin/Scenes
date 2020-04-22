@@ -29,8 +29,8 @@ public class Tween<TweenElementType: TweenableElement> : InternalTweenProtocol {
         self.updateHandler = update
     }
     
-    internal func update(fraction:Double) {
-        let newValue = startValue.lerp(end:endValue, fraction:ease.apply(fraction:fraction))
+    internal func update(percent:Double) {
+        let newValue = startValue.lerp(to:endValue, percent:percent)
         updateHandler(newValue)
     }
 }

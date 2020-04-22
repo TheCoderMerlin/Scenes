@@ -8,13 +8,16 @@ public class AnimationManager {
         self.director = director
     }
 
+    // called anytime we need to remove an animation from manager
     internal func remove(animation:Animation) {
+        animation.reset()
         guard let index = animations.firstIndex(of:animation) else {
             fatalError("Animation queued for removal does not exist.")
         }
         animations.remove(at:index)
     }
-    
+
+    // updates animations every frame
     internal func updateFrame() {
         // remove all completed animations
         animationsPendingRemoval.forEach {
@@ -34,15 +37,17 @@ public class AnimationManager {
     // API FOLLOWS
     // ********************************************************************************
 
-    public func runAnimation(animation:Animation, autoPlay:Bool = true) {
+    // adds animation to annimations array within AnimationManager
+    public func run(animation:Animation, autoPlay:Bool = true) {
         animations.append(animation)
         if autoPlay {
             animation.play()
         }
     }
 
-    public func getValue(ease:EasingStyle, fraction:Double) -> Double {
-        return ease.apply(fraction:fraction)
+    // allows access to easing calculatins
+    public func getValue(ease:EasingStyle, percent:Double) -> Double {
+        return ease.apply(percent:percent)
     }
 
     public func terminateAll() {

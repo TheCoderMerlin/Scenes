@@ -9,7 +9,7 @@ public class Animation : Equatable {
     }
     internal var state : State = .notQueued
 
-    private let tween : InternalTweenProtocol!
+    private let tween : InternalTweenProtocol
     private var elapsedTime : Double = 0.0
 
     public init(tween:TweenProtocol) {
@@ -26,15 +26,20 @@ public class Animation : Equatable {
         }
 
         if state == .playing {
-            let fraction = elapsedTime/tween.duration
-            tween.update(fraction:fraction)
+            let percent = tween.ease.apply(percent:elapsedTime/tween.duration)
+            tween.update(percent:percent)
             
-            if fraction >= 1 {
+            if percent >= 1 {
                 state = .completed
             }
             
             elapsedTime += frameRate
         }
+    }
+
+    internal func reset() {
+        state = .notQueued
+        elapsedTime = 0.0
     }
 
     // ********************************************************************************
@@ -60,7 +65,7 @@ public class Animation : Equatable {
     public func play() {
         if state == .notQueued {
             state = .queued
-        } else {
+        } else if state != .queued {
             state = .playing
         }
     }

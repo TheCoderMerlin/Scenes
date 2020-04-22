@@ -1,3 +1,3 @@
 internal protocol InternalTweenProtocol : TweenProtocol {
-    func update(fraction:Double)
+    func update(percent:Double)
 }
