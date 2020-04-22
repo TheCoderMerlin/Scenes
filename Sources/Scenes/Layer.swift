@@ -184,6 +184,10 @@ open class Layer {
     public var dispatcher : Dispatcher {
         return director.dispatcher
     }
+
+    public var animationManager : AnimationManager {
+        return director.animationManager
+    }
     
     // ********************************************************************************
     // DEBUG API FOLLOWS

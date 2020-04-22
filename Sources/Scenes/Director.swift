@@ -23,6 +23,7 @@ open class Director : PainterProtocol, CustomStringConvertible {
     private var shouldTransitionToNextScene : Bool
     private var currentScene : Scene?
     public lazy var dispatcher = Dispatcher(director:self)
+    public lazy var animationManager = AnimationManager(director:self)
 
     // ********************************************************************************
     // Functions for internal use
@@ -63,6 +64,7 @@ open class Director : PainterProtocol, CustomStringConvertible {
     internal func internalRender(canvas:Canvas) {
         // Terminate the current scene if so indicated
         if currentScene != nil && shouldSceneTerminate() {
+            animationManager.terminateAll() // When we terminate a scene, remove all ongoing animations
             currentScene!.internalTeardown()
             currentScene = nil
         }
@@ -74,6 +76,7 @@ open class Director : PainterProtocol, CustomStringConvertible {
 
         // If we have a scene at this point, begin rendering
         if let currentScene = currentScene {
+            animationManager.updateFrame() // update animationManager if there is an active scene
             internalRender(canvas:canvas, scene:currentScene)
         }
     }
