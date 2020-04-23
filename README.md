@@ -1,6 +1,8 @@
 # Scenes
 _Scenes_ provides a Swift object library with support for **Scene**s, **Layer**s, and **RenderableEntity**s along with an event **Dispatcher**.  _Scenes_ runs on top of IGIS.
  
+[Very Preliminary API Documentation](https://thecodermerlin.github.io/Scenes/)
+
 ## Usage
 
 ### Library
