@@ -3,14 +3,19 @@ public class Animation : Equatable {
         case notQueued
         case queued
         case playing
+        case playingInReverse
         case paused
+        case pausedInReverse
         case completed
         case cancelled
     }
-    internal var state : State = .notQueued
+    internal var state = State.notQueued
 
     private let tween : InternalTweenProtocol
-    private var elapsedTime : Double = 0.0
+    private var elapsedTime = 0.0
+
+    public var loop = false
+    public var reverse = false
 
     public init(tween:TweenProtocol) {
         guard let tween = tween as? InternalTweenProtocol else {
@@ -20,27 +25,39 @@ public class Animation : Equatable {
     }
 
     internal func updateFrame(frameRate:Double) {
-        // if animation has been queued, begin playing
         if state == .queued {
             state = .playing
         }
-
+        
         if state == .playing {
-            let percent = elapsedTime/tween.duration
-            let easePercent = tween.ease.apply(percent:percent)
-            tween.update(percent:easePercent)
+            let percent = elapsedTime / tween.duration
+            tween.update(percent:percent)
             
             if percent >= 1 {
-                state = .completed
+                if reverse {
+                    state = .playingInReverse
+                } else if loop {
+                    restart()
+                } else {
+                    state = .completed
+                }
             }
             
             elapsedTime += frameRate
+        } else if state == .playingInReverse {
+            let percent = elapsedTime / tween.duration
+            tween.update(percent:percent)
+            
+            if percent <= 0 {
+                if loop {
+                    restart()
+                } else {
+                    state = .completed
+                }
+            }
+            
+            elapsedTime -= frameRate
         }
-    }
-
-    internal func reset() {
-        state = .notQueued
-        elapsedTime = 0.0
     }
 
     // ********************************************************************************
@@ -51,24 +68,60 @@ public class Animation : Equatable {
         return state == .completed || state == .cancelled
     }
 
+    public var isPaused : Bool {
+        return state == .paused || state == .pausedInReverse
+    }
+
+    public var isPlaying : Bool {
+        return state == .playing || state == .playingInReverse
+    }
+
+    public var isQueued : Bool {
+        return state != .notQueued
+    }
+
     public func terminate() {
-        if state != .completed {
+        if isQueued {
             state = .cancelled
         }
     }
 
     public func pause() {
-        if state != .completed && state != .cancelled {
-            state = .paused
+        if !isCompleted && !isPaused && isQueued {
+            if state == .playingInReverse {
+                state = .pausedInReverse
+            } else {
+                state = .paused
+            }
         }
     }
 
     public func play() {
-        if state == .notQueued {
-            state = .queued
-        } else if state != .queued {
-            state = .playing
+        if !isCompleted && !isPlaying {
+            if isQueued {
+                if state == .pausedInReverse {
+                    state = .playingInReverse
+                } else {
+                    state = .playing
+                }
+            } else {
+                state = .queued
+            }
         }
+    }
+
+    public func restart() {
+        if isPlaying {
+            state = .playing
+        } else {
+            state = .notQueued
+        }
+        self.elapsedTime = 0
+    }
+
+    public func inverse() -> Animation {
+        let tween = self.tween.inverse()
+        return Animation(tween:tween)
     }
 
     static public func == (lhs:Animation, rhs:Animation) -> Bool {

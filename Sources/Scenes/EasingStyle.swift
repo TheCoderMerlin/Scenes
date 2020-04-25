@@ -48,6 +48,58 @@ public enum EasingStyle {
     case outElastic
     case inOutElastic
 
+    // returns inverse of ease
+    internal func inverse() -> EasingStyle {
+        switch self {
+        case .configureInPow(let exponent):
+            return .configureOutPow(exponent:exponent)
+        case .configureOutPow(let exponent):
+            return .configureInPow(exponent:exponent)
+        case .inQuad:
+            return .outQuad
+        case .outQuad:
+            return .inQuad
+        case .inCubic:
+            return .outCubic
+        case .outCubic:
+            return .inCubic
+        case .inQuart:
+            return .outQuart
+        case .outQuart:
+            return .inQuart
+        case .inQuint:
+            return .outQuint
+        case .outQuint:
+            return .inQuint
+        case .inSine:
+            return .outSine
+        case .outSine:
+            return .inSine
+        case .inExponential:
+            return .outExponential
+        case .outExponential:
+            return .inExponential
+        case .inBack:
+            return .outBack
+        case .outBack:
+            return .inBack
+        case .inCirc:
+            return .outCirc
+        case .outCirc:
+            return .inCirc
+        case .inBounce:
+            return .outBounce
+        case .outBounce:
+            return .inBounce
+        case .inElastic:
+            return .outElastic
+        case .outElastic:
+            return .inElastic
+        default:
+          return self
+        }
+    }
+
     // depending on EasingStyle, generate a new percent value from given percent value
     internal func apply(percent:Double) -> Double {
         // ensure values at initial and ending positions are exact
