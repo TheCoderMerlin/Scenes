@@ -25,6 +25,7 @@ public class Animation : Equatable {
     }
 
     internal func updateFrame(frameRate:Double) {
+        // if animation has been queued, begin playing
         if state == .queued {
             state = .playing
         }
@@ -73,7 +74,7 @@ public class Animation : Equatable {
     }
 
     public var isPlaying : Bool {
-        return state == .playing || state == .playingInReverse
+        return state == .playing || state == .playingInReverse || state == .queued
     }
 
     public var isQueued : Bool {
@@ -87,7 +88,7 @@ public class Animation : Equatable {
     }
 
     public func pause() {
-        if !isCompleted && !isPaused && isQueued {
+        if isPlaying {
             if state == .playingInReverse {
                 state = .pausedInReverse
             } else {

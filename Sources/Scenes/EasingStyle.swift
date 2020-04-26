@@ -49,7 +49,7 @@ public enum EasingStyle {
     case inOutElastic
 
     // returns inverse of ease
-    internal func inverse() -> EasingStyle {
+    public func inverse() -> EasingStyle {
         switch self {
         case .configureInPow(let exponent):
             return .configureOutPow(exponent:exponent)

@@ -2,14 +2,8 @@ public class AnimationManager {
     private weak var director : Director?
     
     private var animations = [Animation]()
-    private var animationsPendingRemoval = [Animation]() {
-        didSet (oldSelf) {
-            if oldSelf.count != animationsPendingRemoval.count {
-                print("animation added to removal list")
-            }
-        }
-    }
-
+    private var animationsPendingRemoval = [Animation]()
+    
     init(director:Director) {
         self.director = director
     }
@@ -25,18 +19,19 @@ public class AnimationManager {
 
     // updates animations every frame
     internal func updateFrame() {
-        // if an animation is completed, append it to removal list, otherwise update it
-        animations.forEach {
-            $0.isCompleted
-              ? animationsPendingRemoval.append($0)
-              : $0.updateFrame(frameRate:1/Double(director!.framesPerSecond()))
-        }
-
         // remove all completed animations
         animationsPendingRemoval.forEach {
             remove(animation:$0)
         }
         animationsPendingRemoval.removeAll()
+        
+        // if an animation is completed, append it to removal list, otherwise update it
+        animations.forEach {
+            $0.updateFrame(frameRate:1/Double(director!.framesPerSecond()))
+            if $0.isCompleted {
+                animationsPendingRemoval.append($0)
+            }
+        }
     }
 
     // ********************************************************************************
