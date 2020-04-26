@@ -81,6 +81,11 @@ public class Animation : Equatable {
         return state != .notQueued
     }
 
+    public var inverse : Animation {
+        let tween = self.tween.inverse()
+        return Animation(tween:tween)
+    }
+
     public func terminate() {
         if isQueued {
             state = .cancelled
@@ -118,11 +123,6 @@ public class Animation : Equatable {
             state = .notQueued
         }
         self.elapsedTime = 0
-    }
-
-    public func inverse() -> Animation {
-        let tween = self.tween.inverse()
-        return Animation(tween:tween)
     }
 
     static public func == (lhs:Animation, rhs:Animation) -> Bool {
