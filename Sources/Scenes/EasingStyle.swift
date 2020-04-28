@@ -69,7 +69,7 @@ public enum EasingStyle {
     case outElastic
     case inOutElastic
 
-    /// The inverted version of the ease ie. if the easing direction is in, it will change to out and vice versa.
+    /// The inverted version of the ease.  If the easing direction is in, it will change to out and vice versa.
     public var inverse : EasingStyle {
         switch self {
         case .configureInPow(let exponent):

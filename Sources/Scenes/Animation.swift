@@ -33,9 +33,9 @@ public class Animation : Equatable {
     private let tween : InternalTweenProtocol
     private var elapsedTime = 0.0
 
-    /// Specifies whether or not to loop, or repeat, the animation over and over again until 'terminate()' is called.
+    /// Specifies whether or not to loop the animation over and over again until 'terminate()' is called.
     public var loop = false
-    /// Specifies whether or not to reverse the animation, or return back to the initial value specified in the 'Tween', after the animation is completete.
+    /// Specifies whether or not to reverse the animation after the animation is completete.
     public var reverse = false
 
     /// Creates a new 'Animation' from the specified 'Tween'
@@ -45,6 +45,10 @@ public class Animation : Equatable {
         guard let tween = tween as? InternalTweenProtocol else {
             fatalError("tween doesn't conform to InternalTweenProtocol.")
         }
+        self.tween = tween
+    }
+
+    internal init(tween:InternalTweenProtocol) {
         self.tween = tween
     }
 
@@ -91,17 +95,17 @@ public class Animation : Equatable {
 
     /// returns true if the animation was completed or cancelled
     ///
-    /// NB: will only return true once before animation is removed from the 'AnimationManager'
+    /// NB: will only return true for one frame when animation is completed
     public var isCompleted : Bool {
         return state == .completed || state == .cancelled
     }
 
-    /// returns true if the animation is currently paused (controlled by the pause() function).
+    /// returns true if the animation is currently paused
     public var isPaused : Bool {
         return state == .paused || state == .pausedInReverse
     }
 
-    /// returns true if the animation is currently playing (controlled by the play() function).
+    /// returns true if the animation is currently playing
     public var isPlaying : Bool {
         return state == .playing || state == .playingInReverse || state == .queued
     }
@@ -111,10 +115,9 @@ public class Animation : Equatable {
         return state != .notQueued
     }
 
-    /// The inverted version of the animation ie. the startValue becomes the endValue, the endValue becomes the startValue, and the 'EasingStyle' is inverted.
+    /// returns the inverted version of the animation ie. the 'EasingStyle' is inverted and the start and end values are swapped.
     public var inverse : Animation {
-        let tween = self.tween.inverse()
-        return Animation(tween:tween)
+        return Animation(tween:tween.inverse)
     }
 
     /// Stops the animation and removes it from the 'AnimationManager'
@@ -152,7 +155,7 @@ public class Animation : Equatable {
         }
     }
 
-    /// Restarts the animation to the initial value as specified in the 'Tween'.  Will start playing if already playing.
+    /// Restarts the animation to the initial value as specified in the 'Tween'.
     public func restart() {
         if isPlaying {
             state = .playing

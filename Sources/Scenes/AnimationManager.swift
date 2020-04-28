@@ -73,6 +73,13 @@ public class AnimationManager {
     public func run(animation:Animation, autoPlay:Bool = true) {
         if animation.isCompleted {
             animation.state = .notQueued
+        } else {
+            // make sure animation isn't already running
+            for runningAnimation in animations {
+                if runningAnimation == animation {
+                    return
+                }
+            }
         }
         animations.append(animation)
         if autoPlay {

@@ -14,8 +14,18 @@
  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-internal protocol InternalTweenProtocol {
-    var duration : Double {get}
-    var inverse : InternalTweenProtocol {get}
-    func update(percent:Double)
+// Used for delays in TweenSequences
+internal class DelayTween : InternalTweenProtocol {
+    let duration : Double
+
+    init(duration:Double) {
+        self.duration = duration
+    }
+
+    var inverse : InternalTweenProtocol {
+        return self
+    }
+
+    func update(percent:Double) {
+    }
 }
