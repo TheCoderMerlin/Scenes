@@ -1,11 +1,32 @@
+/*
+ Scenes provides a Swift object library with support for renderable entities,
+ layers, and scenes.  Scenes runs on top of IGIS.
+ Copyright (C) 2020 Tango Golf Digital, LLC
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+ You should have received a copy of the GNU General Public License
+ along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 import Foundation
 
+/// An 'EasingStyle' controls the acceleration and deceleration of a 'Tween'.
+
 public enum EasingStyle {
+    /// The default style; moves in a straight linear line
     case linear
     
-    // configurable exponential ease.
+    /// configurable exponential ease with in direction
     case configureInPow(exponent:Double)
+    /// configurable exponential ease with out direction
     case configureOutPow(exponent:Double)
+    /// configurable exponential ease with inOut direction
     case configureInOutPow(exponent:Double)
     
     case inQuad
@@ -47,6 +68,58 @@ public enum EasingStyle {
     case inElastic
     case outElastic
     case inOutElastic
+
+    /// The inverted version of the ease.  If the easing direction is in, it will change to out and vice versa.
+    public var inverse : EasingStyle {
+        switch self {
+        case .configureInPow(let exponent):
+            return .configureOutPow(exponent:exponent)
+        case .configureOutPow(let exponent):
+            return .configureInPow(exponent:exponent)
+        case .inQuad:
+            return .outQuad
+        case .outQuad:
+            return .inQuad
+        case .inCubic:
+            return .outCubic
+        case .outCubic:
+            return .inCubic
+        case .inQuart:
+            return .outQuart
+        case .outQuart:
+            return .inQuart
+        case .inQuint:
+            return .outQuint
+        case .outQuint:
+            return .inQuint
+        case .inSine:
+            return .outSine
+        case .outSine:
+            return .inSine
+        case .inExponential:
+            return .outExponential
+        case .outExponential:
+            return .inExponential
+        case .inBack:
+            return .outBack
+        case .outBack:
+            return .inBack
+        case .inCirc:
+            return .outCirc
+        case .outCirc:
+            return .inCirc
+        case .inBounce:
+            return .outBounce
+        case .outBounce:
+            return .inBounce
+        case .inElastic:
+            return .outElastic
+        case .outElastic:
+            return .inElastic
+        default:
+          return self
+        }
+    }
 
     // depending on EasingStyle, generate a new percent value from given percent value
     internal func apply(percent:Double) -> Double {
