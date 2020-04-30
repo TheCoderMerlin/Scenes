@@ -1198,7 +1198,7 @@ nav li[class] {
     <nav>
         <div class="wrapper">
             <h2>On This Page</h2>
-            <ol><li><a href="#relationships">Relationships</a><ul><li><a href="#relationships">Conforms To</a></li></ul></li><li><a href="#initializers">Initializers</a><ul><li class="initializer"><a href="#tween.init(from:to:duration:ease:update:)">init(from:​to:​duration:​ease:​update:​)</a></li><li class="initializer"><a href="#tween.init(from:to:speed:ease:update:)">init(from:​to:​speed:​ease:​update:​)</a></li></ul></li><li><a href="#properties">Properties</a><ul><li class="property"><a href="#tween.duration">duration</a></li><li class="property"><a href="#tween.ease">ease</a></li></ul></li></ol>
+            <ol><li><a href="#relationships">Relationships</a><ul><li><a href="#relationships">Conforms To</a></li></ul></li><li><a href="#nested type aliases">Nested Type Aliases</a><ul><li class="typealias"><a href="#tween.updatehandler">Update​Handler</a></li></ul></li><li><a href="#initializers">Initializers</a><ul><li class="initializer"><a href="#tween.init(from:to:duration:ease:update:)">init(from:​to:​duration:​ease:​update:​)</a></li><li class="initializer"><a href="#tween.init(from:to:speed:ease:update:)">init(from:​to:​speed:​ease:​update:​)</a></li></ul></li><li><a href="#properties">Properties</a><ul><li class="property"><a href="#tween.duration">duration</a></li><li class="property"><a href="#tween.ease">ease</a></li></ul></li></ol>
         </div>
     </nav>
 
@@ -1209,15 +1209,45 @@ nav li[class] {
     <code class="name">Tween</code>
 </h1>
 
-<html><body><pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">class</span> <span class="type">Tween</span>&lt;<span class="variable">TweenElementType</span>: <a href="TweenableElement"><span class="type">TweenableElement</span></a>&gt;: <span class="type">InternalTweenProtocol</span></code></pre></body></html>
+<html><body><pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">class</span> <span class="type">Tween</span>&lt;<span class="variable">TweenElement</span>: <a href="Tweenable"><span class="type">Tweenable</span></a>&gt;: <span class="type">InternalTweenProtocol</span>, <a href="TweenProtocol"><span class="type">TweenProtocol</span></a></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>A 'Tween' is used to create an 'Animation' for animating various elements.</p>
+
+</div>
+<div class="discussion">
+    <html><body><p>NB: update is a trailing <a href="https://docs.swift.org/swift-book/LanguageGuide/Closures.html">closure</a> and as such offers many initialization formats.
+For example, both of the following statements will work:</p>
+ </body></html>
+<html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">tween</span> = <span class="variable">Tween</span>(<span class="variable">from</span>:<span class="type">Point</span>(), <span class="variable">to</span>:<span class="type">Point</span>(<span class="variable">x</span>:<span class="number literal">100</span>, <span class="variable">y</span>:<span class="number literal">100</span>), <span class="variable">update</span>: {<span class="keyword">self</span>.<span class="type">rectangle</span>.<span class="type">rect</span>.<span class="type">topLeft</span> = <span class="variable">$0</span>})
+</code></pre></body></html>
+<html><body><p>OR</p>
+ </body></html>
+<html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">tween</span> = <span class="variable">Tween</span>(<span class="variable">from</span>:<span class="type">Point</span>(), <span class="variable">to</span>:<span class="type">Point</span>(<span class="variable">x</span>:<span class="number literal">100</span>, <span class="variable">y</span>:<span class="number literal">100</span>)) {
+    <span class="keyword">self</span>.<span class="type">rectangle</span>.<span class="type">rect</span>.<span class="type">topLeft</span> = <span class="variable">$0</span>
+}
+</code></pre></body></html>
+</div>
 <section id="relationships">
     <h2 hidden>Relationships</h2>
         
         <h3>Conforms To</h3>
 <dl>
-    <dt class="unknown"><code>InternalTweenProtocol</code></dt>
+    <dt class="protocol"><code><a href="TweenProtocol">TweenProtocol</a></code></dt>
+<dd><p>'TweenProtocol' serves as a wrapper for 'Tween' and provides a concrete object.</p>
+</dd>
+<dt class="unknown"><code>InternalTweenProtocol</code></dt>
 </dl>
 </section>
+    <section id="nested type aliases">
+        <h2>Nested Type Aliases</h2>
+
+        <div role="article" class="class" id="tween.updatehandler">
+    <h3>
+        <code>Update​Handler</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">typealias</span> <span class="variable">UpdateHandler</span>&lt;<span class="variable">TweenElement</span>: <a href="Tweenable"><span class="type">Tweenable</span></a>&gt; = (<span class="type">TweenElement</span>) -&gt; ()</code></pre></body></html>
+</div>
+    </section>
     <section id="initializers">
         <h2>Initializers</h2>
 
@@ -1225,13 +1255,107 @@ nav li[class] {
     <h3>
         <code>init(from:​to:​duration:​ease:​update:​)</code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">init</span>(<span class="variable">from</span>: <span class="type">TweenElementType</span>, <span class="variable">to</span>: <span class="type">TweenElementType</span>, <span class="variable">duration</span>: <span class="type">Double</span> = <span class="number literal">1</span>, <span class="variable">ease</span>: <a href="EasingStyle"><span class="type">EasingStyle</span></a> = .<span class="variable">linear</span>, <span class="variable">update</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">TweenElementType</span>) -&gt; ())</code></pre></body></html>
+    <html><body><pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">init</span>(<span class="variable">from</span>: <span class="type">TweenElement</span>, <span class="variable">to</span>: <span class="type">TweenElement</span>, <span class="variable">duration</span>: <span class="type">Double</span> = <span class="number literal">1</span>, <span class="variable">ease</span>: <a href="EasingStyle"><span class="type">EasingStyle</span></a> = .<span class="variable">linear</span>, <span class="variable">update</span>: <span class="attribute">@</span><span class="attribute">escaping</span> <span class="type">UpdateHandler</span>&lt;<span class="type">TweenElement</span>&gt;)</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Creates a new 'Tween' from the specified parameters</p>
+
+</div>
+<h4>Parameters</h4>
+
+<table class="parameters">
+  <thead hidden>
+  <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+  </tr>
+  </thead>
+  <tbody>
+    <tr>
+    <th>from</th>
+    <td><code class="type">Tween​Element</code></td></td>
+    <td><p>The starting value</p>
+</td>
+</tr>
+<tr>
+    <th>to</th>
+    <td><code class="type">Tween​Element</code></td></td>
+    <td><p>The ending value</p>
+</td>
+</tr>
+<tr>
+    <th>duration</th>
+    <td><code class="type">Double</code></td></td>
+    <td><p>The amount of time to take</p>
+</td>
+</tr>
+<tr>
+    <th>ease</th>
+    <td><code class="type">Easing​Style</code></td></td>
+    <td><p>The 'EasingStyle' to apply</p>
+</td>
+</tr>
+<tr>
+    <th>update</th>
+    <td><code class="type">@escaping Update​Handler&lt;Tween​Element&gt;</code></td></td>
+    <td><p>The value to update</p>
+</td>
+</tr>
+  </tbody>
+</table>
 </div>
 <div role="article" class="class" id="tween.init(from:to:speed:ease:update:)">
     <h3>
         <code>init(from:​to:​speed:​ease:​update:​)</code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">init</span>(<span class="variable">from</span>: <span class="type">TweenElementType</span>, <span class="variable">to</span>: <span class="type">TweenElementType</span>, <span class="variable">speed</span>: <span class="type">Double</span>, <span class="variable">ease</span>: <a href="EasingStyle"><span class="type">EasingStyle</span></a> = .<span class="variable">linear</span>, <span class="variable">update</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">TweenElementType</span>) -&gt; ())</code></pre></body></html>
+    <html><body><pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">init</span>(<span class="variable">from</span>: <span class="type">TweenElement</span>, <span class="variable">to</span>: <span class="type">TweenElement</span>, <span class="variable">speed</span>: <span class="type">Double</span>, <span class="variable">ease</span>: <a href="EasingStyle"><span class="type">EasingStyle</span></a> = .<span class="variable">linear</span>, <span class="variable">update</span>: <span class="attribute">@</span><span class="attribute">escaping</span> <span class="type">UpdateHandler</span>&lt;<span class="type">TweenElement</span>&gt;)</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Creates a new 'Tween' from the specified parameters</p>
+
+</div>
+<h4>Parameters</h4>
+
+<table class="parameters">
+  <thead hidden>
+  <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+  </tr>
+  </thead>
+  <tbody>
+    <tr>
+    <th>from</th>
+    <td><code class="type">Tween​Element</code></td></td>
+    <td><p>The starting value</p>
+</td>
+</tr>
+<tr>
+    <th>to</th>
+    <td><code class="type">Tween​Element</code></td></td>
+    <td><p>The ending value</p>
+</td>
+</tr>
+<tr>
+    <th>speed</th>
+    <td><code class="type">Double</code></td></td>
+    <td><p>The speed to animate the element at (in pixels per second)</p>
+</td>
+</tr>
+<tr>
+    <th>ease</th>
+    <td><code class="type">Easing​Style</code></td></td>
+    <td><p>The 'EasingStyle' to apply</p>
+</td>
+</tr>
+<tr>
+    <th>update</th>
+    <td><code class="type">@escaping Update​Handler&lt;Tween​Element&gt;</code></td></td>
+    <td><p>The value to update</p>
+</td>
+</tr>
+  </tbody>
+</table>
 </div>
     </section>
     <section id="properties">
@@ -1242,12 +1366,20 @@ nav li[class] {
         <code>duration</code>
     </h3>
     <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">duration</span>: <span class="type">Double</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>The amount of time taken, in seconds</p>
+
+</div>
 </div>
 <div role="article" class="class" id="tween.ease">
     <h3>
         <code>ease</code>
     </h3>
     <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">ease</span>: <a href="EasingStyle"><span class="type">EasingStyle</span></a></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>The 'EasingStyle' applied</p>
+
+</div>
 </div>
     </section>
 
@@ -1258,7 +1390,7 @@ nav li[class] {
 
     <footer>
         <p>
-    Generated on <time datetime="2020-04-23T10:04:15-0500">April 23, 2020</time> using <a href="https://github.com/SwiftDocOrg/swift-doc">swift-doc</a>.
+    Generated on <time datetime="2020-04-29T20:23:08-0500">April 29, 2020</time> using <a href="https://github.com/SwiftDocOrg/swift-doc">swift-doc</a>.
 </p>
     </footer>
 </body>

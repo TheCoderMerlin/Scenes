@@ -1198,7 +1198,7 @@ nav li[class] {
     <nav>
         <div class="wrapper">
             <h2>On This Page</h2>
-            <ol><li><a href="#requirements">Requirements</a><ul><li><a href="#tweenprotocol.duration">duration</a></li><li><a href="#tweenprotocol.ease">ease</a></li></ul></li></ol>
+            <ol><li><a href="#relationships">Relationships</a><ul><li><a href="#relationships">Types Conforming to Tween​Protocol</a></li></ul></li><li><a href="#requirements">Requirements</a><ul><li><a href="#tweenprotocol.duration">duration</a></li></ul></li></ol>
         </div>
     </nav>
 
@@ -1210,7 +1210,23 @@ nav li[class] {
 </h1>
 
 <html><body><pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">protocol</span> <span class="type">TweenProtocol</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>'TweenProtocol' serves as a wrapper for 'Tween' and provides a concrete object.</p>
 
+</div>
+<section id="relationships">
+    <h2 hidden>Relationships</h2>
+        
+        <h3>Types Conforming to <code>Tween​Protocol</code></h3>
+<dl>
+    <dt class="class"><code><a href="Tween">Tween</a></code></dt>
+<dd><p>A 'Tween' is used to create an 'Animation' for animating various elements.</p>
+</dd>
+<dt class="class"><code><a href="TweenSequence">TweenSequence</a></code></dt>
+<dd><p>A 'TweenSequence' is used to seguence different 'Tween's.</p>
+</dd>
+</dl>
+</section>
 
 
 
@@ -1222,12 +1238,10 @@ nav li[class] {
         <code>duration</code>
     </h3>
     <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">duration</span>: <span class="type">Double</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>The time taken, in seconds, for a 'Tween' to complete</p>
+
 </div>
-<div role="article" class="protocol" id="tweenprotocol.ease">
-    <h3>
-        <code>ease</code>
-    </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">ease</span>: <a href="EasingStyle"><span class="type">EasingStyle</span></a></code></pre></body></html>
 </div>
     </section>
         </article>
@@ -1235,7 +1249,7 @@ nav li[class] {
 
     <footer>
         <p>
-    Generated on <time datetime="2020-04-23T10:04:15-0500">April 23, 2020</time> using <a href="https://github.com/SwiftDocOrg/swift-doc">swift-doc</a>.
+    Generated on <time datetime="2020-04-29T20:23:08-0500">April 29, 2020</time> using <a href="https://github.com/SwiftDocOrg/swift-doc">swift-doc</a>.
 </p>
     </footer>
 </body>

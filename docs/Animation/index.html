@@ -1198,7 +1198,7 @@ nav li[class] {
     <nav>
         <div class="wrapper">
             <h2>On This Page</h2>
-            <ol><li><a href="#relationships">Relationships</a><ul><li><a href="#relationships">Conforms To</a></li></ul></li><li><a href="#initializers">Initializers</a><ul><li class="initializer"><a href="#animation.init(tween:)">init(tween:​)</a></li></ul></li><li><a href="#properties">Properties</a><ul><li class="property"><a href="#animation.iscompleted">is​Completed</a></li></ul></li><li><a href="#methods">Methods</a><ul><li class="method"><a href="#animation.terminate()">terminate()</a></li><li class="method"><a href="#animation.pause()">pause()</a></li><li class="method"><a href="#animation.play()">play()</a></li><li class="method"><a href="#animation.==(lhs:rhs:)">==(lhs:​rhs:​)</a></li></ul></li></ol>
+            <ol><li><a href="#relationships">Relationships</a><ul><li><a href="#relationships">Conforms To</a></li></ul></li><li><a href="#initializers">Initializers</a><ul><li class="initializer"><a href="#animation.init(tween:)">init(tween:​)</a></li></ul></li><li><a href="#properties">Properties</a><ul><li class="property"><a href="#animation.loop">loop</a></li><li class="property"><a href="#animation.reverse">reverse</a></li><li class="property"><a href="#animation.iscompleted">is​Completed</a></li><li class="property"><a href="#animation.ispaused">is​Paused</a></li><li class="property"><a href="#animation.isplaying">is​Playing</a></li><li class="property"><a href="#animation.isqueued">is​Queued</a></li><li class="property"><a href="#animation.inverse">inverse</a></li></ul></li><li><a href="#methods">Methods</a><ul><li class="method"><a href="#animation.terminate()">terminate()</a></li><li class="method"><a href="#animation.pause()">pause()</a></li><li class="method"><a href="#animation.play()">play()</a></li><li class="method"><a href="#animation.restart()">restart()</a></li><li class="method"><a href="#animation.==(lhs:rhs:)">==(lhs:​rhs:​)</a></li></ul></li></ol>
         </div>
     </nav>
 
@@ -1210,6 +1210,10 @@ nav li[class] {
 </h1>
 
 <html><body><pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">class</span> <span class="type">Animation</span>: <span class="type">Equatable</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>An 'Animation' is used to animate elements using the 'AnimationManager'.</p>
+
+</div>
 <section id="relationships">
     <h2 hidden>Relationships</h2>
         
@@ -1226,16 +1230,107 @@ nav li[class] {
         <code>init(tween:​)</code>
     </h3>
     <html><body><pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">init</span>(<span class="variable">tween</span>: <a href="TweenProtocol"><span class="type">TweenProtocol</span></a>)</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Creates a new 'Animation' from the specified 'Tween'</p>
+
+</div>
+<h4>Parameters</h4>
+
+<table class="parameters">
+  <thead hidden>
+  <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+  </tr>
+  </thead>
+  <tbody>
+    <tr>
+    <th>tween</th>
+    <td><code class="type">Tween​Protocol</code></td></td>
+    <td><p>The 'Tween'</p>
+</td>
+</tr>
+  </tbody>
+</table>
 </div>
     </section>
     <section id="properties">
         <h2>Properties</h2>
 
-        <div role="article" class="class" id="animation.iscompleted">
+        <div role="article" class="class" id="animation.loop">
+    <h3>
+        <code>loop</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">loop</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Specifies whether or not to loop the animation over and over again until 'terminate()' is called.</p>
+
+</div>
+</div>
+<div role="article" class="class" id="animation.reverse">
+    <h3>
+        <code>reverse</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">reverse</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Specifies whether or not to reverse the animation after the animation is completete.</p>
+
+</div>
+</div>
+<div role="article" class="class" id="animation.iscompleted">
     <h3>
         <code>is​Completed</code>
     </h3>
     <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">isCompleted</span>: <span class="type">Bool</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>returns true if the animation was completed or cancelled</p>
+
+</div>
+<div class="discussion">
+    <html><body><p>NB: will only return true for one frame when animation is completed</p>
+ </body></html>
+</div>
+</div>
+<div role="article" class="class" id="animation.ispaused">
+    <h3>
+        <code>is​Paused</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">isPaused</span>: <span class="type">Bool</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>returns true if the animation is currently paused</p>
+
+</div>
+</div>
+<div role="article" class="class" id="animation.isplaying">
+    <h3>
+        <code>is​Playing</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">isPlaying</span>: <span class="type">Bool</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>returns true if the animation is currently playing</p>
+
+</div>
+</div>
+<div role="article" class="class" id="animation.isqueued">
+    <h3>
+        <code>is​Queued</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">isQueued</span>: <span class="type">Bool</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>returns true if the animation isPlaying, isPaused, or isCompleted.</p>
+
+</div>
+</div>
+<div role="article" class="class" id="animation.inverse">
+    <h3>
+        <code>inverse</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">inverse</span>: <a href="Animation"><span class="type">Animation</span></a></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>returns the inverted version of the animation ie. the 'EasingStyle' is inverted and the start and end values are swapped.</p>
+
+</div>
 </div>
     </section>
     <section id="methods">
@@ -1246,24 +1341,54 @@ nav li[class] {
         <code>terminate()</code>
     </h3>
     <html><body><pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">terminate</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Stops the animation and removes it from the 'AnimationManager'</p>
+
+</div>
 </div>
 <div role="article" class="class" id="animation.pause()">
     <h3>
         <code>pause()</code>
     </h3>
     <html><body><pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">pause</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Pauses the animation</p>
+
+</div>
 </div>
 <div role="article" class="class" id="animation.play()">
     <h3>
         <code>play()</code>
     </h3>
     <html><body><pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">play</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Plays the animation</p>
+
+</div>
+<div class="discussion">
+    <html><body><p>NB: Only plays if already added to 'AnimationManager'</p>
+ </body></html>
+</div>
+</div>
+<div role="article" class="class" id="animation.restart()">
+    <h3>
+        <code>restart()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">restart</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Restarts the animation to the initial value as specified in the 'Tween'.</p>
+
+</div>
 </div>
 <div role="article" class="class" id="animation.==(lhs:rhs:)">
     <h3>
         <code>==(lhs:​rhs:​)</code>
     </h3>
     <html><body><pre class="highlight"><code><span class="keyword">static</span> <span class="keyword">public</span> <span class="keyword">func</span> ==(<span class="variable">lhs</span>: <a href="Animation"><span class="type">Animation</span></a>, <span class="variable">rhs</span>: <a href="Animation"><span class="type">Animation</span></a>) -&gt; <span class="type">Bool</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Equivalence operator for two 'Animation's.</p>
+
+</div>
 </div>
     </section>
 
@@ -1274,7 +1399,7 @@ nav li[class] {
 
     <footer>
         <p>
-    Generated on <time datetime="2020-04-23T10:04:15-0500">April 23, 2020</time> using <a href="https://github.com/SwiftDocOrg/swift-doc">swift-doc</a>.
+    Generated on <time datetime="2020-04-29T20:23:08-0500">April 29, 2020</time> using <a href="https://github.com/SwiftDocOrg/swift-doc">swift-doc</a>.
 </p>
     </footer>
 </body>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Scenes - EntityMouseLeaveHandler</title>
+    <title>Scenes - TweenSequence</title>
     <base href="/Scenes/"/>
     <style type="text/css">
     :root {
@@ -1198,42 +1198,95 @@ nav li[class] {
     <nav>
         <div class="wrapper">
             <h2>On This Page</h2>
-            <ol><li><a href="#relationships">Relationships</a><ul><li><a href="#relationships">Conforms To</a></li></ul></li><li><a href="#requirements">Requirements</a><ul><li><a href="#entitymouseleavehandler.onentitymouseleave(globallocation:)">on​Entity​Mouse​Leave(global​Location:​)</a></li></ul></li></ol>
+            <ol><li><a href="#relationships">Relationships</a><ul><li><a href="#relationships">Conforms To</a></li></ul></li><li><a href="#initializers">Initializers</a><ul><li class="initializer"><a href="#tweensequence.init(delay:tweens:)">init(delay:​tweens:​)</a></li><li class="initializer"><a href="#tweensequence.init(delay:tweens:)">init(delay:​tweens:​)</a></li></ul></li><li><a href="#properties">Properties</a><ul><li class="property"><a href="#tweensequence.duration">duration</a></li></ul></li></ol>
         </div>
     </nav>
 
     <main>
         <article>
             <h1>
-    <small>Protocol</small>
-    <code class="name">Entity​Mouse​Leave​Handler</code>
+    <small>Class</small>
+    <code class="name">Tween​Sequence</code>
 </h1>
 
-<html><body><pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">protocol</span> <span class="type">EntityMouseLeaveHandler</span>: <a href="EventHandler"><span class="type">EventHandler</span></a>, <a href="RenderableEntity"><span class="type">RenderableEntity</span></a></code></pre></body></html>
+<html><body><pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">class</span> <span class="type">TweenSequence</span>: <span class="type">InternalTweenProtocol</span>, <a href="TweenProtocol"><span class="type">TweenProtocol</span></a></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>A 'TweenSequence' is used to seguence different 'Tween's.</p>
+
+</div>
 <section id="relationships">
     <h2 hidden>Relationships</h2>
         
         <h3>Conforms To</h3>
 <dl>
-    <dt class="protocol"><code><a href="EventHandler">EventHandler</a></code></dt>
-<dd></dd>
-<dt class="class"><code><a href="RenderableEntity">RenderableEntity</a></code></dt>
-<dd></dd>
+    <dt class="protocol"><code><a href="TweenProtocol">TweenProtocol</a></code></dt>
+<dd><p>'TweenProtocol' serves as a wrapper for 'Tween' and provides a concrete object.</p>
+</dd>
+<dt class="unknown"><code>InternalTweenProtocol</code></dt>
 </dl>
 </section>
+    <section id="initializers">
+        <h2>Initializers</h2>
 
-
-
-    <section id="requirements">
-        <h2>Requirements</h2>
-
-        <div role="article" class="protocol" id="entitymouseleavehandler.onentitymouseleave(globallocation:)">
+        <div role="article" class="class" id="tweensequence.init(delay:tweens:)">
     <h3>
-        <code>on​Entity​Mouse​Leave(global​Location:​)</code>
+        <code>init(delay:​tweens:​)</code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">onEntityMouseLeave</span>(<span class="variable">globalLocation</span>: <span class="type">Point</span>)</code></pre></body></html>
+    <html><body><pre class="highlight"><code><span class="keyword">public</span> <span class="attribute">convenience</span> <span class="keyword">init</span>(<span class="variable">delay</span>: <span class="type">Double</span> = <span class="number literal">0</span>, <span class="variable">tweens</span>: <a href="TweenProtocol"><span class="type">TweenProtocol</span></a>)</code></pre></body></html>
+</div>
+<div role="article" class="class" id="tweensequence.init(delay:tweens:)">
+    <h3>
+        <code>init(delay:​tweens:​)</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">init</span>(<span class="variable">delay</span>: <span class="type">Double</span> = <span class="number literal">0</span>, <span class="variable">tweens</span>: [<a href="TweenProtocol"><span class="type">TweenProtocol</span></a>])</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Creates a new 'TweenSequence' from the specified parameters</p>
+
+</div>
+<h4>Parameters</h4>
+
+<table class="parameters">
+  <thead hidden>
+  <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+  </tr>
+  </thead>
+  <tbody>
+    <tr>
+    <th>delay</th>
+    <td><code class="type">Double</code></td></td>
+    <td><p>the delay, in seconds, to add between each 'Tween'</p>
+</td>
+</tr>
+<tr>
+    <th>tweens</th>
+    <td><code class="type">[Tween​Protocol]</code></td></td>
+    <td><p>the tweens to sequence, one at a time</p>
+</td>
+</tr>
+  </tbody>
+</table>
 </div>
     </section>
+    <section id="properties">
+        <h2>Properties</h2>
+
+        <div role="article" class="class" id="tweensequence.duration">
+    <h3>
+        <code>duration</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">duration</span>: <span class="type">Double</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>The total amout of time taken, in seconds</p>
+
+</div>
+</div>
+    </section>
+
+
+
         </article>
     </main>
 
