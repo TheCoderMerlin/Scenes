@@ -23,6 +23,7 @@ open class RenderableEntity {
     internal private(set) var neverCalculated : Bool
     private var transforms : [Transform]?
     private var alpha : Alpha?
+    private var clipPath : ClipPath?
     
     public private(set) weak var owningLayer : Layer?
 
@@ -89,8 +90,8 @@ open class RenderableEntity {
         precondition(!neverCalculated, "Request to render entity but never calculated")
         precondition(canvas.canvasSize != nil, "Request to render entity but canvas.canvasSize is nil")
 
-        // Apply alpha and transforms if specified
-        let restoreStateRequired = (transforms != nil || alpha != nil)
+        // Apply transforms, alpha, and clipPath if specified
+        let restoreStateRequired = (transforms != nil || alpha != nil || clipPath != nil)
         if restoreStateRequired {
             let state = State(mode:.save)
             canvas.render(state)
@@ -101,6 +102,10 @@ open class RenderableEntity {
 
             if let alpha = alpha {
                 canvas.render(alpha)
+            }
+
+            if let clipPath = clipPath {
+                canvas.render(clipPath)
             }
         }
         
@@ -137,6 +142,11 @@ open class RenderableEntity {
     // This function should only be invoked during init(), setup(), or calculate()
     public func setAlpha(alpha:Alpha?) {
         self.alpha = alpha
+    }
+
+    // This function should only be invoked during init(), setup(), or calculate()
+    public func setClipPath(clipPath:ClipPath?) {
+        self.clipPath = clipPath
     }
 
     // Applies specified or current transforms to the specified point

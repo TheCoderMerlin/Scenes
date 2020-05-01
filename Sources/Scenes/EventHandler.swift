@@ -15,5 +15,6 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
 public protocol EventHandler {
+    /// The unique name of the object associated with the handler
     var name : String {get}
 }
