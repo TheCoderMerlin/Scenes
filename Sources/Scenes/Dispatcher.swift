@@ -29,6 +29,9 @@ public class Dispatcher {
     private var registeredCanvasResizeHandlers = EventHandlers<CanvasResizeHandler>()
     private var registeredWindowResizeHandlers = EventHandlers<WindowResizeHandler>()
 
+    // Frame Update Handlers
+    private var registeredFrameUpdateHandlers = EventHandlers<FrameUpdateHandler>()
+
     // Mouse Handlers
     private var registeredMouseDownHandlers = EventHandlers<MouseDownHandler>()
     private var registeredMouseUpHandlers   = EventHandlers<MouseUpHandler>()
@@ -215,7 +218,19 @@ public class Dispatcher {
         registeredWindowResizeHandlers.forEach {$0.onWindowResize(size:size)}
     }
 
+    // ========== FrameUpdateHandler ==========
+    public func registerFrameUpdateHandler(handler:FrameUpdateHandler) {
+        registeredFrameUpdateHandlers.register(handler)
+    }
 
+    public func unregisterFrameUpdateHandler(handler:FrameUpdateHandler) {
+        registeredFrameUpdateHandlers.unregister(handler)
+    }
+
+    internal func raiseFrameUpdateEvent(framesPerSecond:Int) {
+        registeredFrameUpdateHandlers.forEach {$0.onFrameUpdate(framesPerSecond:framesPerSecond)}
+    }
+    
     // ========== EntityMouseDownHandler ==========
     public func registerEntityMouseDownHandler(handler:EntityMouseDownHandler) {
         registeredEntityMouseDownHandlers.register(handler)
@@ -393,5 +408,4 @@ public class Dispatcher {
             }
         }
     }
-    
 }

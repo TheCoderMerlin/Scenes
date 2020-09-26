@@ -192,10 +192,6 @@ open class RenderableEntity {
         return director.dispatcher
     }
 
-    public var animationManager : AnimationManager {
-        return director.animationManager
-    }
-
     // ********************************************************************************
     // API FOLLOWS
     // These functions should be over-ridden by descendant classes
