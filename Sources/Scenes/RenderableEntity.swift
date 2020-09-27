@@ -16,8 +16,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import Igis
   
-open class RenderableEntity {
-    private let uniqueName : UniqueName
+open class RenderableEntity : EventHandlerShell {
     internal private(set) var wasSetup : Bool
     internal private(set) var wasTorndown : Bool
     internal private(set) var neverCalculated : Bool
@@ -27,17 +26,14 @@ open class RenderableEntity {
     
     public private(set) weak var owningLayer : Layer?
 
-    public init(name:String?=nil) {
-        uniqueName = UniqueName(objectType:Self.self, name:name)
+    public override init(name:String?=nil) {
         wasSetup = false
         wasTorndown = false
         neverCalculated = true
 
         owningLayer = nil
-    }
-
-    public var name : String {
-        return uniqueName.fullname
+        
+        super.init(name:name)
     }
 
     // ********************************************************************************

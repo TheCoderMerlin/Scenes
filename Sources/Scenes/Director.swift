@@ -17,8 +17,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 import Foundation
 import Igis
 
-open class Director : PainterProtocol, CustomStringConvertible {
-    private let uniqueName : UniqueName
+open class Director : EventHandlerShell, PainterProtocol, CustomStringConvertible {
     private var sceneQueue : [Scene]
     private var shouldTransitionToNextScene : Bool
     private var currentScene : Scene?
@@ -28,16 +27,13 @@ open class Director : PainterProtocol, CustomStringConvertible {
     // Functions for internal use
     // ********************************************************************************
     public required init() {
-        uniqueName = UniqueName(objectType:Self.self, name:"Director")
         sceneQueue = [Scene]()
         shouldTransitionToNextScene = false
         currentScene = nil
+        
+        super.init(name:"Director")
     }
 
-    public var name : String {
-        return uniqueName.fullname
-    }
-    
     open func framesPerSecond() -> Int {
         return 10
     }

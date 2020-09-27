@@ -16,8 +16,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import Igis
 
-open class Scene {
-    private let uniqueName : UniqueName
+open class Scene : EventHandlerShell {
     internal private(set) var wasSetup : Bool
     internal private(set) var wasTorndown : Bool
     internal private(set) var neverCalculated : Bool
@@ -29,8 +28,7 @@ open class Scene {
     // ********************************************************************************
     // Functions for internal use
     // ********************************************************************************
-    public init(name:String?=nil) {
-        uniqueName = UniqueName(objectType:Self.self, name:name)
+    public override init(name:String?=nil) {
         wasSetup = false
         wasTorndown = false
         neverCalculated = true
@@ -38,10 +36,8 @@ open class Scene {
         backToFrontList = ZOrderedList<Layer>()
 
         owningDirector = nil
-    }
 
-    public var name : String {
-        return uniqueName.fullname
+        super.init(name:name)
     }
 
     internal func internalSetup(canvas:Canvas, director:Director) {
