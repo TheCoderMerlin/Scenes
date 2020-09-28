@@ -16,7 +16,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import Igis
 
-public protocol EntityMouseLeaveHandler : EventHandler, RenderableEntity {
+public protocol EntityMouseLeaveHandler : RenderableEntity {
     func onEntityMouseLeave(globalLocation:Point)
 }
 

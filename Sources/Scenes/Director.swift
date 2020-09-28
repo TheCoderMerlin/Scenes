@@ -17,7 +17,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 import Foundation
 import Igis
 
-open class Director : EventHandlerShell, PainterProtocol, CustomStringConvertible {
+open class Director : EventHandler, PainterProtocol, CustomStringConvertible {
     private var sceneQueue : [Scene]
     private var shouldTransitionToNextScene : Bool
     private var currentScene : Scene?

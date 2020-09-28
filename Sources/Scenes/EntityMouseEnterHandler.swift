@@ -16,7 +16,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import Igis
 
-public protocol EntityMouseEnterHandler : EventHandler, RenderableEntity {
+public protocol EntityMouseEnterHandler : RenderableEntity {
     func onEntityMouseEnter(globalLocation:Point)
 }
 

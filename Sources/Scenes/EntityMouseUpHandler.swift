@@ -16,7 +16,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-public protocol EntityMouseUpHandler : EventHandler, RenderableEntity {
+public protocol EntityMouseUpHandler : RenderableEntity {
     func onEntityMouseUp(globalLocation:Point)
 }
 
