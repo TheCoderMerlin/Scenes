@@ -16,7 +16,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import Igis
 
-public protocol EntityMouseDownHandler : RenderableEntity {
+public protocol EntityMouseDownHandler : EventHandler, RenderableEntity {
     func onEntityMouseDown(globalLocation:Point)
 }
 

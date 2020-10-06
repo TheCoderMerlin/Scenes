@@ -16,7 +16,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import Igis
 
-open class Scene : EventHandler {
+open class Scene : IdentifiableObject {
     internal private(set) var wasSetup : Bool
     internal private(set) var wasTorndown : Bool
     internal private(set) var neverCalculated : Bool
@@ -171,6 +171,4 @@ open class Scene : EventHandler {
     // This function is invoked immediately after rendering layers
     open func postRender(canvas:Canvas) {
     }
-
 }
-

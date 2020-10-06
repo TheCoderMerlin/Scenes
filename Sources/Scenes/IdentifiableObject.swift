@@ -1,5 +1,3 @@
-import Igis
-
 /*
 Scenes provides a Swift object library with support for renderable entities,
 layers, and scenes.  Scenes runs on top of IGIS.
@@ -16,7 +14,22 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-public protocol EntityMouseClickHandler : EventHandler, RenderableEntity {
-    func onEntityMouseClick(globalLocation:Point)
-}
+open class IdentifiableObject : Equatable {
+    private let uniqueName : UniqueName
 
+    /// Creates a new `IdentifiableObject` from the specified parameters.
+    /// - Parameters:
+    ///   - name: a non-unique name to use while generating unique name for object.
+    public init(name:String?=nil) {
+        uniqueName = UniqueName(objectType:Self.self, name:name)
+    }
+
+    /// A unique name associated with the object.
+    public var name : String {
+        return uniqueName.fullname
+    }
+
+    public static func == (left: IdentifiableObject, right: IdentifiableObject) -> Bool {
+        return left.name == right.name
+    }
+}

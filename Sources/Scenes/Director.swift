@@ -17,7 +17,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 import Foundation
 import Igis
 
-open class Director : EventHandler, PainterProtocol, CustomStringConvertible {
+open class Director : IdentifiableObject, PainterProtocol, CustomStringConvertible {
     private var sceneQueue : [Scene]
     private var shouldTransitionToNextScene : Bool
     private var currentScene : Scene?
@@ -191,7 +191,5 @@ open class Director : EventHandler, PainterProtocol, CustomStringConvertible {
     
     public var description : String {
         return name
-    }
-        
+    }       
 }
-

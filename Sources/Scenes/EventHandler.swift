@@ -14,14 +14,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-open class EventHandler {
-    private let uniqueName : UniqueName
-
-    public init(name:String?=nil) {
-        uniqueName = UniqueName(objectType:Self.self, name:name)
-    }
-
-    public var name : String {
-        return uniqueName.fullname
-    }
+public protocol EventHandler {
+    /// The unique name of the object associated with the handler
+    var name : String {get}
 }

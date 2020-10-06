@@ -16,7 +16,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import Igis
   
-open class RenderableEntity : EventHandler {
+open class RenderableEntity : IdentifiableObject {
     internal private(set) var wasSetup : Bool
     internal private(set) var wasTorndown : Bool
     internal private(set) var neverCalculated : Bool
@@ -231,11 +231,5 @@ open class RenderableEntity : EventHandler {
     // If true, the entity will not intercept such events
     open func isMouseTransparent() -> Bool {
         return false
-    }
-}
-
-extension RenderableEntity : Equatable {
-    public static func == (lhs:RenderableEntity, rhs:RenderableEntity) -> Bool {
-        return lhs === rhs
     }
 }

@@ -26,5 +26,5 @@ internal class UniqueName {
         let specifiedName = name ?? Self.unnamed
         let unique = UUID().uuidString
         fullname = "\(String(describing: type(of: objectType))):\(unique):\(specifiedName)"
-        }
+    }
 }

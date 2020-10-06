@@ -16,7 +16,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import Igis
 
-open class Layer : EventHandler {
+open class Layer : IdentifiableObject {
     internal private(set) var wasSetup : Bool
     internal private(set) var wasTorndown : Bool
     internal private(set) var neverCalculated : Bool
@@ -236,11 +236,5 @@ open class Layer : EventHandler {
     // If true, the layer's entities will not intercept such events
     open func isMouseTransparent() -> Bool {
         return false
-    }
-}
-
-extension Layer : Equatable {
-    public static func == (lhs:Layer, rhs: Layer) -> Bool {
-        return lhs === rhs
     }
 }
