@@ -123,6 +123,10 @@ open class Scene : IdentifiableObject {
         backToFrontList.moveZ(of:layer, to:zLocation)
     }
 
+    public func remove(layer: Layer) {
+        backToFrontList.remove(object: layer)
+    }
+
     public var director : Director {
         guard let owningDirector = owningDirector else {
             fatalError("owningDirector required")

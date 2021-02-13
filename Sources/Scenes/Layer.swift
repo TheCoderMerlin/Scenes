@@ -152,6 +152,11 @@ open class Layer : IdentifiableObject {
     }
 
     // This function should only be invoked during init(), setup(), or calculate()
+    public func remove(entity: RenderableEntity) {
+        backToFrontList.remove(object: entity)
+    }
+
+    // This function should only be invoked during init(), setup(), or calculate()
     public func moveZ(of entity:RenderableEntity, to zLocation:ZOrder<RenderableEntity>) {
         backToFrontList.moveZ(of:entity, to:zLocation)
     }

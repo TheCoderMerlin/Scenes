@@ -79,6 +79,10 @@ internal class ZOrderedList<T:Equatable>  {
         }
     }
 
+    func remove(object:T) {
+        list.removeAll {$0 == object}
+    }
+
     public func moveZ(of object:T, to zLocation:ZOrder<T>) {
         guard let index = objectIndex(object:object) else {
             fatalError("Failed to find index object in the specified list")
