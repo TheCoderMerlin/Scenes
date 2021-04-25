@@ -4,8 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Scenes - Layer</title>
-    <base href="/Scenes/"/>
-    <link rel="stylesheet" type="text/css" href="all.css" media="all" />
+    <link rel="stylesheet" type="text/css" href="/Scenes/all.css" media="all" />
 </head>
 <body>
     <header>
@@ -27,7 +26,7 @@
     <nav>
         <div class="wrapper">
             <h2>On This Page</h2>
-            <ol><li><a href="#relationships">Relationships</a><ul><li><a href="#relationships">Conforms To</a></li></ul></li><li><a href="#initializers">Initializers</a><ul><li class="initializer"><a href="#layer.init(name:)">init(name:​)</a></li></ul></li><li><a href="#properties">Properties</a><ul><li class="property"><a href="#layer.owningscene">owning​Scene</a></li><li class="property"><a href="#layer.name">name</a></li><li class="property"><a href="#layer.scene">scene</a></li><li class="property"><a href="#layer.director">director</a></li><li class="property"><a href="#layer.dispatcher">dispatcher</a></li><li class="property"><a href="#layer.animationmanager">animation​Manager</a></li></ul></li><li><a href="#methods">Methods</a><ul><li class="method"><a href="#layer.insert(entity:at:)">insert(entity:​at:​)</a></li><li class="method"><a href="#layer.movez(of:to:)">move​Z(of:​to:​)</a></li><li class="method"><a href="#layer.settransforms(transforms:)">set​Transforms(transforms:​)</a></li><li class="method"><a href="#layer.setalpha(alpha:)">set​Alpha(alpha:​)</a></li><li class="method"><a href="#layer.debugentitylist()">debug​Entity​List()</a></li><li class="method"><a href="#layer.presetup(canvassize:canvas:)">pre​Setup(canvas​Size:​canvas:​)</a></li><li class="method"><a href="#layer.postsetup(canvassize:canvas:)">post​Setup(canvas​Size:​canvas:​)</a></li><li class="method"><a href="#layer.preteardown()">pre​Teardown()</a></li><li class="method"><a href="#layer.postteardown()">post​Teardown()</a></li><li class="method"><a href="#layer.precalculate(canvas:)">pre​Calculate(canvas:​)</a></li><li class="method"><a href="#layer.postcalculate(canvas:)">post​Calculate(canvas:​)</a></li><li class="method"><a href="#layer.prerender(canvas:)">pre​Render(canvas:​)</a></li><li class="method"><a href="#layer.postrender(canvas:)">post​Render(canvas:​)</a></li><li class="method"><a href="#layer.ismousetransparent()">is​Mouse​Transparent()</a></li><li class="method"><a href="#layer.==(lhs:rhs:)">==(lhs:​rhs:​)</a></li></ul></li></ol>
+            <ol><li><a href="#relationships">Relationships</a><ul><li><a href="#relationships">Superclass</a></li></ul></li><li><a href="#initializers">Initializers</a><ul><li class="initializer"><a href="#layer.init(name:)">init(name:​)</a></li></ul></li><li><a href="#properties">Properties</a><ul><li class="variable"><a href="#layer.owningscene">owning​Scene</a></li><li class="variable"><a href="#layer.scene">scene</a></li><li class="variable"><a href="#layer.director">director</a></li><li class="variable"><a href="#layer.dispatcher">dispatcher</a></li></ul></li><li><a href="#methods">Methods</a><ul><li class="function"><a href="#layer.insert(entity:at:)">insert(entity:​at:​)</a></li><li class="function"><a href="#layer.remove(entity:)">remove(entity:​)</a></li><li class="function"><a href="#layer.movez(of:to:)">move​Z(of:​to:​)</a></li><li class="function"><a href="#layer.settransforms(transforms:)">set​Transforms(transforms:​)</a></li><li class="function"><a href="#layer.setalpha(alpha:)">set​Alpha(alpha:​)</a></li><li class="function"><a href="#layer.debugentitylist()">debug​Entity​List()</a></li><li class="function"><a href="#layer.presetup(canvassize:canvas:)">pre​Setup(canvas​Size:​canvas:​)</a></li><li class="function"><a href="#layer.postsetup(canvassize:canvas:)">post​Setup(canvas​Size:​canvas:​)</a></li><li class="function"><a href="#layer.preteardown()">pre​Teardown()</a></li><li class="function"><a href="#layer.postteardown()">post​Teardown()</a></li><li class="function"><a href="#layer.precalculate(canvas:)">pre​Calculate(canvas:​)</a></li><li class="function"><a href="#layer.postcalculate(canvas:)">post​Calculate(canvas:​)</a></li><li class="function"><a href="#layer.prerender(canvas:)">pre​Render(canvas:​)</a></li><li class="function"><a href="#layer.postrender(canvas:)">post​Render(canvas:​)</a></li><li class="function"><a href="#layer.ismousetransparent()">is​Mouse​Transparent()</a></li><li class="function"><a href="#layer.isvisible()">is​Visible()</a></li></ul></li></ol>
         </div>
     </nav>
 
@@ -38,157 +37,354 @@
     <code class="name">Layer</code>
 </h1>
 
-<html><body><pre class="highlight"><code><span class="attribute">open</span> <span class="keyword">class</span> <span class="type">Layer</span></code></pre></body></html>
+<div class="declaration">
+<pre class="highlight"><code><span class="attribute">open</span> <span class="keyword">class</span> <span class="type">Layer</span> : <span class="type">IdentifiableObject</span> </code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>A <code>Layer</code> is responsible for providing subclassed <code>RenderableEntity</code>
+objects.</p>
+
+</div>
 <section id="relationships">
     <h2 hidden>Relationships</h2>
-        
-        <h3>Conforms To</h3>
+        <figure>
+    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: %81 Pages: 1 -->
+<svg width="872pt" height="116pt"
+ viewBox="0.00 0.00 872.00 116.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 112)">
+<title>%81</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-112 868,-112 868,4 -4,4"/>
+<!-- Layer -->
+<g id="node1" class="node class current">
+<title>Layer</title>
+<g id="a_node1"><a xlink:href="/Scenes/Layer" xlink:title="Layer">
+<path fill="none" stroke="black" stroke-width="3" d="M528,-108C528,-108 336,-108 336,-108 330,-108 324,-102 324,-96 324,-96 324,-84 324,-84 324,-78 330,-72 336,-72 336,-72 528,-72 528,-72 534,-72 540,-78 540,-84 540,-84 540,-96 540,-96 540,-102 534,-108 528,-108"/>
+<text text-anchor="middle" x="432" y="-86.3" font-family="Menlo" font-size="14.00">Layer</text>
+</a>
+</g>
+</g>
+<!-- IdentifiableObject -->
+<g id="node2" class="node class">
+<title>IdentifiableObject</title>
+<g id="a_node2"><a xlink:href="/Scenes/IdentifiableObject" xlink:title="IdentifiableObject">
+<path fill="none" stroke="black" d="M528,-36C528,-36 336,-36 336,-36 330,-36 324,-30 324,-24 324,-24 324,-12 324,-12 324,-6 330,0 336,0 336,0 528,0 528,0 534,0 540,-6 540,-12 540,-12 540,-24 540,-24 540,-30 534,-36 528,-36"/>
+<text text-anchor="middle" x="432" y="-14.3" font-family="Menlo" font-size="14.00">IdentifiableObject</text>
+</a>
+</g>
+</g>
+<!-- Layer&#45;&gt;IdentifiableObject -->
+<g id="edge1" class="edge inheritsFrom">
+<title>Layer&#45;&gt;IdentifiableObject</title>
+<path fill="none" stroke="black" d="M432,-71.7C432,-63.98 432,-54.71 432,-46.11"/>
+<polygon fill="black" stroke="black" points="435.5,-46.1 432,-36.1 428.5,-46.1 435.5,-46.1"/>
+</g>
+</g>
+</svg>
+
+
+    <figcaption hidden>Inheritance graph for Layer.</figcaption>
+</figure>
+        <h3>Superclass</h3>
 <dl>
-    <dt class="unknown"><code>Equatable</code></dt>
+    <dt class="class"><code><a href="/Scenes/IdentifiableObject">IdentifiableObject</a></code></dt>
+<dd><p><code>IdentifiableObject</code> provides base functionality for using unique
+names that are useful for debugging.</p>
+</dd>
 </dl>
 </section>
     <section id="initializers">
         <h2>Initializers</h2>
 
-        <div role="article" class="class" id="layer.init(name:)">
+        <div role="article" class="initializer" id="layer.init(name:)">
     <h3>
         <code>init(name:​)</code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">init</span>(<span class="variable">name</span>: <span class="type">String</span>? = <span class="keyword">nil</span>)</code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><span class="keyword">public</span> <span class="attribute">override</span> <span class="keyword">init</span>(<span class="variable">name</span>:<span class="type">String</span>?=<span class="keyword">nil</span>) </code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Creates a new <code>Layer</code> from the given parameters:</p>
+
+</div>
+<h4>Parameters</h4>
+
+<table class="parameters">
+  <thead hidden>
+  <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+  </tr>
+  </thead>
+  <tbody>
+    <tr>
+    <th>name</th>
+    <td><code class="type">String?</code></td>
+    <td><p>The unique name of this layer. While it's very useful for debugging purposes to provide a meaningful name, it's not required.</p>
+</td>
+</tr>
+  </tbody>
+</table>
 </div>
     </section>
     <section id="properties">
         <h2>Properties</h2>
 
-        <div role="article" class="class" id="layer.owningscene">
+        <div role="article" class="variable" id="layer.owningscene">
     <h3>
         <code>owning​Scene</code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">owningScene</span>: <a href="Scene"><span class="type">Scene</span></a>?</code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">private</span>(<span class="variable">set</span>) <span class="attribute">weak</span> <span class="keyword">var</span> <span class="variable">owningScene</span> : <span class="type">Scene</span>?</code></pre>
 </div>
-<div role="article" class="class" id="layer.name">
-    <h3>
-        <code>name</code>
-    </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">name</span>: <span class="type">String</span></code></pre></body></html>
 </div>
-<div role="article" class="class" id="layer.scene">
+<div role="article" class="variable" id="layer.scene">
     <h3>
         <code>scene</code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">scene</span>: <a href="Scene"><span class="type">Scene</span></a></code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">var</span> <span class="variable">scene</span> : <span class="type">Scene</span> </code></pre>
 </div>
-<div role="article" class="class" id="layer.director">
+<div class="summary" role="doc-abstract">
+    <p>The owning scene for this layer.</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="layer.director">
     <h3>
         <code>director</code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">director</span>: <a href="Director"><span class="type">Director</span></a></code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">var</span> <span class="variable">director</span> : <span class="type">Director</span> </code></pre>
 </div>
-<div role="article" class="class" id="layer.dispatcher">
+<div class="summary" role="doc-abstract">
+    <p>The owning director for this layer.</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="layer.dispatcher">
     <h3>
         <code>dispatcher</code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">dispatcher</span>: <a href="Dispatcher"><span class="type">Dispatcher</span></a></code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">var</span> <span class="variable">dispatcher</span> : <span class="type">Dispatcher</span> </code></pre>
 </div>
-<div role="article" class="class" id="layer.animationmanager">
-    <h3>
-        <code>animation​Manager</code>
-    </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">animationManager</span>: <a href="AnimationManager"><span class="type">AnimationManager</span></a></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>The event dispatcher for this layers owning director.</p>
+
+</div>
 </div>
     </section>
     <section id="methods">
         <h2>Methods</h2>
 
-        <div role="article" class="class" id="layer.insert(entity:at:)">
+        <div role="article" class="function" id="layer.insert(entity:at:)">
     <h3>
         <code>insert(entity:​at:​)</code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">insert</span>(<span class="variable">entity</span>: <a href="RenderableEntity"><span class="type">RenderableEntity</span></a>, <span class="variable">at</span> <span class="variable">zLocation</span>: <a href="ZOrder"><span class="type">ZOrder</span></a>&lt;<a href="RenderableEntity"><span class="type">RenderableEntity</span></a>&gt;)</code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">insert</span>(<span class="variable">entity</span>:<span class="type">RenderableEntity</span>, <span class="variable">at</span> <span class="variable">zLocation</span>:<span class="type">ZOrder</span>&lt;<span class="type">RenderableEntity</span>&gt;) </code></pre>
 </div>
-<div role="article" class="class" id="layer.movez(of:to:)">
+<div class="summary" role="doc-abstract">
+    <p>Inserts the specified renderable entity into this layer at the
+specified location.
+This function should only be invoked during init(), setup(), or calculate().</p>
+
+</div>
+</div>
+<div role="article" class="function" id="layer.remove(entity:)">
+    <h3>
+        <code>remove(entity:​)</code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">remove</span>(<span class="variable">entity</span>: <span class="type">RenderableEntity</span>) </code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Removes the specified renderable entity from this layer.
+This function should only be invoked during init(), setup(), or calculate().</p>
+
+</div>
+</div>
+<div role="article" class="function" id="layer.movez(of:to:)">
     <h3>
         <code>move​Z(of:​to:​)</code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">moveZ</span>(<span class="variable">of</span> <span class="variable">entity</span>: <a href="RenderableEntity"><span class="type">RenderableEntity</span></a>, <span class="variable">to</span> <span class="variable">zLocation</span>: <a href="ZOrder"><span class="type">ZOrder</span></a>&lt;<a href="RenderableEntity"><span class="type">RenderableEntity</span></a>&gt;)</code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">moveZ</span>(<span class="variable">of</span> <span class="variable">entity</span>:<span class="type">RenderableEntity</span>, <span class="variable">to</span> <span class="variable">zLocation</span>:<span class="type">ZOrder</span>&lt;<span class="type">RenderableEntity</span>&gt;) </code></pre>
 </div>
-<div role="article" class="class" id="layer.settransforms(transforms:)">
+<div class="summary" role="doc-abstract">
+    <p>Moves the z-index value of the specified renderable entity
+according the the specified location.
+This function should only be invoked during init(), setup(), or calculate().</p>
+
+</div>
+</div>
+<div role="article" class="function" id="layer.settransforms(transforms:)">
     <h3>
         <code>set​Transforms(transforms:​)</code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">setTransforms</span>(<span class="variable">transforms</span>: [<span class="type">Transform</span>]?)</code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">setTransforms</span>(<span class="variable">transforms</span>:[<span class="type">Transform</span>]?) </code></pre>
 </div>
-<div role="article" class="class" id="layer.setalpha(alpha:)">
+<div class="summary" role="doc-abstract">
+    <p>Sets the transforms to be applied to this layer.
+This function should only be invoked during init(), setup(), or calculate().</p>
+
+</div>
+</div>
+<div role="article" class="function" id="layer.setalpha(alpha:)">
     <h3>
         <code>set​Alpha(alpha:​)</code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">setAlpha</span>(<span class="variable">alpha</span>: <span class="type">Alpha</span>?)</code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">setAlpha</span>(<span class="variable">alpha</span>:<span class="type">Alpha</span>?) </code></pre>
 </div>
-<div role="article" class="class" id="layer.debugentitylist()">
+<div class="summary" role="doc-abstract">
+    <p>Sets the alpha component for this layer.
+This function should only be invoked during init(), setup(), or calculate().</p>
+
+</div>
+</div>
+<div role="article" class="function" id="layer.debugentitylist()">
     <h3>
         <code>debug​Entity​List()</code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">debugEntityList</span>()</code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">debugEntityList</span>() </code></pre>
 </div>
-<div role="article" class="class" id="layer.presetup(canvassize:canvas:)">
+<div class="summary" role="doc-abstract">
+    <p>Prints list of entities from back to front.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="layer.presetup(canvassize:canvas:)">
     <h3>
         <code>pre​Setup(canvas​Size:​canvas:​)</code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="attribute">open</span> <span class="keyword">func</span> <span class="function">preSetup</span>(<span class="variable">canvasSize</span>: <span class="type">Size</span>, <span class="variable">canvas</span>: <span class="type">Canvas</span>)</code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><span class="attribute">open</span> <span class="keyword">func</span> <span class="function">preSetup</span>(<span class="variable">canvasSize</span>:<span class="type">Size</span>, <span class="variable">canvas</span>:<span class="type">Canvas</span>) </code></pre>
 </div>
-<div role="article" class="class" id="layer.postsetup(canvassize:canvas:)">
+<div class="summary" role="doc-abstract">
+    <p>This function is invoked immediately prior to setting up entities.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="layer.postsetup(canvassize:canvas:)">
     <h3>
         <code>post​Setup(canvas​Size:​canvas:​)</code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="attribute">open</span> <span class="keyword">func</span> <span class="function">postSetup</span>(<span class="variable">canvasSize</span>: <span class="type">Size</span>, <span class="variable">canvas</span>: <span class="type">Canvas</span>)</code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><span class="attribute">open</span> <span class="keyword">func</span> <span class="function">postSetup</span>(<span class="variable">canvasSize</span>:<span class="type">Size</span>, <span class="variable">canvas</span>:<span class="type">Canvas</span>) </code></pre>
 </div>
-<div role="article" class="class" id="layer.preteardown()">
+<div class="summary" role="doc-abstract">
+    <p>This function is invoked immediately after setting up entities.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="layer.preteardown()">
     <h3>
         <code>pre​Teardown()</code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="attribute">open</span> <span class="keyword">func</span> <span class="function">preTeardown</span>()</code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><span class="attribute">open</span> <span class="keyword">func</span> <span class="function">preTeardown</span>() </code></pre>
 </div>
-<div role="article" class="class" id="layer.postteardown()">
+<div class="summary" role="doc-abstract">
+    <p>This function is invoked immediately prior to tearing down layers.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="layer.postteardown()">
     <h3>
         <code>post​Teardown()</code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="attribute">open</span> <span class="keyword">func</span> <span class="function">postTeardown</span>()</code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><span class="attribute">open</span> <span class="keyword">func</span> <span class="function">postTeardown</span>() </code></pre>
 </div>
-<div role="article" class="class" id="layer.precalculate(canvas:)">
+<div class="summary" role="doc-abstract">
+    <p>This function is invoked immediately after tearing down layers.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="layer.precalculate(canvas:)">
     <h3>
         <code>pre​Calculate(canvas:​)</code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="attribute">open</span> <span class="keyword">func</span> <span class="function">preCalculate</span>(<span class="variable">canvas</span>: <span class="type">Canvas</span>)</code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><span class="attribute">open</span> <span class="keyword">func</span> <span class="function">preCalculate</span>(<span class="variable">canvas</span>:<span class="type">Canvas</span>) </code></pre>
 </div>
-<div role="article" class="class" id="layer.postcalculate(canvas:)">
+<div class="summary" role="doc-abstract">
+    <p>This function is invoked immediately prior to calculating entities.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="layer.postcalculate(canvas:)">
     <h3>
         <code>post​Calculate(canvas:​)</code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="attribute">open</span> <span class="keyword">func</span> <span class="function">postCalculate</span>(<span class="variable">canvas</span>: <span class="type">Canvas</span>)</code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><span class="attribute">open</span> <span class="keyword">func</span> <span class="function">postCalculate</span>(<span class="variable">canvas</span>:<span class="type">Canvas</span>) </code></pre>
 </div>
-<div role="article" class="class" id="layer.prerender(canvas:)">
+<div class="summary" role="doc-abstract">
+    <p>This function is invoked immediately after calculating entities.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="layer.prerender(canvas:)">
     <h3>
         <code>pre​Render(canvas:​)</code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="attribute">open</span> <span class="keyword">func</span> <span class="function">preRender</span>(<span class="variable">canvas</span>: <span class="type">Canvas</span>)</code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><span class="attribute">open</span> <span class="keyword">func</span> <span class="function">preRender</span>(<span class="variable">canvas</span>:<span class="type">Canvas</span>) </code></pre>
 </div>
-<div role="article" class="class" id="layer.postrender(canvas:)">
+<div class="summary" role="doc-abstract">
+    <p>This function is invoked immediately prior to rendering entities.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="layer.postrender(canvas:)">
     <h3>
         <code>post​Render(canvas:​)</code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="attribute">open</span> <span class="keyword">func</span> <span class="function">postRender</span>(<span class="variable">canvas</span>: <span class="type">Canvas</span>)</code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><span class="attribute">open</span> <span class="keyword">func</span> <span class="function">postRender</span>(<span class="variable">canvas</span>:<span class="type">Canvas</span>) </code></pre>
 </div>
-<div role="article" class="class" id="layer.ismousetransparent()">
+<div class="summary" role="doc-abstract">
+    <p>This function is invoked immediately after rendering entities.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="layer.ismousetransparent()">
     <h3>
         <code>is​Mouse​Transparent()</code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="attribute">open</span> <span class="keyword">func</span> <span class="function">isMouseTransparent</span>() -&gt; <span class="type">Bool</span></code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><span class="attribute">open</span> <span class="keyword">func</span> <span class="function">isMouseTransparent</span>() -&gt; <span class="type">Bool</span> </code></pre>
 </div>
-<div role="article" class="class" id="layer.==(lhs:rhs:)">
+<div class="summary" role="doc-abstract">
+    <p>This function is invoked to determine whether or not a layer is transparent
+to entity mouse events.
+If true, the layer's entities will not intercept such events.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="layer.isvisible()">
     <h3>
-        <code>==(lhs:​rhs:​)</code>
+        <code>is​Visible()</code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">func</span> ==(<span class="variable">lhs</span>: <a href="Layer"><span class="type">Layer</span></a>, <span class="variable">rhs</span>: <a href="Layer"><span class="type">Layer</span></a>) -&gt; <span class="type">Bool</span></code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><span class="attribute">open</span> <span class="keyword">func</span> <span class="function">isVisible</span>() -&gt; <span class="type">Bool</span> </code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>This function is invoked to determine whether or not a layer is visible.
+If false, the render phase for this layer and all child entities
+will be skipped and the <em>render</em> methods will not be invoked.</p>
+
+</div>
 </div>
     </section>
 
@@ -199,7 +395,7 @@
 
     <footer>
         <p>
-    Generated on <time datetime="2020-05-01T17:29:39-0500">May 1, 2020</time> using <a href="https://github.com/SwiftDocOrg/swift-doc">swift-doc</a> <span class="version">1.0.0-beta.2</span>.
+    Generated on <time datetime="2021-04-25T15:45:06-0500">April 25, 2021</time> using <a href="https://github.com/SwiftDocOrg/swift-doc">swift-doc</a> <span class="version">1.0.0-beta.6</span>.
 </p>
     </footer>
 </body>

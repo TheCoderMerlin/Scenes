@@ -4,8 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Scenes - Director</title>
-    <base href="/Scenes/"/>
-    <link rel="stylesheet" type="text/css" href="all.css" media="all" />
+    <link rel="stylesheet" type="text/css" href="/Scenes/all.css" media="all" />
 </head>
 <body>
     <header>
@@ -27,7 +26,7 @@
     <nav>
         <div class="wrapper">
             <h2>On This Page</h2>
-            <ol><li><a href="#relationships">Relationships</a><ul><li><a href="#relationships">Conforms To</a></li></ul></li><li><a href="#initializers">Initializers</a><ul><li class="initializer"><a href="#director.init()">init()</a></li></ul></li><li><a href="#properties">Properties</a><ul><li class="property"><a href="#director.dispatcher">dispatcher</a></li><li class="property"><a href="#director.animationmanager">animation​Manager</a></li><li class="property"><a href="#director.name">name</a></li><li class="property"><a href="#director.description">description</a></li></ul></li><li><a href="#methods">Methods</a><ul><li class="method"><a href="#director.framespersecond()">frames​Per​Second()</a></li><li class="method"><a href="#director.setup(canvas:)">setup(canvas:​)</a></li><li class="method"><a href="#director.calculate(canvasid:canvassize:)">calculate(canvas​Id:​canvas​Size:​)</a></li><li class="method"><a href="#director.render(canvas:)">render(canvas:​)</a></li><li class="method"><a href="#director.onclick(location:)">on​Click(location:​)</a></li><li class="method"><a href="#director.onmousedown(location:)">on​Mouse​Down(location:​)</a></li><li class="method"><a href="#director.onmouseup(location:)">on​Mouse​Up(location:​)</a></li><li class="method"><a href="#director.onwindowmouseup(location:)">on​Window​Mouse​Up(location:​)</a></li><li class="method"><a href="#director.onmousemove(location:)">on​Mouse​Move(location:​)</a></li><li class="method"><a href="#director.onkeydown(key:code:ctrlkey:shiftkey:altkey:metakey:)">on​Key​Down(key:​code:​ctrl​Key:​shift​Key:​alt​Key:​meta​Key:​)</a></li><li class="method"><a href="#director.onkeyup(key:code:ctrlkey:shiftkey:altkey:metakey:)">on​Key​Up(key:​code:​ctrl​Key:​shift​Key:​alt​Key:​meta​Key:​)</a></li><li class="method"><a href="#director.oncanvasresize(size:)">on​Canvas​Resize(size:​)</a></li><li class="method"><a href="#director.onwindowresize(size:)">on​Window​Resize(size:​)</a></li><li class="method"><a href="#director.enqueuescene(scene:)">enqueue​Scene(scene:​)</a></li><li class="method"><a href="#director.transitiontonextscene()">transition​ToNext​Scene()</a></li></ul></li></ol>
+            <ol><li><a href="#relationships">Relationships</a><ul><li><a href="#relationships">Superclass</a></li><li><a href="#relationships">Conforms To</a></li></ul></li><li><a href="#initializers">Initializers</a><ul><li class="initializer"><a href="#director.init()">init()</a></li></ul></li><li><a href="#properties">Properties</a><ul><li class="variable"><a href="#director.dispatcher">dispatcher</a></li><li class="variable"><a href="#director.description">description</a></li></ul></li><li><a href="#methods">Methods</a><ul><li class="function"><a href="#director.setup(canvas:)">setup(canvas:​)</a></li><li class="function"><a href="#director.calculate(canvasid:canvassize:)">calculate(canvas​Id:​canvas​Size:​)</a></li><li class="function"><a href="#director.render(canvas:)">render(canvas:​)</a></li><li class="function"><a href="#director.onclick(location:)">on​Click(location:​)</a></li><li class="function"><a href="#director.onmousedown(location:)">on​Mouse​Down(location:​)</a></li><li class="function"><a href="#director.onmouseup(location:)">on​Mouse​Up(location:​)</a></li><li class="function"><a href="#director.onwindowmouseup(location:)">on​Window​Mouse​Up(location:​)</a></li><li class="function"><a href="#director.onmousemove(location:)">on​Mouse​Move(location:​)</a></li><li class="function"><a href="#director.onkeydown(key:code:ctrlkey:shiftkey:altkey:metakey:)">on​Key​Down(key:​code:​ctrl​Key:​shift​Key:​alt​Key:​meta​Key:​)</a></li><li class="function"><a href="#director.onkeyup(key:code:ctrlkey:shiftkey:altkey:metakey:)">on​Key​Up(key:​code:​ctrl​Key:​shift​Key:​alt​Key:​meta​Key:​)</a></li><li class="function"><a href="#director.oncanvasresize(size:)">on​Canvas​Resize(size:​)</a></li><li class="function"><a href="#director.onwindowresize(size:)">on​Window​Resize(size:​)</a></li><li class="function"><a href="#director.enqueuescene(scene:)">enqueue​Scene(scene:​)</a></li><li class="function"><a href="#director.transitiontonextscene()">transition​ToNext​Scene()</a></li><li class="function"><a href="#director.framespersecond()">frames​Per​Second()</a></li></ul></li></ol>
         </div>
     </nav>
 
@@ -38,11 +37,90 @@
     <code class="name">Director</code>
 </h1>
 
-<html><body><pre class="highlight"><code><span class="attribute">open</span> <span class="keyword">class</span> <span class="type">Director</span>: <span class="type">PainterProtocol</span>, <span class="type">CustomStringConvertible</span></code></pre></body></html>
+<div class="declaration">
+<pre class="highlight"><code><span class="attribute">open</span> <span class="keyword">class</span> <span class="type">Director</span> : <span class="type">IdentifiableObject</span>, <span class="type">PainterProtocol</span>, <span class="type">CustomStringConvertible</span> </code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>A <code>Director</code> is responsible for managing an application and enqueuing
+<code>Scene</code>s.</p>
+
+</div>
 <section id="relationships">
     <h2 hidden>Relationships</h2>
-        
-        <h3>Conforms To</h3>
+        <figure>
+    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: %145 Pages: 1 -->
+<svg width="1088pt" height="242pt"
+ viewBox="0.00 0.00 1087.98 241.73" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 237.73)">
+<title>%145</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-237.73 1083.98,-237.73 1083.98,4 -4,4"/>
+<!-- Director -->
+<g id="node1" class="node class current">
+<title>Director</title>
+<g id="a_node1"><a xlink:href="/Scenes/Director" xlink:title="Director">
+<path fill="none" stroke="black" stroke-width="3" d="M537.99,-143.64C537.99,-143.64 345.99,-143.64 345.99,-143.64 339.99,-143.64 333.99,-137.64 333.99,-131.64 333.99,-131.64 333.99,-119.64 333.99,-119.64 333.99,-113.64 339.99,-107.64 345.99,-107.64 345.99,-107.64 537.99,-107.64 537.99,-107.64 543.99,-107.64 549.99,-113.64 549.99,-119.64 549.99,-119.64 549.99,-131.64 549.99,-131.64 549.99,-137.64 543.99,-143.64 537.99,-143.64"/>
+<text text-anchor="middle" x="441.99" y="-121.94" font-family="Menlo" font-size="14.00">Director</text>
+</a>
+</g>
+</g>
+<!-- PainterProtocol -->
+<g id="node2" class="node unknown">
+<title>PainterProtocol</title>
+<path fill="none" stroke="black" d="M1067.98,-161.31C1067.98,-161.31 875.98,-161.31 875.98,-161.31 869.98,-161.31 863.98,-155.31 863.98,-149.31 863.98,-149.31 863.98,-137.31 863.98,-137.31 863.98,-131.31 869.98,-125.31 875.98,-125.31 875.98,-125.31 1067.98,-125.31 1067.98,-125.31 1073.98,-125.31 1079.98,-131.31 1079.98,-137.31 1079.98,-137.31 1079.98,-149.31 1079.98,-149.31 1079.98,-155.31 1073.98,-161.31 1067.98,-161.31"/>
+<text text-anchor="middle" x="971.98" y="-139.61" font-family="Menlo" font-size="14.00">PainterProtocol</text>
+</g>
+<!-- Director&#45;&gt;PainterProtocol -->
+<g id="edge3" class="edge conformsTo">
+<title>Director&#45;&gt;PainterProtocol</title>
+<path fill="none" stroke="black" d="M550.2,-129.25C638.48,-132.19 762.99,-136.34 853.85,-139.37"/>
+<polygon fill="black" stroke="black" points="853.81,-142.87 863.92,-139.7 854.04,-135.87 853.81,-142.87"/>
+</g>
+<!-- IdentifiableObject -->
+<g id="node3" class="node class">
+<title>IdentifiableObject</title>
+<g id="a_node3"><a xlink:href="/Scenes/IdentifiableObject" xlink:title="IdentifiableObject">
+<path fill="none" stroke="black" d="M347.57,-36C347.57,-36 155.57,-36 155.57,-36 149.57,-36 143.57,-30 143.57,-24 143.57,-24 143.57,-12 143.57,-12 143.57,-6 149.57,0 155.57,0 155.57,0 347.57,0 347.57,0 353.57,0 359.57,-6 359.57,-12 359.57,-12 359.57,-24 359.57,-24 359.57,-30 353.57,-36 347.57,-36"/>
+<text text-anchor="middle" x="251.57" y="-14.3" font-family="Menlo" font-size="14.00">IdentifiableObject</text>
+</a>
+</g>
+</g>
+<!-- Director&#45;&gt;IdentifiableObject -->
+<g id="edge2" class="edge inheritsFrom">
+<title>Director&#45;&gt;IdentifiableObject</title>
+<path fill="none" stroke="black" d="M410.12,-107.62C377.85,-89.38 327.82,-61.1 292.61,-41.2"/>
+<polygon fill="black" stroke="black" points="293.97,-37.95 283.54,-36.08 290.53,-44.04 293.97,-37.95"/>
+</g>
+<!-- CustomStringConvertible -->
+<g id="node4" class="node unknown">
+<title>CustomStringConvertible</title>
+<path fill="none" stroke="black" d="M204,-233.73C204,-233.73 12,-233.73 12,-233.73 6,-233.73 0,-227.73 0,-221.73 0,-221.73 0,-209.73 0,-209.73 0,-203.73 6,-197.73 12,-197.73 12,-197.73 204,-197.73 204,-197.73 210,-197.73 216,-203.73 216,-209.73 216,-209.73 216,-221.73 216,-221.73 216,-227.73 210,-233.73 204,-233.73"/>
+<text text-anchor="middle" x="108" y="-212.03" font-family="Menlo" font-size="14.00">CustomStringConvertible</text>
+</g>
+<!-- Director&#45;&gt;CustomStringConvertible -->
+<g id="edge1" class="edge conformsTo">
+<title>Director&#45;&gt;CustomStringConvertible</title>
+<path fill="none" stroke="black" d="M375.21,-143.65C320.23,-158.48 242.26,-179.52 184.73,-195.04"/>
+<polygon fill="black" stroke="black" points="183.7,-191.69 174.96,-197.67 185.52,-198.45 183.7,-191.69"/>
+</g>
+</g>
+</svg>
+
+
+    <figcaption hidden>Inheritance graph for Director.</figcaption>
+</figure>
+        <h3>Superclass</h3>
+<dl>
+    <dt class="class"><code><a href="/Scenes/IdentifiableObject">IdentifiableObject</a></code></dt>
+<dd><p><code>IdentifiableObject</code> provides base functionality for using unique
+names that are useful for debugging.</p>
+</dd>
+</dl>
+<h3>Conforms To</h3>
 <dl>
     <dt class="unknown"><code>CustomStringConvertible</code></dt>
 <dt class="unknown"><code>PainterProtocol</code></dt>
@@ -51,133 +129,177 @@
     <section id="initializers">
         <h2>Initializers</h2>
 
-        <div role="article" class="class" id="director.init()">
+        <div role="article" class="initializer" id="director.init()">
     <h3>
         <code>init()</code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">public</span> <span class="attribute">required</span> <span class="keyword">init</span>()</code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><span class="keyword">public</span> <span class="attribute">required</span> <span class="keyword">init</span>() </code></pre>
+</div>
 </div>
     </section>
     <section id="properties">
         <h2>Properties</h2>
 
-        <div role="article" class="class" id="director.dispatcher">
+        <div role="article" class="variable" id="director.dispatcher">
     <h3>
         <code>dispatcher</code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">dispatcher</span></code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><span class="keyword">public</span> <span class="attribute">lazy</span> <span class="keyword">var</span> <span class="variable">dispatcher</span> </code></pre>
 </div>
-<div role="article" class="class" id="director.animationmanager">
-    <h3>
-        <code>animation​Manager</code>
-    </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">animationManager</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>The event dispatcher for this director.</p>
+
 </div>
-<div role="article" class="class" id="director.name">
-    <h3>
-        <code>name</code>
-    </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">name</span>: <span class="type">String</span></code></pre></body></html>
 </div>
-<div role="article" class="class" id="director.description">
+<div role="article" class="variable" id="director.description">
     <h3>
         <code>description</code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">description</span>: <span class="type">String</span></code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">var</span> <span class="variable">description</span> : <span class="type">String</span> </code></pre>
+</div>
 </div>
     </section>
     <section id="methods">
         <h2>Methods</h2>
 
-        <div role="article" class="class" id="director.framespersecond()">
-    <h3>
-        <code>frames​Per​Second()</code>
-    </h3>
-    <html><body><pre class="highlight"><code><span class="attribute">open</span> <span class="keyword">func</span> <span class="function">framesPerSecond</span>() -&gt; <span class="type">Int</span></code></pre></body></html>
-</div>
-<div role="article" class="class" id="director.setup(canvas:)">
+        <div role="article" class="function" id="director.setup(canvas:)">
     <h3>
         <code>setup(canvas:​)</code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">setup</span>(<span class="variable">canvas</span>: <span class="type">Canvas</span>)</code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">setup</span>(<span class="variable">canvas</span>:<span class="type">Canvas</span>) </code></pre>
 </div>
-<div role="article" class="class" id="director.calculate(canvasid:canvassize:)">
+</div>
+<div role="article" class="function" id="director.calculate(canvasid:canvassize:)">
     <h3>
         <code>calculate(canvas​Id:​canvas​Size:​)</code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">calculate</span>(<span class="variable">canvasId</span>: <span class="type">Int</span>, <span class="variable">canvasSize</span>: <span class="type">Size</span>?)</code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">calculate</span>(<span class="variable">canvasId</span>:<span class="type">Int</span>, <span class="variable">canvasSize</span>:<span class="type">Size</span>?) </code></pre>
 </div>
-<div role="article" class="class" id="director.render(canvas:)">
+</div>
+<div role="article" class="function" id="director.render(canvas:)">
     <h3>
         <code>render(canvas:​)</code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">render</span>(<span class="variable">canvas</span>: <span class="type">Canvas</span>)</code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">render</span>(<span class="variable">canvas</span>:<span class="type">Canvas</span>) </code></pre>
 </div>
-<div role="article" class="class" id="director.onclick(location:)">
+</div>
+<div role="article" class="function" id="director.onclick(location:)">
     <h3>
         <code>on​Click(location:​)</code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">onClick</span>(<span class="variable">location</span>: <span class="type">Point</span>)</code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">onClick</span>(<span class="variable">location</span>:<span class="type">Point</span>) </code></pre>
 </div>
-<div role="article" class="class" id="director.onmousedown(location:)">
+</div>
+<div role="article" class="function" id="director.onmousedown(location:)">
     <h3>
         <code>on​Mouse​Down(location:​)</code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">onMouseDown</span>(<span class="variable">location</span>: <span class="type">Point</span>)</code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">onMouseDown</span>(<span class="variable">location</span>:<span class="type">Point</span>) </code></pre>
 </div>
-<div role="article" class="class" id="director.onmouseup(location:)">
+</div>
+<div role="article" class="function" id="director.onmouseup(location:)">
     <h3>
         <code>on​Mouse​Up(location:​)</code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">onMouseUp</span>(<span class="variable">location</span>: <span class="type">Point</span>)</code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">onMouseUp</span>(<span class="variable">location</span>:<span class="type">Point</span>) </code></pre>
 </div>
-<div role="article" class="class" id="director.onwindowmouseup(location:)">
+</div>
+<div role="article" class="function" id="director.onwindowmouseup(location:)">
     <h3>
         <code>on​Window​Mouse​Up(location:​)</code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">onWindowMouseUp</span>(<span class="variable">location</span>: <span class="type">Point</span>)</code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">onWindowMouseUp</span>(<span class="variable">location</span>:<span class="type">Point</span>) </code></pre>
 </div>
-<div role="article" class="class" id="director.onmousemove(location:)">
+</div>
+<div role="article" class="function" id="director.onmousemove(location:)">
     <h3>
         <code>on​Mouse​Move(location:​)</code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">onMouseMove</span>(<span class="variable">location</span>: <span class="type">Point</span>)</code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">onMouseMove</span>(<span class="variable">location</span>:<span class="type">Point</span>) </code></pre>
 </div>
-<div role="article" class="class" id="director.onkeydown(key:code:ctrlkey:shiftkey:altkey:metakey:)">
+</div>
+<div role="article" class="function" id="director.onkeydown(key:code:ctrlkey:shiftkey:altkey:metakey:)">
     <h3>
         <code>on​Key​Down(key:​code:​ctrl​Key:​shift​Key:​alt​Key:​meta​Key:​)</code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">onKeyDown</span>(<span class="variable">key</span>: <span class="type">String</span>, <span class="variable">code</span>: <span class="type">String</span>, <span class="variable">ctrlKey</span>: <span class="type">Bool</span>, <span class="variable">shiftKey</span>: <span class="type">Bool</span>, <span class="variable">altKey</span>: <span class="type">Bool</span>, <span class="variable">metaKey</span>: <span class="type">Bool</span>)</code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">onKeyDown</span>(<span class="variable">key</span>:<span class="type">String</span>, <span class="variable">code</span>:<span class="type">String</span>, <span class="variable">ctrlKey</span>:<span class="type">Bool</span>, <span class="variable">shiftKey</span>:<span class="type">Bool</span>, <span class="variable">altKey</span>:<span class="type">Bool</span>, <span class="variable">metaKey</span>:<span class="type">Bool</span>) </code></pre>
 </div>
-<div role="article" class="class" id="director.onkeyup(key:code:ctrlkey:shiftkey:altkey:metakey:)">
+</div>
+<div role="article" class="function" id="director.onkeyup(key:code:ctrlkey:shiftkey:altkey:metakey:)">
     <h3>
         <code>on​Key​Up(key:​code:​ctrl​Key:​shift​Key:​alt​Key:​meta​Key:​)</code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">onKeyUp</span>(<span class="variable">key</span>: <span class="type">String</span>, <span class="variable">code</span>: <span class="type">String</span>, <span class="variable">ctrlKey</span>: <span class="type">Bool</span>, <span class="variable">shiftKey</span>: <span class="type">Bool</span>, <span class="variable">altKey</span>: <span class="type">Bool</span>, <span class="variable">metaKey</span>: <span class="type">Bool</span>)</code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">onKeyUp</span>(<span class="variable">key</span>:<span class="type">String</span>, <span class="variable">code</span>:<span class="type">String</span>, <span class="variable">ctrlKey</span>:<span class="type">Bool</span>, <span class="variable">shiftKey</span>:<span class="type">Bool</span>, <span class="variable">altKey</span>:<span class="type">Bool</span>, <span class="variable">metaKey</span>:<span class="type">Bool</span>) </code></pre>
 </div>
-<div role="article" class="class" id="director.oncanvasresize(size:)">
+</div>
+<div role="article" class="function" id="director.oncanvasresize(size:)">
     <h3>
         <code>on​Canvas​Resize(size:​)</code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">onCanvasResize</span>(<span class="variable">size</span>: <span class="type">Size</span>)</code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">onCanvasResize</span>(<span class="variable">size</span>:<span class="type">Size</span>) </code></pre>
 </div>
-<div role="article" class="class" id="director.onwindowresize(size:)">
+</div>
+<div role="article" class="function" id="director.onwindowresize(size:)">
     <h3>
         <code>on​Window​Resize(size:​)</code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">onWindowResize</span>(<span class="variable">size</span>: <span class="type">Size</span>)</code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">onWindowResize</span>(<span class="variable">size</span>:<span class="type">Size</span>) </code></pre>
 </div>
-<div role="article" class="class" id="director.enqueuescene(scene:)">
+</div>
+<div role="article" class="function" id="director.enqueuescene(scene:)">
     <h3>
         <code>enqueue​Scene(scene:​)</code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">enqueueScene</span>(<span class="variable">scene</span>: <a href="Scene"><span class="type">Scene</span></a>)</code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">enqueueScene</span>(<span class="variable">scene</span>:<span class="type">Scene</span>) </code></pre>
 </div>
-<div role="article" class="class" id="director.transitiontonextscene()">
+<div class="summary" role="doc-abstract">
+    <p>Enqueues the next scene to be used.
+To transition to next scene, use the <em>transitionToNextScene</em> method.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="director.transitiontonextscene()">
     <h3>
         <code>transition​ToNext​Scene()</code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">transitionToNextScene</span>()</code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">transitionToNextScene</span>() </code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Tells the director to transition to the next enqueued scene.
+If no scene is enqueued, the application will enter an idle
+state.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="director.framespersecond()">
+    <h3>
+        <code>frames​Per​Second()</code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><span class="attribute">open</span> <span class="keyword">func</span> <span class="function">framesPerSecond</span>() -&gt; <span class="type">Int</span> </code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>This function is invoked to determine the framerate for this
+application.</p>
+
+</div>
 </div>
     </section>
 
@@ -188,7 +310,7 @@
 
     <footer>
         <p>
-    Generated on <time datetime="2020-05-01T17:29:39-0500">May 1, 2020</time> using <a href="https://github.com/SwiftDocOrg/swift-doc">swift-doc</a> <span class="version">1.0.0-beta.2</span>.
+    Generated on <time datetime="2021-04-25T15:45:06-0500">April 25, 2021</time> using <a href="https://github.com/SwiftDocOrg/swift-doc">swift-doc</a> <span class="version">1.0.0-beta.6</span>.
 </p>
     </footer>
 </body>
