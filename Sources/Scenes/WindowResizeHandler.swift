@@ -1,5 +1,3 @@
-import Igis
-
 /*
 Scenes provides a Swift object library with support for renderable entities,
 layers, and scenes.  Scenes runs on top of IGIS.
@@ -16,6 +14,16 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+import Igis
+
+/// A type conforming to `WindowResizeHandler` is capable of receiving
+/// window resize events through the *onWindowResize* method.
+///
+/// Before receiving events, it must be registered with the dispatcher
+/// via the *registerWindowResizeHandler* method.
+/// Similarly, it should be unregistered before deinitialization
+/// via the *unregisterWindowResizeHandler* method available through
+/// the dispatcher.
 public protocol WindowResizeHandler : EventHandler {
     func onWindowResize(size:Size)
 }

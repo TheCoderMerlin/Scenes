@@ -16,6 +16,14 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import Igis
 
+/// A type conforming to `EntityMouseDownHandler` is capable of receiving
+/// entity mouse down events through the *onEntityMouseDown* method.
+///
+/// Before receiving events, it must be registered with the dispatcher
+/// via the *registerEntityMouseDownHandler* method.
+/// Similarly, it should be unregistered before deinitialization
+/// via the *unregisterEntityMouseDownHandler* method available through
+/// the dispatcher.
 public protocol EntityMouseDownHandler : EventHandler, RenderableEntity {
     func onEntityMouseDown(globalLocation:Point)
 }

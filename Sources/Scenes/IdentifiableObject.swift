@@ -14,6 +14,8 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+/// `IdentifiableObject` provides base functionality for using unique
+/// names that are useful for debugging.
 open class IdentifiableObject : Equatable {
     private let uniqueName : UniqueName
 
@@ -29,6 +31,7 @@ open class IdentifiableObject : Equatable {
         return uniqueName.fullname
     }
 
+    /// Equivalence operator for two `IdentifiableObject`s.
     public static func == (left: IdentifiableObject, right: IdentifiableObject) -> Bool {
         return left.name == right.name
     }

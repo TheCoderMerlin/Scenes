@@ -14,6 +14,14 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+/// A type conforming to `KeyUpHandler` is capable of receiving
+/// key up events through the *onKeyUp* method.
+///
+/// Before receiving events, it must be registered with the dispatcher
+/// via the *registerKeyUpHandler* method.
+/// Similarly, it should be unregistered before deinitialization
+/// via the *unregisterKeyUpHandler* method available through
+/// the dispatcher.
 public protocol KeyUpHandler : EventHandler {
     func onKeyUp(key:String, code:String, ctrlKey:Bool, shiftKey:Bool, altKey:Bool, metaKey:Bool)
 }

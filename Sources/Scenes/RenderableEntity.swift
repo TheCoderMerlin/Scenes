@@ -1,7 +1,7 @@
 /*
 Scenes provides a Swift object library with support for renderable entities,
 layers, and scenes.  Scenes runs on top of IGIS.
-Copyright (C) 2019,2020 Tango Golf Digital, LLC
+Copyright (C) 2019-2021 Tango Golf Digital, LLC
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
@@ -15,7 +15,10 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
 import Igis
-  
+
+/// A `RenderableEntity` provides the majority of rendering and interactive
+/// functionality by overriding the required methods and working with the
+/// `Dispatcher` to register events of intrest.
 open class RenderableEntity : IdentifiableObject {
     internal private(set) var wasSetup : Bool
     internal private(set) var wasTorndown : Bool
@@ -26,6 +29,11 @@ open class RenderableEntity : IdentifiableObject {
     
     public private(set) weak var owningLayer : Layer?
 
+    /// Creates a new `RenderableEntity` from the given paramenters:
+    /// - Parameters:
+    ///   - name: The unique name of the renderable entity. While it's
+    ///           very useful for debugging purposes to provide a
+    ///           meaningful name, it's not required.
     public override init(name:String?=nil) {
         wasSetup = false
         wasTorndown = false
@@ -36,9 +44,10 @@ open class RenderableEntity : IdentifiableObject {
         super.init(name:name)
     }
 
-    // ********************************************************************************
+    // ****************************************************************
     // Functions for internal use
-    // ********************************************************************************
+    // ****************************************************************
+      
     internal func internalSetup(canvas:Canvas, layer:Layer) {
         precondition(!wasSetup, "Request to setup entity after already being setup")
         precondition(neverCalculated, "Request to setup entity after already being setup")
@@ -86,6 +95,11 @@ open class RenderableEntity : IdentifiableObject {
         precondition(!neverCalculated, "Request to render entity but never calculated")
         precondition(canvas.canvasSize != nil, "Request to render entity but canvas.canvasSize is nil")
 
+        // If entity isn't visible, we can skip the rest of this function.
+        guard isVisible() else {
+            return
+        }
+        
         // Apply transforms, alpha, and clipPath if specified
         let restoreStateRequired = (transforms != nil || alpha != nil || clipPath != nil)
         if restoreStateRequired {
@@ -116,37 +130,44 @@ open class RenderableEntity : IdentifiableObject {
     }
 
 
-    // ********************************************************************************
+    // ****************************************************************
     // API FOLLOWS
-    // ********************************************************************************
+    // ****************************************************************
 
+    /// Translated the specified global point from global space to this
+    /// entities space.
     public func local(fromGlobal:Point) -> Point {
         let topLeft = boundingRect().topLeft
         return Point(x:fromGlobal.x - topLeft.x, y:fromGlobal.y - topLeft.y)
     }
 
+    /// Translates the specified local point from this entities space
+    /// to global space.
     public func global(fromLocal:Point) -> Point {
         let topLeft = boundingRect().topLeft
         return Point(x:fromLocal.x + topLeft.x, y:fromLocal.y + topLeft.y)
     }
 
-    // This function should only be invoked during init(), setup(), or calculate()
+    /// Sets the transforms to be applied to this entity.
+    /// This function should only be invoked during init(), setup(), or calculate().
     public func setTransforms(transforms:[Transform]?) {
         self.transforms = transforms
     }
 
-    // This function should only be invoked during init(), setup(), or calculate()
+    /// Sets the alpha component for this entity.
+    /// This function should only be invoked during init(), setup(), or calculate().
     public func setAlpha(alpha:Alpha?) {
         self.alpha = alpha
     }
 
-    // This function should only be invoked during init(), setup(), or calculate()
+    /// Sets the clip path for this entity.
+    /// This function should only be invoked during init(), setup(), or calculate().
     public func setClipPath(clipPath:ClipPath?) {
         self.clipPath = clipPath
     }
 
-    // Applies specified or current transforms to the specified point
-    // If no transforms are current, returns the original point
+    /// Applies specified or current transforms to the specified point
+    /// If no transforms are current, returns the original point
     public func applyTransforms(toPoint:Point, transforms:[Transform]? = nil) -> Point {
         if let transforms = transforms ?? self.transforms {
             let matrix = Transform.multiply(transforms:transforms)
@@ -157,8 +178,8 @@ open class RenderableEntity : IdentifiableObject {
         }
     }
 
-    // Applies specified or current transforms to the specified points
-    // If no transforms are current, returns the original points
+    /// Applies specified or current transforms to the specified points
+    /// If no transforms are current, returns the original points
     public func applyTransforms(toPoints:[Point], transforms:[Transform]? = nil) -> [Point] {
         if let transforms = transforms ?? self.transforms {
             let matrix = Transform.multiply(transforms:transforms)
@@ -169,6 +190,7 @@ open class RenderableEntity : IdentifiableObject {
         }
     }
 
+    /// The owning layer for this entity.
     public var layer : Layer {
         guard let owningLayer = owningLayer else {
             fatalError("owningLayer required")
@@ -176,60 +198,71 @@ open class RenderableEntity : IdentifiableObject {
         return owningLayer
     }
 
+    /// The owning scene for this entity.
     public var scene : Scene {
         return layer.scene
     }
-    
+
+    /// The owning director for this entity.
     public var director : Director {
         return scene.director
     }
 
+    /// The event dispatcher for this entities owning director.
     public var dispatcher : Dispatcher {
         return director.dispatcher
     }
 
-    // ********************************************************************************
+    // ****************************************************************
     // API FOLLOWS
     // These functions should be over-ridden by descendant classes
-    // ********************************************************************************
+    // ****************************************************************
 
-    // setup() is invoked exactly once,
-    // either when the owning layer is first set up or,
-    // if the layer has already been setup,
-    // prior to the next calculate event
-    // This is the appropriate location to register event handlers
+    /// setup() is invoked exactly once, either when the owning layer is first
+    /// set up or, if the layer has already been setup, prior to the next
+    /// calculate event.
+    // This is the appropriate location to register event handlers.
     open func setup(canvasSize:Size, canvas:Canvas) {
     }
 
-    // teardown() is invoked exactly once
-    // when the scene is torndown prior to a
-    // transition
-    // This is the appropriate location to unregister event handlers
+    /// teardown() is invoked exactly once when the scene is torndown prior to a
+    /// transition.
+    /// This is the appropriate location to unregister event handlers.
     open func teardown() {
     }
     
-    // calculate() is invoked prior to each render event
+    /// calculate() is invoked once per frame prior to each render event.
     open func calculate(canvasSize:Size) {
     }
     
-    // render() is invoked during each render cycle
+    /// render() is invoked once per frame during each render cycle.
     open func render(canvas:Canvas) {
     }
 
-    // Must be over-ridden to return the boundingRect of the entity, in global coordinates
+    /// This function is invoked to determine the boundingRect of the entity, in
+    /// global coordinates.
+    /// This should be over-ridden by inheriting types.
     open func boundingRect() -> Rect {
-        return Rect(topLeft:Point(x:0, y:0), size:Size(width:0, height:0))
+        return Rect.zero
     }
     
-    // Must be over-ridden to return true iff the location generates a hit
+    /// Performs a hit test between this entities `boundingRect()` and a global point.
+    /// Returns true if the specified point is contained within the bounding rect.
     open func hitTest(globalLocation:Point) -> Bool  {
         return boundingRect().containment(target:globalLocation).contains(.containedFully)
     }
 
-    // This function is invoked to determine whether or not an entity is transparent
-    // to entity mouse events
-    // If true, the entity will not intercept such events
+    /// This function is invoked to determine whether or not an entity is transparent
+    /// to entity mouse events.
+    /// If true, the entity will not intercept such events.
     open func isMouseTransparent() -> Bool {
         return false
+    }
+
+    /// This function is invoked to determine whether or not an entity is visible.
+    /// If false, the render phase for this entity will be skipped and the *render*
+    /// method will not be invoked.
+    open func isVisible() -> Bool {
+        return true
     }
 }

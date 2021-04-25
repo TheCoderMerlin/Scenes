@@ -17,15 +17,16 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 import Foundation
 import Igis
 
+/// A `Director` is responsible for managing an application and enqueuing
+/// `Scene`s.
 open class Director : IdentifiableObject, PainterProtocol, CustomStringConvertible {
     private var sceneQueue : [Scene]
     private var shouldTransitionToNextScene : Bool
     private var currentScene : Scene?
+    
+    /// The event dispatcher for this director.
     public lazy var dispatcher = Dispatcher(director:self)
 
-    // ********************************************************************************
-    // Functions for internal use
-    // ********************************************************************************
     public required init() {
         sceneQueue = [Scene]()
         shouldTransitionToNextScene = false
@@ -34,9 +35,9 @@ open class Director : IdentifiableObject, PainterProtocol, CustomStringConvertib
         super.init(name:"Director")
     }
 
-    open func framesPerSecond() -> Int {
-        return 10
-    }
+    // *****************************************************************
+    // Functions for internal use
+    // *****************************************************************
     
     public func setup(canvas:Canvas) {
         // We ignore setup(), and handle all logic in render
@@ -52,7 +53,7 @@ open class Director : IdentifiableObject, PainterProtocol, CustomStringConvertib
             scene.internalSetup(canvas:canvas, director:self)
         }
         
-        dispatcher.raiseFrameUpdateEvent(framesPerSecond: framesPerSecond())
+        dispatcher.raiseFrameUpdateEvent(framesPerSecond:framesPerSecond())
         
         scene.internalCalculate(canvas:canvas, director:self)
         scene.internalRender(canvas:canvas, director:self)
@@ -177,19 +178,35 @@ open class Director : IdentifiableObject, PainterProtocol, CustomStringConvertib
         dispatcher.raiseWindowResizeEvent(size:size)
     }
     
-    // ********************************************************************************
+    // *****************************************************************
     // API FOLLOWS
-    // ********************************************************************************
+    // *****************************************************************
 
+    /// Enqueues the next scene to be used.
+    /// To transition to next scene, use the *transitionToNextScene* method.
     public func enqueueScene(scene:Scene) {
         sceneQueue.append(scene)
     }
 
+    /// Tells the director to transition to the next enqueued scene.
+    /// If no scene is enqueued, the application will enter an idle
+    /// state.
     public func transitionToNextScene() {
         shouldTransitionToNextScene = true
     }
     
     public var description : String {
         return name
-    }       
+    }
+
+    // ****************************************************************
+    // API FOLLOWS
+    // These functions should be over-ridden by descendant classes
+    // ****************************************************************
+
+    /// This function is invoked to determine the framerate for this
+    /// application.
+    open func framesPerSecond() -> Int {
+        return 10
+    }
 }

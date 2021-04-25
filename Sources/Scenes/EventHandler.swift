@@ -14,6 +14,8 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+/// An `Eventhandler` is a type capable of being registered with the
+/// `Dispatcher` to receive events of a certain type.
 public protocol EventHandler {
     /// The unique name of the object associated with the handler
     var name : String {get}

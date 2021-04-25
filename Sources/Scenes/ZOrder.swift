@@ -15,12 +15,18 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
 import Igis
-  
+
 public enum ZOrder<T> {
-    case back                   // Place (or move) the object at the back-most position
-    case backward               // Place (or move) the object backward from its current position
-    case behind(object:T)       // Place (or move) the object behind the specified object
-    case inFrontOf(object:T)    // Place (or move) the object in front of the specified object
-    case forward                // Place (or move) the object foreward from its current position
-    case front                  // Place (or move) the object to the front-most position
+    /// Place (or move) the object at the back-most position.
+    case back
+    /// Place (or move) the object backward from its current position.
+    case backward
+    /// Place (or move) the object behind the specified object.
+    case behind(object:T)
+    /// Place (or move) the object in front of the specified object.
+    case inFrontOf(object:T)
+    /// Place (or move) the object foreward from its current position
+    case forward
+    /// Place (or move) the object to the front-most position
+    case front
 }

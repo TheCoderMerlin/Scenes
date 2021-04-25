@@ -16,6 +16,14 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import Igis
 
+/// A type conforming to `EntityMouseEnterHandler` is capable of receiving
+/// entity mouse enter events through the *onEntityMouseEnter* method.
+///
+/// Before receiving events, it must be registered with the dispatcher
+/// via the *registerEntityMouseEnterHandler* method.
+/// Similarly, it should be unregistered before deinitialization
+/// via the *unregisterEntityMouseEnterHandler* method available through
+/// the dispatcher.
 public protocol EntityMouseEnterHandler : EventHandler, RenderableEntity {
     func onEntityMouseEnter(globalLocation:Point)
 }

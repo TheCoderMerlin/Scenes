@@ -1,5 +1,3 @@
-import Igis
-
 /*
 Scenes provides a Swift object library with support for renderable entities,
 layers, and scenes.  Scenes runs on top of IGIS.
@@ -14,8 +12,18 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
-*/
+ */
 
+import Igis
+
+/// A type conforming to `EntityMouseClickHandler` is capable of receiving
+/// entity mouse click events through the *onEntityMouseClick* method.
+///
+/// Before receiving events, it must be registered with the dispatcher
+/// via the *registerEntityMouseClickHandler* method.
+/// Similarly, it should be unregistered before deinitialization
+/// via the *unregisterEntityMouseClickHandler* method available through
+/// the dispatcher.
 public protocol EntityMouseClickHandler : EventHandler, RenderableEntity {
     func onEntityMouseClick(globalLocation:Point)
 }

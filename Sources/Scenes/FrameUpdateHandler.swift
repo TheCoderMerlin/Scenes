@@ -14,6 +14,14 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+/// A type conforming to `FrameUpdateHandler` is capable of receiving
+/// frame update events through the *onFrameUpdate* method.
+///
+/// Before receiving events, it must be registered with the dispatcher
+/// via the *registerFrameUpdateHandler* method.
+/// Similarly, it should be unregistered before deinitialization
+/// via the *unregisterFrameUpdateHandler* method available through
+/// the dispatcher.
 public protocol FrameUpdateHandler : EventHandler {
     func onFrameUpdate(framesPerSecond:Int)
 }

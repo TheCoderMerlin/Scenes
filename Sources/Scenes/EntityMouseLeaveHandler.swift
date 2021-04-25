@@ -16,6 +16,14 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import Igis
 
+/// A type conforming to `EntityMouseLeaveHandler` is capable of receiving
+/// entity mouse leave events through the *onEntityMouseLeave* method.
+///
+/// Before receiving events, it must be registered with the dispatcher
+/// via the *registerEntityMouseLeaveHandler* method.
+/// Similarly, it should be unregistered before deinitialization
+/// via the *unregisterEntityMouseLeaveHandler* method available through
+/// the dispatcher.
 public protocol EntityMouseLeaveHandler : EventHandler, RenderableEntity {
     func onEntityMouseLeave(globalLocation:Point)
 }
