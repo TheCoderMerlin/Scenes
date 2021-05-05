@@ -4,8 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Scenes - ZOrder</title>
-    <base href="/Scenes/"/>
-    <link rel="stylesheet" type="text/css" href="all.css" media="all" />
+    <link rel="stylesheet" type="text/css" href="/Scenes/all.css" media="all" />
 </head>
 <body>
     <header>
@@ -38,46 +37,84 @@
     <code class="name">ZOrder</code>
 </h1>
 
-<html><body><pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">enum</span> <span class="type">ZOrder</span>&lt;<span class="variable">T</span>&gt;</code></pre></body></html>
+<div class="declaration">
+<pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">enum</span> <span class="type">ZOrder</span>&lt;<span class="variable">T</span>&gt; </code></pre>
+</div>
 
     <section id="enumeration cases">
         <h2>Enumeration Cases</h2>
 
-        <div role="article" class="enumeration" id="zorder.back">
+        <div role="article" class="case" id="zorder.back">
     <h3>
         <code>back</code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">case</span> <span class="variable">back</span></code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><span class="keyword">case</span> <span class="variable">back</span></code></pre>
 </div>
-<div role="article" class="enumeration" id="zorder.backward">
+<div class="summary" role="doc-abstract">
+    <p>Place (or move) the object at the back-most position.</p>
+
+</div>
+</div>
+<div role="article" class="case" id="zorder.backward">
     <h3>
         <code>backward</code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">case</span> <span class="variable">backward</span></code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><span class="keyword">case</span> <span class="variable">backward</span></code></pre>
 </div>
-<div role="article" class="enumeration" id="zorder.behind">
+<div class="summary" role="doc-abstract">
+    <p>Place (or move) the object backward from its current position.</p>
+
+</div>
+</div>
+<div role="article" class="case" id="zorder.behind">
     <h3>
         <code>behind</code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">case</span> <span class="variable">behind</span>(<span class="variable">object</span>: <span class="type">T</span>)</code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><span class="keyword">case</span> <span class="variable">behind</span>(<span class="variable">object</span>:<span class="type">T</span>)</code></pre>
 </div>
-<div role="article" class="enumeration" id="zorder.infrontof">
+<div class="summary" role="doc-abstract">
+    <p>Place (or move) the object behind the specified object.</p>
+
+</div>
+</div>
+<div role="article" class="case" id="zorder.infrontof">
     <h3>
         <code>in​Front​Of</code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">case</span> <span class="variable">inFrontOf</span>(<span class="variable">object</span>: <span class="type">T</span>)</code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><span class="keyword">case</span> <span class="variable">inFrontOf</span>(<span class="variable">object</span>:<span class="type">T</span>)</code></pre>
 </div>
-<div role="article" class="enumeration" id="zorder.forward">
+<div class="summary" role="doc-abstract">
+    <p>Place (or move) the object in front of the specified object.</p>
+
+</div>
+</div>
+<div role="article" class="case" id="zorder.forward">
     <h3>
         <code>forward</code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">case</span> <span class="variable">forward</span></code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><span class="keyword">case</span> <span class="variable">forward</span></code></pre>
 </div>
-<div role="article" class="enumeration" id="zorder.front">
+<div class="summary" role="doc-abstract">
+    <p>Place (or move) the object foreward from its current position</p>
+
+</div>
+</div>
+<div role="article" class="case" id="zorder.front">
     <h3>
         <code>front</code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">case</span> <span class="variable">front</span></code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><span class="keyword">case</span> <span class="variable">front</span></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Place (or move) the object to the front-most position</p>
+
+</div>
 </div>
     </section>
 
@@ -88,7 +125,7 @@
 
     <footer>
         <p>
-    Generated on <time datetime="2020-05-01T17:29:39-0500">May 1, 2020</time> using <a href="https://github.com/SwiftDocOrg/swift-doc">swift-doc</a> <span class="version">1.0.0-beta.2</span>.
+    Generated on <time datetime="2021-04-25T15:45:06-0500">April 25, 2021</time> using <a href="https://github.com/SwiftDocOrg/swift-doc">swift-doc</a> <span class="version">1.0.0-beta.6</span>.
 </p>
     </footer>
 </body>

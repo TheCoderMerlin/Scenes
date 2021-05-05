@@ -4,8 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Scenes - Scenes</title>
-    <base href="/Scenes/"/>
-    <link rel="stylesheet" type="text/css" href="all.css" media="all" />
+    <link rel="stylesheet" type="text/css" href="/Scenes/all.css" media="all" />
 </head>
 <body>
     <header>
@@ -36,26 +35,8 @@
                 <section id="classes">
         <h2>Classes</h2>
         <dl>
-    <dt class="class">
-    <a href="Animation" title="class - Animation">
-        Animation
-    </a>
-</dt>
-<dd>
-    <p>An 'Animation' is used to animate elements using the 'AnimationManager'.</p>
-
-</dd>
-<dt class="class">
-    <a href="AnimationManager" title="class - AnimationManager">
-        Animation​Manager
-    </a>
-</dt>
-<dd>
-    <p>The 'AnimationManager' handles the queuing and updating of 'Animation's.</p>
-
-</dd>
-<dt class="class">
-    <a href="ContainableRenderableEntity" title="class - ContainableRenderableEntity">
+            <dt class="class">
+    <a href="/Scenes/ContainableRenderableEntity" title="class - ContainableRenderableEntity">
         Containable​Renderable​Entity
     </a>
 </dt>
@@ -66,15 +47,17 @@ Descendant classes must:</p>
 
 </dd>
 <dt class="class">
-    <a href="Director" title="class - Director">
+    <a href="/Scenes/Director" title="class - Director">
         Director
     </a>
 </dt>
 <dd>
-    
+    <p>A <code>Director</code> is responsible for managing an application and enqueuing
+<code>Scene</code>s.</p>
+
 </dd>
 <dt class="class">
-    <a href="Dispatcher" title="class - Dispatcher">
+    <a href="/Scenes/Dispatcher" title="class - Dispatcher">
         Dispatcher
     </a>
 </dt>
@@ -82,23 +65,38 @@ Descendant classes must:</p>
     
 </dd>
 <dt class="class">
-    <a href="Layer" title="class - Layer">
+    <a href="/Scenes/IdentifiableObject" title="class - IdentifiableObject">
+        Identifiable​Object
+    </a>
+</dt>
+<dd>
+    <p><code>IdentifiableObject</code> provides base functionality for using unique
+names that are useful for debugging.</p>
+
+</dd>
+<dt class="class">
+    <a href="/Scenes/Layer" title="class - Layer">
         Layer
     </a>
 </dt>
 <dd>
-    
+    <p>A <code>Layer</code> is responsible for providing subclassed <code>RenderableEntity</code>
+objects.</p>
+
 </dd>
 <dt class="class">
-    <a href="RenderableEntity" title="class - RenderableEntity">
+    <a href="/Scenes/RenderableEntity" title="class - RenderableEntity">
         Renderable​Entity
     </a>
 </dt>
 <dd>
-    
+    <p>A <code>RenderableEntity</code> provides the majority of rendering and interactive
+functionality by overriding the required methods and working with the
+<code>Dispatcher</code> to register events of intrest.</p>
+
 </dd>
 <dt class="class">
-    <a href="RenderableEntityContainer" title="class - RenderableEntityContainer">
+    <a href="/Scenes/RenderableEntityContainer" title="class - RenderableEntityContainer">
         Renderable​Entity​Container
     </a>
 </dt>
@@ -110,189 +108,184 @@ containers is possible.</p>
 
 </dd>
 <dt class="class">
-    <a href="Scene" title="class - Scene">
+    <a href="/Scenes/Scene" title="class - Scene">
         Scene
     </a>
 </dt>
 <dd>
-    
-</dd>
-<dt class="class">
-    <a href="Tween" title="class - Tween">
-        Tween
-    </a>
-</dt>
-<dd>
-    <p>A 'Tween' is used to create an 'Animation' for animating various elements.</p>
+    <p>A <code>Scene</code> is responsible for providing the required <code>Layer</code>s for an
+application.</p>
 
 </dd>
-<dt class="class">
-    <a href="TweenSequence" title="class - TweenSequence">
-        Tween​Sequence
-    </a>
-</dt>
-<dd>
-    <p>A 'TweenSequence' is used to seguence different 'Tween's.</p>
-
-</dd>
-</dl>
+        </dl>
     </section>
     <section id="enumerations">
         <h2>Enumerations</h2>
         <dl>
-    <dt class="enumeration">
-    <a href="EasingStyle" title="enumeration - EasingStyle">
-        Easing​Style
-    </a>
-</dt>
-<dd>
-    <p>An 'EasingStyle' controls the acceleration and deceleration of a 'Tween'.</p>
-
-</dd>
-<dt class="enumeration">
-    <a href="ZOrder" title="enumeration - ZOrder">
+            <dt class="enumeration">
+    <a href="/Scenes/ZOrder" title="enumeration - ZOrder">
         ZOrder
     </a>
 </dt>
 <dd>
     
 </dd>
-</dl>
+        </dl>
     </section>
     <section id="protocols">
         <h2>Protocols</h2>
         <dl>
-    <dt class="protocol">
-    <a href="CanvasResizeHandler" title="protocol - CanvasResizeHandler">
+            <dt class="protocol">
+    <a href="/Scenes/CanvasResizeHandler" title="protocol - CanvasResizeHandler">
         Canvas​Resize​Handler
     </a>
 </dt>
 <dd>
-    
+    <p>A type conforming to <code>CanvasResizeHandler</code> is capable of receiving
+canvas resize events through the <em>onCanvasResize</em> method.</p>
+
 </dd>
 <dt class="protocol">
-    <a href="EntityMouseClickHandler" title="protocol - EntityMouseClickHandler">
+    <a href="/Scenes/EntityMouseClickHandler" title="protocol - EntityMouseClickHandler">
         Entity​Mouse​Click​Handler
     </a>
 </dt>
 <dd>
-    
+    <p>A type conforming to <code>EntityMouseClickHandler</code> is capable of receiving
+entity mouse click events through the <em>onEntityMouseClick</em> method.</p>
+
 </dd>
 <dt class="protocol">
-    <a href="EntityMouseDownHandler" title="protocol - EntityMouseDownHandler">
+    <a href="/Scenes/EntityMouseDownHandler" title="protocol - EntityMouseDownHandler">
         Entity​Mouse​Down​Handler
     </a>
 </dt>
 <dd>
-    
+    <p>A type conforming to <code>EntityMouseDownHandler</code> is capable of receiving
+entity mouse down events through the <em>onEntityMouseDown</em> method.</p>
+
 </dd>
 <dt class="protocol">
-    <a href="EntityMouseDragHandler" title="protocol - EntityMouseDragHandler">
+    <a href="/Scenes/EntityMouseDragHandler" title="protocol - EntityMouseDragHandler">
         Entity​Mouse​Drag​Handler
     </a>
 </dt>
 <dd>
-    
+    <p>A type conforming to <code>EntityMouseDragHandler</code> is capable of receiving
+entity mouse drag events through the <em>onEntityMouseDrag</em> method.</p>
+
 </dd>
 <dt class="protocol">
-    <a href="EntityMouseEnterHandler" title="protocol - EntityMouseEnterHandler">
+    <a href="/Scenes/EntityMouseEnterHandler" title="protocol - EntityMouseEnterHandler">
         Entity​Mouse​Enter​Handler
     </a>
 </dt>
 <dd>
-    
+    <p>A type conforming to <code>EntityMouseEnterHandler</code> is capable of receiving
+entity mouse enter events through the <em>onEntityMouseEnter</em> method.</p>
+
 </dd>
 <dt class="protocol">
-    <a href="EntityMouseLeaveHandler" title="protocol - EntityMouseLeaveHandler">
+    <a href="/Scenes/EntityMouseLeaveHandler" title="protocol - EntityMouseLeaveHandler">
         Entity​Mouse​Leave​Handler
     </a>
 </dt>
 <dd>
-    
+    <p>A type conforming to <code>EntityMouseLeaveHandler</code> is capable of receiving
+entity mouse leave events through the <em>onEntityMouseLeave</em> method.</p>
+
 </dd>
 <dt class="protocol">
-    <a href="EntityMouseUpHandler" title="protocol - EntityMouseUpHandler">
+    <a href="/Scenes/EntityMouseUpHandler" title="protocol - EntityMouseUpHandler">
         Entity​Mouse​UpHandler
     </a>
 </dt>
 <dd>
-    
+    <p>A type conforming to <code>EntityMouseUpHandler</code> is capable of receiving
+entity mouse up events through the <em>onEntityMouseUp</em> method.</p>
+
 </dd>
 <dt class="protocol">
-    <a href="EventHandler" title="protocol - EventHandler">
+    <a href="/Scenes/EventHandler" title="protocol - EventHandler">
         Event​Handler
     </a>
 </dt>
 <dd>
-    
+    <p>An <code>Eventhandler</code> is a type capable of being registered with the
+<code>Dispatcher</code> to receive events of a certain type.</p>
+
 </dd>
 <dt class="protocol">
-    <a href="KeyDownHandler" title="protocol - KeyDownHandler">
+    <a href="/Scenes/FrameUpdateHandler" title="protocol - FrameUpdateHandler">
+        Frame​Update​Handler
+    </a>
+</dt>
+<dd>
+    <p>A type conforming to <code>FrameUpdateHandler</code> is capable of receiving
+frame update events through the <em>onFrameUpdate</em> method.</p>
+
+</dd>
+<dt class="protocol">
+    <a href="/Scenes/KeyDownHandler" title="protocol - KeyDownHandler">
         Key​Down​Handler
     </a>
 </dt>
 <dd>
-    
+    <p>A type conforming to <code>KeyDownHandler</code> is capable of receiving
+key down events through the <em>onKeyDown</em> method.</p>
+
 </dd>
 <dt class="protocol">
-    <a href="KeyUpHandler" title="protocol - KeyUpHandler">
+    <a href="/Scenes/KeyUpHandler" title="protocol - KeyUpHandler">
         Key​UpHandler
     </a>
 </dt>
 <dd>
-    
+    <p>A type conforming to <code>KeyUpHandler</code> is capable of receiving
+key up events through the <em>onKeyUp</em> method.</p>
+
 </dd>
 <dt class="protocol">
-    <a href="MouseDownHandler" title="protocol - MouseDownHandler">
+    <a href="/Scenes/MouseDownHandler" title="protocol - MouseDownHandler">
         Mouse​Down​Handler
     </a>
 </dt>
 <dd>
-    
+    <p>A type conforming to <code>MouseDownHandler</code> is capable of receiving
+mouse down events through the <em>onMouseDown</em> method.</p>
+
 </dd>
 <dt class="protocol">
-    <a href="MouseMoveHandler" title="protocol - MouseMoveHandler">
+    <a href="/Scenes/MouseMoveHandler" title="protocol - MouseMoveHandler">
         Mouse​Move​Handler
     </a>
 </dt>
 <dd>
-    
+    <p>A type conforming to <code>MouseMoveHandler</code> is capable of receiving
+mouse move events through the <em>onMouseMove</em> method.</p>
+
 </dd>
 <dt class="protocol">
-    <a href="MouseUpHandler" title="protocol - MouseUpHandler">
+    <a href="/Scenes/MouseUpHandler" title="protocol - MouseUpHandler">
         Mouse​UpHandler
     </a>
 </dt>
 <dd>
-    
-</dd>
-<dt class="protocol">
-    <a href="TweenProtocol" title="protocol - TweenProtocol">
-        Tween​Protocol
-    </a>
-</dt>
-<dd>
-    <p>'TweenProtocol' serves as a wrapper for 'Tween' and provides a concrete object.</p>
+    <p>A type conforming to <code>MouseUpHandler</code> is capable of receiving
+mouse up events through the <em>onMouseUp</em> method.</p>
 
 </dd>
 <dt class="protocol">
-    <a href="Tweenable" title="protocol - Tweenable">
-        Tweenable
-    </a>
-</dt>
-<dd>
-    <p>Any element that conforms to 'Tweenable' can be utilized in a 'Tween'.</p>
-
-</dd>
-<dt class="protocol">
-    <a href="WindowResizeHandler" title="protocol - WindowResizeHandler">
+    <a href="/Scenes/WindowResizeHandler" title="protocol - WindowResizeHandler">
         Window​Resize​Handler
     </a>
 </dt>
 <dd>
-    
+    <p>A type conforming to <code>WindowResizeHandler</code> is capable of receiving
+window resize events through the <em>onWindowResize</em> method.</p>
+
 </dd>
-</dl>
+        </dl>
     </section>
 
         </article>
@@ -300,7 +293,7 @@ containers is possible.</p>
 
     <footer>
         <p>
-    Generated on <time datetime="2020-05-01T17:29:39-0500">May 1, 2020</time> using <a href="https://github.com/SwiftDocOrg/swift-doc">swift-doc</a> <span class="version">1.0.0-beta.2</span>.
+    Generated on <time datetime="2021-04-25T15:45:06-0500">April 25, 2021</time> using <a href="https://github.com/SwiftDocOrg/swift-doc">swift-doc</a> <span class="version">1.0.0-beta.6</span>.
 </p>
     </footer>
 </body>

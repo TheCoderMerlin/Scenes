@@ -4,8 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Scenes - RenderableEntity</title>
-    <base href="/Scenes/"/>
-    <link rel="stylesheet" type="text/css" href="all.css" media="all" />
+    <link rel="stylesheet" type="text/css" href="/Scenes/all.css" media="all" />
 </head>
 <body>
     <header>
@@ -27,7 +26,7 @@
     <nav>
         <div class="wrapper">
             <h2>On This Page</h2>
-            <ol><li><a href="#relationships">Relationships</a><ul><li><a href="#relationships">Subclasses</a></li><li><a href="#relationships">Conforms To</a></li><li><a href="#relationships">Types Conforming to Renderable​Entity</a></li></ul></li><li><a href="#initializers">Initializers</a><ul><li class="initializer"><a href="#renderableentity.init(name:)">init(name:​)</a></li></ul></li><li><a href="#properties">Properties</a><ul><li class="property"><a href="#renderableentity.owninglayer">owning​Layer</a></li><li class="property"><a href="#renderableentity.name">name</a></li><li class="property"><a href="#renderableentity.layer">layer</a></li><li class="property"><a href="#renderableentity.scene">scene</a></li><li class="property"><a href="#renderableentity.director">director</a></li><li class="property"><a href="#renderableentity.dispatcher">dispatcher</a></li><li class="property"><a href="#renderableentity.animationmanager">animation​Manager</a></li></ul></li><li><a href="#methods">Methods</a><ul><li class="method"><a href="#renderableentity.local(fromglobal:)">local(from​Global:​)</a></li><li class="method"><a href="#renderableentity.global(fromlocal:)">global(from​Local:​)</a></li><li class="method"><a href="#renderableentity.settransforms(transforms:)">set​Transforms(transforms:​)</a></li><li class="method"><a href="#renderableentity.setalpha(alpha:)">set​Alpha(alpha:​)</a></li><li class="method"><a href="#renderableentity.setclippath(clippath:)">set​Clip​Path(clip​Path:​)</a></li><li class="method"><a href="#renderableentity.applytransforms(topoint:transforms:)">apply​Transforms(to​Point:​transforms:​)</a></li><li class="method"><a href="#renderableentity.applytransforms(topoints:transforms:)">apply​Transforms(to​Points:​transforms:​)</a></li><li class="method"><a href="#renderableentity.setup(canvassize:canvas:)">setup(canvas​Size:​canvas:​)</a></li><li class="method"><a href="#renderableentity.teardown()">teardown()</a></li><li class="method"><a href="#renderableentity.calculate(canvassize:)">calculate(canvas​Size:​)</a></li><li class="method"><a href="#renderableentity.render(canvas:)">render(canvas:​)</a></li><li class="method"><a href="#renderableentity.boundingrect()">bounding​Rect()</a></li><li class="method"><a href="#renderableentity.hittest(globallocation:)">hit​Test(global​Location:​)</a></li><li class="method"><a href="#renderableentity.ismousetransparent()">is​Mouse​Transparent()</a></li><li class="method"><a href="#renderableentity.==(lhs:rhs:)">==(lhs:​rhs:​)</a></li></ul></li></ol>
+            <ol><li><a href="#relationships">Relationships</a><ul><li><a href="#relationships">Superclass</a></li><li><a href="#relationships">Subclasses</a></li><li><a href="#relationships">Types Conforming to Renderable​Entity</a></li></ul></li><li><a href="#initializers">Initializers</a><ul><li class="initializer"><a href="#renderableentity.init(name:)">init(name:​)</a></li></ul></li><li><a href="#properties">Properties</a><ul><li class="variable"><a href="#renderableentity.owninglayer">owning​Layer</a></li><li class="variable"><a href="#renderableentity.layer">layer</a></li><li class="variable"><a href="#renderableentity.scene">scene</a></li><li class="variable"><a href="#renderableentity.director">director</a></li><li class="variable"><a href="#renderableentity.dispatcher">dispatcher</a></li></ul></li><li><a href="#methods">Methods</a><ul><li class="function"><a href="#renderableentity.local(fromglobal:)">local(from​Global:​)</a></li><li class="function"><a href="#renderableentity.global(fromlocal:)">global(from​Local:​)</a></li><li class="function"><a href="#renderableentity.settransforms(transforms:)">set​Transforms(transforms:​)</a></li><li class="function"><a href="#renderableentity.setalpha(alpha:)">set​Alpha(alpha:​)</a></li><li class="function"><a href="#renderableentity.setclippath(clippath:)">set​Clip​Path(clip​Path:​)</a></li><li class="function"><a href="#renderableentity.applytransforms(topoint:transforms:)">apply​Transforms(to​Point:​transforms:​)</a></li><li class="function"><a href="#renderableentity.applytransforms(topoints:transforms:)">apply​Transforms(to​Points:​transforms:​)</a></li><li class="function"><a href="#renderableentity.setup(canvassize:canvas:)">setup(canvas​Size:​canvas:​)</a></li><li class="function"><a href="#renderableentity.teardown()">teardown()</a></li><li class="function"><a href="#renderableentity.calculate(canvassize:)">calculate(canvas​Size:​)</a></li><li class="function"><a href="#renderableentity.render(canvas:)">render(canvas:​)</a></li><li class="function"><a href="#renderableentity.boundingrect()">bounding​Rect()</a></li><li class="function"><a href="#renderableentity.hittest(globallocation:)">hit​Test(global​Location:​)</a></li><li class="function"><a href="#renderableentity.ismousetransparent()">is​Mouse​Transparent()</a></li><li class="function"><a href="#renderableentity.isvisible()">is​Visible()</a></li></ul></li></ol>
         </div>
     </nav>
 
@@ -38,186 +37,502 @@
     <code class="name">Renderable​Entity</code>
 </h1>
 
-<html><body><pre class="highlight"><code><span class="attribute">open</span> <span class="keyword">class</span> <span class="type">RenderableEntity</span></code></pre></body></html>
+<div class="declaration">
+<pre class="highlight"><code><span class="attribute">open</span> <span class="keyword">class</span> <span class="type">RenderableEntity</span> : <span class="type">IdentifiableObject</span> </code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>A <code>RenderableEntity</code> provides the majority of rendering and interactive
+functionality by overriding the required methods and working with the
+<code>Dispatcher</code> to register events of intrest.</p>
+
+</div>
 <section id="relationships">
     <h2 hidden>Relationships</h2>
-        
-        <h3>Subclasses</h3>
+        <figure>
+    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: %89 Pages: 1 -->
+<svg width="1412pt" height="288pt"
+ viewBox="0.00 0.00 1411.83 287.81" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 283.81)">
+<title>%89</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-283.81 1407.83,-283.81 1407.83,4 -4,4"/>
+<!-- RenderableEntity -->
+<g id="node1" class="node class current">
+<title>RenderableEntity</title>
+<g id="a_node1"><a xlink:href="/Scenes/RenderableEntity" xlink:title="RenderableEntity">
+<path fill="none" stroke="black" stroke-width="3" d="M796.73,-157.67C796.73,-157.67 604.73,-157.67 604.73,-157.67 598.73,-157.67 592.73,-151.67 592.73,-145.67 592.73,-145.67 592.73,-133.67 592.73,-133.67 592.73,-127.67 598.73,-121.67 604.73,-121.67 604.73,-121.67 796.73,-121.67 796.73,-121.67 802.73,-121.67 808.73,-127.67 808.73,-133.67 808.73,-133.67 808.73,-145.67 808.73,-145.67 808.73,-151.67 802.73,-157.67 796.73,-157.67"/>
+<text text-anchor="middle" x="700.73" y="-135.97" font-family="Menlo" font-size="14.00">RenderableEntity</text>
+</a>
+</g>
+</g>
+<!-- IdentifiableObject -->
+<g id="node9" class="node class">
+<title>IdentifiableObject</title>
+<g id="a_node9"><a xlink:href="/Scenes/IdentifiableObject" xlink:title="IdentifiableObject">
+<path fill="none" stroke="black" d="M959.46,-36C959.46,-36 767.46,-36 767.46,-36 761.46,-36 755.46,-30 755.46,-24 755.46,-24 755.46,-12 755.46,-12 755.46,-6 761.46,0 767.46,0 767.46,0 959.46,0 959.46,0 965.46,0 971.46,-6 971.46,-12 971.46,-12 971.46,-24 971.46,-24 971.46,-30 965.46,-36 959.46,-36"/>
+<text text-anchor="middle" x="863.46" y="-14.3" font-family="Menlo" font-size="14.00">IdentifiableObject</text>
+</a>
+</g>
+</g>
+<!-- RenderableEntity&#45;&gt;IdentifiableObject -->
+<g id="edge5" class="edge inheritsFrom">
+<title>RenderableEntity&#45;&gt;IdentifiableObject</title>
+<path fill="none" stroke="black" d="M725.09,-121.46C753.21,-100.43 799.59,-65.75 830.82,-42.4"/>
+<polygon fill="black" stroke="black" points="833.28,-44.93 839.2,-36.14 829.09,-39.33 833.28,-44.93"/>
+</g>
+<!-- EntityMouseEnterHandler -->
+<g id="node2" class="node protocol">
+<title>EntityMouseEnterHandler</title>
+<g id="a_node2"><a xlink:href="/Scenes/EntityMouseEnterHandler" xlink:title="EntityMouseEnterHandler">
+<path fill="none" stroke="black" d="M1391.83,-189.93C1391.83,-189.93 1199.83,-189.93 1199.83,-189.93 1193.83,-189.93 1187.83,-183.93 1187.83,-177.93 1187.83,-177.93 1187.83,-165.93 1187.83,-165.93 1187.83,-159.93 1193.83,-153.93 1199.83,-153.93 1199.83,-153.93 1391.83,-153.93 1391.83,-153.93 1397.83,-153.93 1403.83,-159.93 1403.83,-165.93 1403.83,-165.93 1403.83,-177.93 1403.83,-177.93 1403.83,-183.93 1397.83,-189.93 1391.83,-189.93"/>
+<text text-anchor="middle" x="1295.83" y="-168.23" font-family="Menlo" font-size="14.00">EntityMouseEnterHandler</text>
+</a>
+</g>
+</g>
+<!-- EntityMouseEnterHandler&#45;&gt;RenderableEntity -->
+<g id="edge4" class="edge conformsTo">
+<title>EntityMouseEnterHandler&#45;&gt;RenderableEntity</title>
+<path fill="none" stroke="black" d="M1187.71,-166.07C1083.59,-160.43 926.49,-151.91 819.06,-146.09"/>
+<polygon fill="black" stroke="black" points="818.99,-142.58 808.82,-145.53 818.62,-149.57 818.99,-142.58"/>
+</g>
+<!-- EntityMouseDragHandler -->
+<g id="node3" class="node protocol">
+<title>EntityMouseDragHandler</title>
+<g id="a_node3"><a xlink:href="/Scenes/EntityMouseDragHandler" xlink:title="EntityMouseDragHandler">
+<path fill="none" stroke="black" d="M495.27,-47.16C495.27,-47.16 303.27,-47.16 303.27,-47.16 297.27,-47.16 291.27,-41.16 291.27,-35.16 291.27,-35.16 291.27,-23.16 291.27,-23.16 291.27,-17.16 297.27,-11.16 303.27,-11.16 303.27,-11.16 495.27,-11.16 495.27,-11.16 501.27,-11.16 507.27,-17.16 507.27,-23.16 507.27,-23.16 507.27,-35.16 507.27,-35.16 507.27,-41.16 501.27,-47.16 495.27,-47.16"/>
+<text text-anchor="middle" x="399.27" y="-25.46" font-family="Menlo" font-size="14.00">EntityMouseDragHandler</text>
+</a>
+</g>
+</g>
+<!-- EntityMouseDragHandler&#45;&gt;RenderableEntity -->
+<g id="edge1" class="edge conformsTo">
+<title>EntityMouseDragHandler&#45;&gt;RenderableEntity</title>
+<path fill="none" stroke="black" d="M448.38,-47.16C501.29,-66.56 585.48,-97.42 641.89,-118.1"/>
+<polygon fill="black" stroke="black" points="640.8,-121.43 651.39,-121.59 643.21,-114.86 640.8,-121.43"/>
+</g>
+<!-- EntityMouseClickHandler -->
+<g id="node4" class="node protocol">
+<title>EntityMouseClickHandler</title>
+<g id="a_node4"><a xlink:href="/Scenes/EntityMouseClickHandler" xlink:title="EntityMouseClickHandler">
+<path fill="none" stroke="black" d="M263.7,-220.66C263.7,-220.66 71.7,-220.66 71.7,-220.66 65.7,-220.66 59.7,-214.66 59.7,-208.66 59.7,-208.66 59.7,-196.66 59.7,-196.66 59.7,-190.66 65.7,-184.66 71.7,-184.66 71.7,-184.66 263.7,-184.66 263.7,-184.66 269.7,-184.66 275.7,-190.66 275.7,-196.66 275.7,-196.66 275.7,-208.66 275.7,-208.66 275.7,-214.66 269.7,-220.66 263.7,-220.66"/>
+<text text-anchor="middle" x="167.7" y="-198.96" font-family="Menlo" font-size="14.00">EntityMouseClickHandler</text>
+</a>
+</g>
+</g>
+<!-- EntityMouseClickHandler&#45;&gt;RenderableEntity -->
+<g id="edge2" class="edge conformsTo">
+<title>EntityMouseClickHandler&#45;&gt;RenderableEntity</title>
+<path fill="none" stroke="black" d="M275.89,-189.88C364.91,-179.36 490.89,-164.47 582.54,-153.64"/>
+<polygon fill="black" stroke="black" points="583.18,-157.09 592.7,-152.44 582.35,-150.14 583.18,-157.09"/>
+</g>
+<!-- EntityMouseDownHandler -->
+<g id="node5" class="node protocol">
+<title>EntityMouseDownHandler</title>
+<g id="a_node5"><a xlink:href="/Scenes/EntityMouseDownHandler" xlink:title="EntityMouseDownHandler">
+<path fill="none" stroke="black" d="M1107.48,-266.85C1107.48,-266.85 915.48,-266.85 915.48,-266.85 909.48,-266.85 903.48,-260.85 903.48,-254.85 903.48,-254.85 903.48,-242.85 903.48,-242.85 903.48,-236.85 909.48,-230.85 915.48,-230.85 915.48,-230.85 1107.48,-230.85 1107.48,-230.85 1113.48,-230.85 1119.48,-236.85 1119.48,-242.85 1119.48,-242.85 1119.48,-254.85 1119.48,-254.85 1119.48,-260.85 1113.48,-266.85 1107.48,-266.85"/>
+<text text-anchor="middle" x="1011.48" y="-245.15" font-family="Menlo" font-size="14.00">EntityMouseDownHandler</text>
+</a>
+</g>
+</g>
+<!-- EntityMouseDownHandler&#45;&gt;RenderableEntity -->
+<g id="edge7" class="edge conformsTo">
+<title>EntityMouseDownHandler&#45;&gt;RenderableEntity</title>
+<path fill="none" stroke="black" d="M960.16,-230.82C905.73,-211.7 819.78,-181.5 761.87,-161.16"/>
+<polygon fill="black" stroke="black" points="762.71,-157.74 752.12,-157.73 760.39,-164.34 762.71,-157.74"/>
+</g>
+<!-- EntityMouseLeaveHandler -->
+<g id="node6" class="node protocol">
+<title>EntityMouseLeaveHandler</title>
+<g id="a_node6"><a xlink:href="/Scenes/EntityMouseLeaveHandler" xlink:title="EntityMouseLeaveHandler">
+<path fill="none" stroke="black" d="M639.59,-279.81C639.59,-279.81 447.59,-279.81 447.59,-279.81 441.59,-279.81 435.59,-273.81 435.59,-267.81 435.59,-267.81 435.59,-255.81 435.59,-255.81 435.59,-249.81 441.59,-243.81 447.59,-243.81 447.59,-243.81 639.59,-243.81 639.59,-243.81 645.59,-243.81 651.59,-249.81 651.59,-255.81 651.59,-255.81 651.59,-267.81 651.59,-267.81 651.59,-273.81 645.59,-279.81 639.59,-279.81"/>
+<text text-anchor="middle" x="543.59" y="-258.11" font-family="Menlo" font-size="14.00">EntityMouseLeaveHandler</text>
+</a>
+</g>
+</g>
+<!-- EntityMouseLeaveHandler&#45;&gt;RenderableEntity -->
+<g id="edge8" class="edge conformsTo">
+<title>EntityMouseLeaveHandler&#45;&gt;RenderableEntity</title>
+<path fill="none" stroke="black" d="M566.78,-243.79C593.94,-222.68 639.05,-187.61 669.33,-164.08"/>
+<polygon fill="black" stroke="black" points="671.7,-166.67 677.45,-157.77 667.4,-161.14 671.7,-166.67"/>
+</g>
+<!-- EntityMouseUpHandler -->
+<g id="node7" class="node protocol">
+<title>EntityMouseUpHandler</title>
+<g id="a_node7"><a xlink:href="/Scenes/EntityMouseUpHandler" xlink:title="EntityMouseUpHandler">
+<path fill="none" stroke="black" d="M204,-123.96C204,-123.96 12,-123.96 12,-123.96 6,-123.96 0,-117.96 0,-111.96 0,-111.96 0,-99.96 0,-99.96 0,-93.96 6,-87.96 12,-87.96 12,-87.96 204,-87.96 204,-87.96 210,-87.96 216,-93.96 216,-99.96 216,-99.96 216,-111.96 216,-111.96 216,-117.96 210,-123.96 204,-123.96"/>
+<text text-anchor="middle" x="108" y="-102.26" font-family="Menlo" font-size="14.00">EntityMouseUpHandler</text>
+</a>
+</g>
+</g>
+<!-- EntityMouseUpHandler&#45;&gt;RenderableEntity -->
+<g id="edge6" class="edge conformsTo">
+<title>EntityMouseUpHandler&#45;&gt;RenderableEntity</title>
+<path fill="none" stroke="black" d="M216.03,-112.1C319.62,-117.99 475.64,-126.87 582.51,-132.95"/>
+<polygon fill="black" stroke="black" points="582.51,-136.45 592.69,-133.53 582.91,-129.46 582.51,-136.45"/>
+</g>
+<!-- ContainableRenderableEntity -->
+<g id="node8" class="node class">
+<title>ContainableRenderableEntity</title>
+<g id="a_node8"><a xlink:href="/Scenes/ContainableRenderableEntity" xlink:title="ContainableRenderableEntity">
+<path fill="none" stroke="black" d="M1332,-94.23C1332,-94.23 1138,-94.23 1138,-94.23 1132,-94.23 1126,-88.23 1126,-82.23 1126,-82.23 1126,-70.23 1126,-70.23 1126,-64.23 1132,-58.23 1138,-58.23 1138,-58.23 1332,-58.23 1332,-58.23 1338,-58.23 1344,-64.23 1344,-70.23 1344,-70.23 1344,-82.23 1344,-82.23 1344,-88.23 1338,-94.23 1332,-94.23"/>
+<text text-anchor="middle" x="1235" y="-72.53" font-family="Menlo" font-size="14.00">ContainableRenderableEntity</text>
+</a>
+</g>
+</g>
+<!-- ContainableRenderableEntity&#45;&gt;RenderableEntity -->
+<g id="edge3" class="edge inheritsFrom">
+<title>ContainableRenderableEntity&#45;&gt;RenderableEntity</title>
+<path fill="none" stroke="black" d="M1125.91,-89.18C1036.63,-99.79 910.57,-114.75 818.91,-125.64"/>
+<polygon fill="black" stroke="black" points="818.27,-122.19 808.75,-126.84 819.09,-129.14 818.27,-122.19"/>
+</g>
+</g>
+</svg>
+
+
+    <figcaption hidden>Inheritance graph for RenderableEntity.</figcaption>
+</figure>
+        <h3>Superclass</h3>
 <dl>
-    <dt class="class"><code><a href="ContainableRenderableEntity">ContainableRenderableEntity</a></code></dt>
+    <dt class="class"><code><a href="/Scenes/IdentifiableObject">IdentifiableObject</a></code></dt>
+<dd><p><code>IdentifiableObject</code> provides base functionality for using unique
+names that are useful for debugging.</p>
+</dd>
+</dl>
+<h3>Subclasses</h3>
+<dl>
+    <dt class="class"><code><a href="/Scenes/ContainableRenderableEntity">ContainableRenderableEntity</a></code></dt>
 <dd><p>A <code>ContainableRenderableEntity</code> is used for subclassing entities which may be
 contained in a <code>RenderableEntityContainer</code>.
 Descendant classes must:</p>
 </dd>
 </dl>
-<h3>Conforms To</h3>
-<dl>
-    <dt class="unknown"><code>Equatable</code></dt>
-</dl>
 <h3>Types Conforming to <code>Renderable​Entity</code></h3>
 <dl>
-    <dt class="protocol"><code><a href="EntityMouseClickHandler">EntityMouseClickHandler</a></code></dt>
-<dd></dd>
-<dt class="protocol"><code><a href="EntityMouseDownHandler">EntityMouseDownHandler</a></code></dt>
-<dd></dd>
-<dt class="protocol"><code><a href="EntityMouseDragHandler">EntityMouseDragHandler</a></code></dt>
-<dd></dd>
-<dt class="protocol"><code><a href="EntityMouseEnterHandler">EntityMouseEnterHandler</a></code></dt>
-<dd></dd>
-<dt class="protocol"><code><a href="EntityMouseLeaveHandler">EntityMouseLeaveHandler</a></code></dt>
-<dd></dd>
-<dt class="protocol"><code><a href="EntityMouseUpHandler">EntityMouseUpHandler</a></code></dt>
-<dd></dd>
+    <dt class="protocol"><code><a href="/Scenes/EntityMouseClickHandler">EntityMouseClickHandler</a></code></dt>
+<dd><p>A type conforming to <code>EntityMouseClickHandler</code> is capable of receiving
+entity mouse click events through the <em>onEntityMouseClick</em> method.</p>
+</dd>
+<dt class="protocol"><code><a href="/Scenes/EntityMouseDownHandler">EntityMouseDownHandler</a></code></dt>
+<dd><p>A type conforming to <code>EntityMouseDownHandler</code> is capable of receiving
+entity mouse down events through the <em>onEntityMouseDown</em> method.</p>
+</dd>
+<dt class="protocol"><code><a href="/Scenes/EntityMouseDragHandler">EntityMouseDragHandler</a></code></dt>
+<dd><p>A type conforming to <code>EntityMouseDragHandler</code> is capable of receiving
+entity mouse drag events through the <em>onEntityMouseDrag</em> method.</p>
+</dd>
+<dt class="protocol"><code><a href="/Scenes/EntityMouseEnterHandler">EntityMouseEnterHandler</a></code></dt>
+<dd><p>A type conforming to <code>EntityMouseEnterHandler</code> is capable of receiving
+entity mouse enter events through the <em>onEntityMouseEnter</em> method.</p>
+</dd>
+<dt class="protocol"><code><a href="/Scenes/EntityMouseLeaveHandler">EntityMouseLeaveHandler</a></code></dt>
+<dd><p>A type conforming to <code>EntityMouseLeaveHandler</code> is capable of receiving
+entity mouse leave events through the <em>onEntityMouseLeave</em> method.</p>
+</dd>
+<dt class="protocol"><code><a href="/Scenes/EntityMouseUpHandler">EntityMouseUpHandler</a></code></dt>
+<dd><p>A type conforming to <code>EntityMouseUpHandler</code> is capable of receiving
+entity mouse up events through the <em>onEntityMouseUp</em> method.</p>
+</dd>
 </dl>
 </section>
     <section id="initializers">
         <h2>Initializers</h2>
 
-        <div role="article" class="class" id="renderableentity.init(name:)">
+        <div role="article" class="initializer" id="renderableentity.init(name:)">
     <h3>
         <code>init(name:​)</code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">init</span>(<span class="variable">name</span>: <span class="type">String</span>? = <span class="keyword">nil</span>)</code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><span class="keyword">public</span> <span class="attribute">override</span> <span class="keyword">init</span>(<span class="variable">name</span>:<span class="type">String</span>?=<span class="keyword">nil</span>) </code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Creates a new <code>RenderableEntity</code> from the given paramenters:</p>
+
+</div>
+<h4>Parameters</h4>
+
+<table class="parameters">
+  <thead hidden>
+  <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+  </tr>
+  </thead>
+  <tbody>
+    <tr>
+    <th>name</th>
+    <td><code class="type">String?</code></td>
+    <td><p>The unique name of the renderable entity. While it's very useful for debugging purposes to provide a meaningful name, it's not required.</p>
+</td>
+</tr>
+  </tbody>
+</table>
 </div>
     </section>
     <section id="properties">
         <h2>Properties</h2>
 
-        <div role="article" class="class" id="renderableentity.owninglayer">
+        <div role="article" class="variable" id="renderableentity.owninglayer">
     <h3>
         <code>owning​Layer</code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">owningLayer</span>: <a href="Layer"><span class="type">Layer</span></a>?</code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">private</span>(<span class="variable">set</span>) <span class="attribute">weak</span> <span class="keyword">var</span> <span class="variable">owningLayer</span> : <span class="type">Layer</span>?</code></pre>
 </div>
-<div role="article" class="class" id="renderableentity.name">
-    <h3>
-        <code>name</code>
-    </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">name</span>: <span class="type">String</span></code></pre></body></html>
 </div>
-<div role="article" class="class" id="renderableentity.layer">
+<div role="article" class="variable" id="renderableentity.layer">
     <h3>
         <code>layer</code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">layer</span>: <a href="Layer"><span class="type">Layer</span></a></code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">var</span> <span class="variable">layer</span> : <span class="type">Layer</span> </code></pre>
 </div>
-<div role="article" class="class" id="renderableentity.scene">
+<div class="summary" role="doc-abstract">
+    <p>The owning layer for this entity.</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="renderableentity.scene">
     <h3>
         <code>scene</code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">scene</span>: <a href="Scene"><span class="type">Scene</span></a></code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">var</span> <span class="variable">scene</span> : <span class="type">Scene</span> </code></pre>
 </div>
-<div role="article" class="class" id="renderableentity.director">
+<div class="summary" role="doc-abstract">
+    <p>The owning scene for this entity.</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="renderableentity.director">
     <h3>
         <code>director</code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">director</span>: <a href="Director"><span class="type">Director</span></a></code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">var</span> <span class="variable">director</span> : <span class="type">Director</span> </code></pre>
 </div>
-<div role="article" class="class" id="renderableentity.dispatcher">
+<div class="summary" role="doc-abstract">
+    <p>The owning director for this entity.</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="renderableentity.dispatcher">
     <h3>
         <code>dispatcher</code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">dispatcher</span>: <a href="Dispatcher"><span class="type">Dispatcher</span></a></code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">var</span> <span class="variable">dispatcher</span> : <span class="type">Dispatcher</span> </code></pre>
 </div>
-<div role="article" class="class" id="renderableentity.animationmanager">
-    <h3>
-        <code>animation​Manager</code>
-    </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">animationManager</span>: <a href="AnimationManager"><span class="type">AnimationManager</span></a></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>The event dispatcher for this entities owning director.</p>
+
+</div>
 </div>
     </section>
     <section id="methods">
         <h2>Methods</h2>
 
-        <div role="article" class="class" id="renderableentity.local(fromglobal:)">
+        <div role="article" class="function" id="renderableentity.local(fromglobal:)">
     <h3>
         <code>local(from​Global:​)</code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">local</span>(<span class="variable">fromGlobal</span>: <span class="type">Point</span>) -&gt; <span class="type">Point</span></code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">local</span>(<span class="variable">fromGlobal</span>:<span class="type">Point</span>) -&gt; <span class="type">Point</span> </code></pre>
 </div>
-<div role="article" class="class" id="renderableentity.global(fromlocal:)">
+<div class="summary" role="doc-abstract">
+    <p>Translated the specified global point from global space to this
+entities space.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="renderableentity.global(fromlocal:)">
     <h3>
         <code>global(from​Local:​)</code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">global</span>(<span class="variable">fromLocal</span>: <span class="type">Point</span>) -&gt; <span class="type">Point</span></code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">global</span>(<span class="variable">fromLocal</span>:<span class="type">Point</span>) -&gt; <span class="type">Point</span> </code></pre>
 </div>
-<div role="article" class="class" id="renderableentity.settransforms(transforms:)">
+<div class="summary" role="doc-abstract">
+    <p>Translates the specified local point from this entities space
+to global space.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="renderableentity.settransforms(transforms:)">
     <h3>
         <code>set​Transforms(transforms:​)</code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">setTransforms</span>(<span class="variable">transforms</span>: [<span class="type">Transform</span>]?)</code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">setTransforms</span>(<span class="variable">transforms</span>:[<span class="type">Transform</span>]?) </code></pre>
 </div>
-<div role="article" class="class" id="renderableentity.setalpha(alpha:)">
+<div class="summary" role="doc-abstract">
+    <p>Sets the transforms to be applied to this entity.
+This function should only be invoked during init(), setup(), or calculate().</p>
+
+</div>
+</div>
+<div role="article" class="function" id="renderableentity.setalpha(alpha:)">
     <h3>
         <code>set​Alpha(alpha:​)</code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">setAlpha</span>(<span class="variable">alpha</span>: <span class="type">Alpha</span>?)</code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">setAlpha</span>(<span class="variable">alpha</span>:<span class="type">Alpha</span>?) </code></pre>
 </div>
-<div role="article" class="class" id="renderableentity.setclippath(clippath:)">
+<div class="summary" role="doc-abstract">
+    <p>Sets the alpha component for this entity.
+This function should only be invoked during init(), setup(), or calculate().</p>
+
+</div>
+</div>
+<div role="article" class="function" id="renderableentity.setclippath(clippath:)">
     <h3>
         <code>set​Clip​Path(clip​Path:​)</code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">setClipPath</span>(<span class="variable">clipPath</span>: <span class="type">ClipPath</span>?)</code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">setClipPath</span>(<span class="variable">clipPath</span>:<span class="type">ClipPath</span>?) </code></pre>
 </div>
-<div role="article" class="class" id="renderableentity.applytransforms(topoint:transforms:)">
+<div class="summary" role="doc-abstract">
+    <p>Sets the clip path for this entity.
+This function should only be invoked during init(), setup(), or calculate().</p>
+
+</div>
+</div>
+<div role="article" class="function" id="renderableentity.applytransforms(topoint:transforms:)">
     <h3>
         <code>apply​Transforms(to​Point:​transforms:​)</code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">applyTransforms</span>(<span class="variable">toPoint</span>: <span class="type">Point</span>, <span class="variable">transforms</span>: [<span class="type">Transform</span>]? = <span class="keyword">nil</span>) -&gt; <span class="type">Point</span></code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">applyTransforms</span>(<span class="variable">toPoint</span>:<span class="type">Point</span>, <span class="variable">transforms</span>:[<span class="type">Transform</span>]? = <span class="keyword">nil</span>) -&gt; <span class="type">Point</span> </code></pre>
 </div>
-<div role="article" class="class" id="renderableentity.applytransforms(topoints:transforms:)">
+<div class="summary" role="doc-abstract">
+    <p>Applies specified or current transforms to the specified point
+If no transforms are current, returns the original point</p>
+
+</div>
+</div>
+<div role="article" class="function" id="renderableentity.applytransforms(topoints:transforms:)">
     <h3>
         <code>apply​Transforms(to​Points:​transforms:​)</code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">applyTransforms</span>(<span class="variable">toPoints</span>: [<span class="type">Point</span>], <span class="variable">transforms</span>: [<span class="type">Transform</span>]? = <span class="keyword">nil</span>) -&gt; [<span class="type">Point</span>]</code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">applyTransforms</span>(<span class="variable">toPoints</span>:[<span class="type">Point</span>], <span class="variable">transforms</span>:[<span class="type">Transform</span>]? = <span class="keyword">nil</span>) -&gt; [<span class="type">Point</span>] </code></pre>
 </div>
-<div role="article" class="class" id="renderableentity.setup(canvassize:canvas:)">
+<div class="summary" role="doc-abstract">
+    <p>Applies specified or current transforms to the specified points
+If no transforms are current, returns the original points</p>
+
+</div>
+</div>
+<div role="article" class="function" id="renderableentity.setup(canvassize:canvas:)">
     <h3>
         <code>setup(canvas​Size:​canvas:​)</code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="attribute">open</span> <span class="keyword">func</span> <span class="function">setup</span>(<span class="variable">canvasSize</span>: <span class="type">Size</span>, <span class="variable">canvas</span>: <span class="type">Canvas</span>)</code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><span class="attribute">open</span> <span class="keyword">func</span> <span class="function">setup</span>(<span class="variable">canvasSize</span>:<span class="type">Size</span>, <span class="variable">canvas</span>:<span class="type">Canvas</span>) </code></pre>
 </div>
-<div role="article" class="class" id="renderableentity.teardown()">
+<div class="summary" role="doc-abstract">
+    <p>setup() is invoked exactly once, either when the owning layer is first
+set up or, if the layer has already been setup, prior to the next
+calculate event.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="renderableentity.teardown()">
     <h3>
         <code>teardown()</code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="attribute">open</span> <span class="keyword">func</span> <span class="function">teardown</span>()</code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><span class="attribute">open</span> <span class="keyword">func</span> <span class="function">teardown</span>() </code></pre>
 </div>
-<div role="article" class="class" id="renderableentity.calculate(canvassize:)">
+<div class="summary" role="doc-abstract">
+    <p>teardown() is invoked exactly once when the scene is torndown prior to a
+transition.
+This is the appropriate location to unregister event handlers.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="renderableentity.calculate(canvassize:)">
     <h3>
         <code>calculate(canvas​Size:​)</code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="attribute">open</span> <span class="keyword">func</span> <span class="function">calculate</span>(<span class="variable">canvasSize</span>: <span class="type">Size</span>)</code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><span class="attribute">open</span> <span class="keyword">func</span> <span class="function">calculate</span>(<span class="variable">canvasSize</span>:<span class="type">Size</span>) </code></pre>
 </div>
-<div role="article" class="class" id="renderableentity.render(canvas:)">
+<div class="summary" role="doc-abstract">
+    <p>calculate() is invoked once per frame prior to each render event.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="renderableentity.render(canvas:)">
     <h3>
         <code>render(canvas:​)</code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="attribute">open</span> <span class="keyword">func</span> <span class="function">render</span>(<span class="variable">canvas</span>: <span class="type">Canvas</span>)</code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><span class="attribute">open</span> <span class="keyword">func</span> <span class="function">render</span>(<span class="variable">canvas</span>:<span class="type">Canvas</span>) </code></pre>
 </div>
-<div role="article" class="class" id="renderableentity.boundingrect()">
+<div class="summary" role="doc-abstract">
+    <p>render() is invoked once per frame during each render cycle.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="renderableentity.boundingrect()">
     <h3>
         <code>bounding​Rect()</code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="attribute">open</span> <span class="keyword">func</span> <span class="function">boundingRect</span>() -&gt; <span class="type">Rect</span></code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><span class="attribute">open</span> <span class="keyword">func</span> <span class="function">boundingRect</span>() -&gt; <span class="type">Rect</span> </code></pre>
 </div>
-<div role="article" class="class" id="renderableentity.hittest(globallocation:)">
+<div class="summary" role="doc-abstract">
+    <p>This function is invoked to determine the boundingRect of the entity, in
+global coordinates.
+This should be over-ridden by inheriting types.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="renderableentity.hittest(globallocation:)">
     <h3>
         <code>hit​Test(global​Location:​)</code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="attribute">open</span> <span class="keyword">func</span> <span class="function">hitTest</span>(<span class="variable">globalLocation</span>: <span class="type">Point</span>) -&gt; <span class="type">Bool</span></code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><span class="attribute">open</span> <span class="keyword">func</span> <span class="function">hitTest</span>(<span class="variable">globalLocation</span>:<span class="type">Point</span>) -&gt; <span class="type">Bool</span>  </code></pre>
 </div>
-<div role="article" class="class" id="renderableentity.ismousetransparent()">
+<div class="summary" role="doc-abstract">
+    <p>Performs a hit test between this entities <code>boundingRect()</code> and a global point.
+Returns true if the specified point is contained within the bounding rect.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="renderableentity.ismousetransparent()">
     <h3>
         <code>is​Mouse​Transparent()</code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="attribute">open</span> <span class="keyword">func</span> <span class="function">isMouseTransparent</span>() -&gt; <span class="type">Bool</span></code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><span class="attribute">open</span> <span class="keyword">func</span> <span class="function">isMouseTransparent</span>() -&gt; <span class="type">Bool</span> </code></pre>
 </div>
-<div role="article" class="class" id="renderableentity.==(lhs:rhs:)">
+<div class="summary" role="doc-abstract">
+    <p>This function is invoked to determine whether or not an entity is transparent
+to entity mouse events.
+If true, the entity will not intercept such events.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="renderableentity.isvisible()">
     <h3>
-        <code>==(lhs:​rhs:​)</code>
+        <code>is​Visible()</code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">func</span> ==(<span class="variable">lhs</span>: <a href="RenderableEntity"><span class="type">RenderableEntity</span></a>, <span class="variable">rhs</span>: <a href="RenderableEntity"><span class="type">RenderableEntity</span></a>) -&gt; <span class="type">Bool</span></code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><span class="attribute">open</span> <span class="keyword">func</span> <span class="function">isVisible</span>() -&gt; <span class="type">Bool</span> </code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>This function is invoked to determine whether or not an entity is visible.
+If false, the render phase for this entity will be skipped and the <em>render</em>
+method will not be invoked.</p>
+
+</div>
 </div>
     </section>
 
@@ -228,7 +543,7 @@ Descendant classes must:</p>
 
     <footer>
         <p>
-    Generated on <time datetime="2020-05-01T17:29:39-0500">May 1, 2020</time> using <a href="https://github.com/SwiftDocOrg/swift-doc">swift-doc</a> <span class="version">1.0.0-beta.2</span>.
+    Generated on <time datetime="2021-04-25T15:45:06-0500">April 25, 2021</time> using <a href="https://github.com/SwiftDocOrg/swift-doc">swift-doc</a> <span class="version">1.0.0-beta.6</span>.
 </p>
     </footer>
 </body>

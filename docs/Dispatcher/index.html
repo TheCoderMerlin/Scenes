@@ -4,8 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Scenes - Dispatcher</title>
-    <base href="/Scenes/"/>
-    <link rel="stylesheet" type="text/css" href="all.css" media="all" />
+    <link rel="stylesheet" type="text/css" href="/Scenes/all.css" media="all" />
 </head>
 <body>
     <header>
@@ -27,7 +26,7 @@
     <nav>
         <div class="wrapper">
             <h2>On This Page</h2>
-            <ol><li><a href="#methods">Methods</a><ul><li class="method"><a href="#dispatcher.debuglistregisteredhandlers()">debug​List​Registered​Handlers()</a></li><li class="method"><a href="#dispatcher.registerkeydownhandler(handler:)">register​Key​Down​Handler(handler:​)</a></li><li class="method"><a href="#dispatcher.unregisterkeydownhandler(handler:)">unregister​Key​Down​Handler(handler:​)</a></li><li class="method"><a href="#dispatcher.registerkeyuphandler(handler:)">register​Key​UpHandler(handler:​)</a></li><li class="method"><a href="#dispatcher.unregisterkeyuphandler(handler:)">unregister​Key​UpHandler(handler:​)</a></li><li class="method"><a href="#dispatcher.registermousedownhandler(handler:)">register​Mouse​Down​Handler(handler:​)</a></li><li class="method"><a href="#dispatcher.unregistermousedownhandler(handler:)">unregister​Mouse​Down​Handler(handler:​)</a></li><li class="method"><a href="#dispatcher.registermouseuphandler(handler:)">register​Mouse​UpHandler(handler:​)</a></li><li class="method"><a href="#dispatcher.unregistermouseuphandler(handler:)">unregister​Mouse​UpHandler(handler:​)</a></li><li class="method"><a href="#dispatcher.registermousemovehandler(handler:)">register​Mouse​Move​Handler(handler:​)</a></li><li class="method"><a href="#dispatcher.unregistermousemovehandler(handler:)">unregister​Mouse​Move​Handler(handler:​)</a></li><li class="method"><a href="#dispatcher.registercanvasresizehandler(handler:)">register​Canvas​Resize​Handler(handler:​)</a></li><li class="method"><a href="#dispatcher.unregistercanvasresizehandler(handler:)">unregister​Canvas​Resize​Handler(handler:​)</a></li><li class="method"><a href="#dispatcher.registerwindowresizehandler(handler:)">register​Window​Resize​Handler(handler:​)</a></li><li class="method"><a href="#dispatcher.unregisterwindowresizehandler(handler:)">unregister​Window​Resize​Handler(handler:​)</a></li><li class="method"><a href="#dispatcher.registerentitymousedownhandler(handler:)">register​Entity​Mouse​Down​Handler(handler:​)</a></li><li class="method"><a href="#dispatcher.unregisterentitymousedownhandler(handler:)">unregister​Entity​Mouse​Down​Handler(handler:​)</a></li><li class="method"><a href="#dispatcher.registerentitymouseenterhandler(handler:)">register​Entity​Mouse​Enter​Handler(handler:​)</a></li><li class="method"><a href="#dispatcher.unregisterentitymouseenterhandler(handler:)">unregister​Entity​Mouse​Enter​Handler(handler:​)</a></li><li class="method"><a href="#dispatcher.registerentitymouseleavehandler(handler:)">register​Entity​Mouse​Leave​Handler(handler:​)</a></li><li class="method"><a href="#dispatcher.unregisterentitymouseleavehandler(handler:)">unregister​Entity​Mouse​Leave​Handler(handler:​)</a></li><li class="method"><a href="#dispatcher.registerentitymouseuphandler(handler:)">register​Entity​Mouse​UpHandler(handler:​)</a></li><li class="method"><a href="#dispatcher.unregisterentitymouseuphandler(handler:)">unregister​Entity​Mouse​UpHandler(handler:​)</a></li><li class="method"><a href="#dispatcher.registerentitymouseclickhandler(handler:)">register​Entity​Mouse​Click​Handler(handler:​)</a></li><li class="method"><a href="#dispatcher.unregisterentitymouseclickhandler(handler:)">unregister​Entity​Mouse​Click​Handler(handler:​)</a></li><li class="method"><a href="#dispatcher.registerentitymousedraghandler(handler:)">register​Entity​Mouse​Drag​Handler(handler:​)</a></li><li class="method"><a href="#dispatcher.unregisterentitymousedraghandler(handler:)">unregister​Entity​Mouse​Drag​Handler(handler:​)</a></li></ul></li></ol>
+            <ol><li><a href="#methods">Methods</a><ul><li class="function"><a href="#dispatcher.debuglistregisteredhandlers()">debug​List​Registered​Handlers()</a></li><li class="function"><a href="#dispatcher.registerkeydownhandler(handler:)">register​Key​Down​Handler(handler:​)</a></li><li class="function"><a href="#dispatcher.unregisterkeydownhandler(handler:)">unregister​Key​Down​Handler(handler:​)</a></li><li class="function"><a href="#dispatcher.registerkeyuphandler(handler:)">register​Key​UpHandler(handler:​)</a></li><li class="function"><a href="#dispatcher.unregisterkeyuphandler(handler:)">unregister​Key​UpHandler(handler:​)</a></li><li class="function"><a href="#dispatcher.registermousedownhandler(handler:)">register​Mouse​Down​Handler(handler:​)</a></li><li class="function"><a href="#dispatcher.unregistermousedownhandler(handler:)">unregister​Mouse​Down​Handler(handler:​)</a></li><li class="function"><a href="#dispatcher.registermouseuphandler(handler:)">register​Mouse​UpHandler(handler:​)</a></li><li class="function"><a href="#dispatcher.unregistermouseuphandler(handler:)">unregister​Mouse​UpHandler(handler:​)</a></li><li class="function"><a href="#dispatcher.registermousemovehandler(handler:)">register​Mouse​Move​Handler(handler:​)</a></li><li class="function"><a href="#dispatcher.unregistermousemovehandler(handler:)">unregister​Mouse​Move​Handler(handler:​)</a></li><li class="function"><a href="#dispatcher.registercanvasresizehandler(handler:)">register​Canvas​Resize​Handler(handler:​)</a></li><li class="function"><a href="#dispatcher.unregistercanvasresizehandler(handler:)">unregister​Canvas​Resize​Handler(handler:​)</a></li><li class="function"><a href="#dispatcher.registerwindowresizehandler(handler:)">register​Window​Resize​Handler(handler:​)</a></li><li class="function"><a href="#dispatcher.unregisterwindowresizehandler(handler:)">unregister​Window​Resize​Handler(handler:​)</a></li><li class="function"><a href="#dispatcher.registerframeupdatehandler(handler:)">register​Frame​Update​Handler(handler:​)</a></li><li class="function"><a href="#dispatcher.unregisterframeupdatehandler(handler:)">unregister​Frame​Update​Handler(handler:​)</a></li><li class="function"><a href="#dispatcher.registerentitymousedownhandler(handler:)">register​Entity​Mouse​Down​Handler(handler:​)</a></li><li class="function"><a href="#dispatcher.unregisterentitymousedownhandler(handler:)">unregister​Entity​Mouse​Down​Handler(handler:​)</a></li><li class="function"><a href="#dispatcher.registerentitymouseenterhandler(handler:)">register​Entity​Mouse​Enter​Handler(handler:​)</a></li><li class="function"><a href="#dispatcher.unregisterentitymouseenterhandler(handler:)">unregister​Entity​Mouse​Enter​Handler(handler:​)</a></li><li class="function"><a href="#dispatcher.registerentitymouseleavehandler(handler:)">register​Entity​Mouse​Leave​Handler(handler:​)</a></li><li class="function"><a href="#dispatcher.unregisterentitymouseleavehandler(handler:)">unregister​Entity​Mouse​Leave​Handler(handler:​)</a></li><li class="function"><a href="#dispatcher.registerentitymouseuphandler(handler:)">register​Entity​Mouse​UpHandler(handler:​)</a></li><li class="function"><a href="#dispatcher.unregisterentitymouseuphandler(handler:)">unregister​Entity​Mouse​UpHandler(handler:​)</a></li><li class="function"><a href="#dispatcher.registerentitymouseclickhandler(handler:)">register​Entity​Mouse​Click​Handler(handler:​)</a></li><li class="function"><a href="#dispatcher.unregisterentitymouseclickhandler(handler:)">unregister​Entity​Mouse​Click​Handler(handler:​)</a></li><li class="function"><a href="#dispatcher.registerentitymousedraghandler(handler:)">register​Entity​Mouse​Drag​Handler(handler:​)</a></li><li class="function"><a href="#dispatcher.unregisterentitymousedraghandler(handler:)">unregister​Entity​Mouse​Drag​Handler(handler:​)</a></li></ul></li></ol>
         </div>
     </nav>
 
@@ -38,172 +37,244 @@
     <code class="name">Dispatcher</code>
 </h1>
 
-<html><body><pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">class</span> <span class="type">Dispatcher</span></code></pre></body></html>
+<div class="declaration">
+<pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">class</span> <span class="type">Dispatcher</span> </code></pre>
+</div>
 
     <section id="methods">
         <h2>Methods</h2>
 
-        <div role="article" class="class" id="dispatcher.debuglistregisteredhandlers()">
+        <div role="article" class="function" id="dispatcher.debuglistregisteredhandlers()">
     <h3>
         <code>debug​List​Registered​Handlers()</code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">debugListRegisteredHandlers</span>()</code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">debugListRegisteredHandlers</span>() </code></pre>
 </div>
-<div role="article" class="class" id="dispatcher.registerkeydownhandler(handler:)">
+</div>
+<div role="article" class="function" id="dispatcher.registerkeydownhandler(handler:)">
     <h3>
         <code>register​Key​Down​Handler(handler:​)</code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">registerKeyDownHandler</span>(<span class="variable">handler</span>: <a href="KeyDownHandler"><span class="type">KeyDownHandler</span></a>)</code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">registerKeyDownHandler</span>(<span class="variable">handler</span>:<span class="type">KeyDownHandler</span>) </code></pre>
 </div>
-<div role="article" class="class" id="dispatcher.unregisterkeydownhandler(handler:)">
+</div>
+<div role="article" class="function" id="dispatcher.unregisterkeydownhandler(handler:)">
     <h3>
         <code>unregister​Key​Down​Handler(handler:​)</code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">unregisterKeyDownHandler</span>(<span class="variable">handler</span>: <a href="KeyDownHandler"><span class="type">KeyDownHandler</span></a>)</code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">unregisterKeyDownHandler</span>(<span class="variable">handler</span>:<span class="type">KeyDownHandler</span>) </code></pre>
 </div>
-<div role="article" class="class" id="dispatcher.registerkeyuphandler(handler:)">
+</div>
+<div role="article" class="function" id="dispatcher.registerkeyuphandler(handler:)">
     <h3>
         <code>register​Key​UpHandler(handler:​)</code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">registerKeyUpHandler</span>(<span class="variable">handler</span>: <a href="KeyUpHandler"><span class="type">KeyUpHandler</span></a>)</code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">registerKeyUpHandler</span>(<span class="variable">handler</span>:<span class="type">KeyUpHandler</span>) </code></pre>
 </div>
-<div role="article" class="class" id="dispatcher.unregisterkeyuphandler(handler:)">
+</div>
+<div role="article" class="function" id="dispatcher.unregisterkeyuphandler(handler:)">
     <h3>
         <code>unregister​Key​UpHandler(handler:​)</code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">unregisterKeyUpHandler</span>(<span class="variable">handler</span>: <a href="KeyUpHandler"><span class="type">KeyUpHandler</span></a>)</code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">unregisterKeyUpHandler</span>(<span class="variable">handler</span>:<span class="type">KeyUpHandler</span>) </code></pre>
 </div>
-<div role="article" class="class" id="dispatcher.registermousedownhandler(handler:)">
+</div>
+<div role="article" class="function" id="dispatcher.registermousedownhandler(handler:)">
     <h3>
         <code>register​Mouse​Down​Handler(handler:​)</code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">registerMouseDownHandler</span>(<span class="variable">handler</span>: <a href="MouseDownHandler"><span class="type">MouseDownHandler</span></a>)</code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">registerMouseDownHandler</span>(<span class="variable">handler</span>:<span class="type">MouseDownHandler</span>) </code></pre>
 </div>
-<div role="article" class="class" id="dispatcher.unregistermousedownhandler(handler:)">
+</div>
+<div role="article" class="function" id="dispatcher.unregistermousedownhandler(handler:)">
     <h3>
         <code>unregister​Mouse​Down​Handler(handler:​)</code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">unregisterMouseDownHandler</span>(<span class="variable">handler</span>: <a href="MouseDownHandler"><span class="type">MouseDownHandler</span></a>)</code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">unregisterMouseDownHandler</span>(<span class="variable">handler</span>:<span class="type">MouseDownHandler</span>) </code></pre>
 </div>
-<div role="article" class="class" id="dispatcher.registermouseuphandler(handler:)">
+</div>
+<div role="article" class="function" id="dispatcher.registermouseuphandler(handler:)">
     <h3>
         <code>register​Mouse​UpHandler(handler:​)</code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">registerMouseUpHandler</span>(<span class="variable">handler</span>: <a href="MouseUpHandler"><span class="type">MouseUpHandler</span></a>)</code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">registerMouseUpHandler</span>(<span class="variable">handler</span>:<span class="type">MouseUpHandler</span>) </code></pre>
 </div>
-<div role="article" class="class" id="dispatcher.unregistermouseuphandler(handler:)">
+</div>
+<div role="article" class="function" id="dispatcher.unregistermouseuphandler(handler:)">
     <h3>
         <code>unregister​Mouse​UpHandler(handler:​)</code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">unregisterMouseUpHandler</span>(<span class="variable">handler</span>: <a href="MouseUpHandler"><span class="type">MouseUpHandler</span></a>)</code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">unregisterMouseUpHandler</span>(<span class="variable">handler</span>:<span class="type">MouseUpHandler</span>) </code></pre>
 </div>
-<div role="article" class="class" id="dispatcher.registermousemovehandler(handler:)">
+</div>
+<div role="article" class="function" id="dispatcher.registermousemovehandler(handler:)">
     <h3>
         <code>register​Mouse​Move​Handler(handler:​)</code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">registerMouseMoveHandler</span>(<span class="variable">handler</span>: <a href="MouseMoveHandler"><span class="type">MouseMoveHandler</span></a>)</code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">registerMouseMoveHandler</span>(<span class="variable">handler</span>:<span class="type">MouseMoveHandler</span>) </code></pre>
 </div>
-<div role="article" class="class" id="dispatcher.unregistermousemovehandler(handler:)">
+</div>
+<div role="article" class="function" id="dispatcher.unregistermousemovehandler(handler:)">
     <h3>
         <code>unregister​Mouse​Move​Handler(handler:​)</code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">unregisterMouseMoveHandler</span>(<span class="variable">handler</span>: <a href="MouseMoveHandler"><span class="type">MouseMoveHandler</span></a>)</code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">unregisterMouseMoveHandler</span>(<span class="variable">handler</span>:<span class="type">MouseMoveHandler</span>) </code></pre>
 </div>
-<div role="article" class="class" id="dispatcher.registercanvasresizehandler(handler:)">
+</div>
+<div role="article" class="function" id="dispatcher.registercanvasresizehandler(handler:)">
     <h3>
         <code>register​Canvas​Resize​Handler(handler:​)</code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">registerCanvasResizeHandler</span>(<span class="variable">handler</span>: <a href="CanvasResizeHandler"><span class="type">CanvasResizeHandler</span></a>)</code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">registerCanvasResizeHandler</span>(<span class="variable">handler</span>:<span class="type">CanvasResizeHandler</span>) </code></pre>
 </div>
-<div role="article" class="class" id="dispatcher.unregistercanvasresizehandler(handler:)">
+</div>
+<div role="article" class="function" id="dispatcher.unregistercanvasresizehandler(handler:)">
     <h3>
         <code>unregister​Canvas​Resize​Handler(handler:​)</code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">unregisterCanvasResizeHandler</span>(<span class="variable">handler</span>: <a href="CanvasResizeHandler"><span class="type">CanvasResizeHandler</span></a>)</code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">unregisterCanvasResizeHandler</span>(<span class="variable">handler</span>:<span class="type">CanvasResizeHandler</span>) </code></pre>
 </div>
-<div role="article" class="class" id="dispatcher.registerwindowresizehandler(handler:)">
+</div>
+<div role="article" class="function" id="dispatcher.registerwindowresizehandler(handler:)">
     <h3>
         <code>register​Window​Resize​Handler(handler:​)</code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">registerWindowResizeHandler</span>(<span class="variable">handler</span>: <a href="WindowResizeHandler"><span class="type">WindowResizeHandler</span></a>)</code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">registerWindowResizeHandler</span>(<span class="variable">handler</span>:<span class="type">WindowResizeHandler</span>) </code></pre>
 </div>
-<div role="article" class="class" id="dispatcher.unregisterwindowresizehandler(handler:)">
+</div>
+<div role="article" class="function" id="dispatcher.unregisterwindowresizehandler(handler:)">
     <h3>
         <code>unregister​Window​Resize​Handler(handler:​)</code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">unregisterWindowResizeHandler</span>(<span class="variable">handler</span>: <a href="WindowResizeHandler"><span class="type">WindowResizeHandler</span></a>)</code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">unregisterWindowResizeHandler</span>(<span class="variable">handler</span>:<span class="type">WindowResizeHandler</span>) </code></pre>
 </div>
-<div role="article" class="class" id="dispatcher.registerentitymousedownhandler(handler:)">
+</div>
+<div role="article" class="function" id="dispatcher.registerframeupdatehandler(handler:)">
+    <h3>
+        <code>register​Frame​Update​Handler(handler:​)</code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">registerFrameUpdateHandler</span>(<span class="variable">handler</span>:<span class="type">FrameUpdateHandler</span>) </code></pre>
+</div>
+</div>
+<div role="article" class="function" id="dispatcher.unregisterframeupdatehandler(handler:)">
+    <h3>
+        <code>unregister​Frame​Update​Handler(handler:​)</code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">unregisterFrameUpdateHandler</span>(<span class="variable">handler</span>:<span class="type">FrameUpdateHandler</span>) </code></pre>
+</div>
+</div>
+<div role="article" class="function" id="dispatcher.registerentitymousedownhandler(handler:)">
     <h3>
         <code>register​Entity​Mouse​Down​Handler(handler:​)</code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">registerEntityMouseDownHandler</span>(<span class="variable">handler</span>: <a href="EntityMouseDownHandler"><span class="type">EntityMouseDownHandler</span></a>)</code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">registerEntityMouseDownHandler</span>(<span class="variable">handler</span>:<span class="type">EntityMouseDownHandler</span>) </code></pre>
 </div>
-<div role="article" class="class" id="dispatcher.unregisterentitymousedownhandler(handler:)">
+</div>
+<div role="article" class="function" id="dispatcher.unregisterentitymousedownhandler(handler:)">
     <h3>
         <code>unregister​Entity​Mouse​Down​Handler(handler:​)</code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">unregisterEntityMouseDownHandler</span>(<span class="variable">handler</span>: <a href="EntityMouseDownHandler"><span class="type">EntityMouseDownHandler</span></a>)</code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">unregisterEntityMouseDownHandler</span>(<span class="variable">handler</span>:<span class="type">EntityMouseDownHandler</span>) </code></pre>
 </div>
-<div role="article" class="class" id="dispatcher.registerentitymouseenterhandler(handler:)">
+</div>
+<div role="article" class="function" id="dispatcher.registerentitymouseenterhandler(handler:)">
     <h3>
         <code>register​Entity​Mouse​Enter​Handler(handler:​)</code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">registerEntityMouseEnterHandler</span>(<span class="variable">handler</span>: <a href="EntityMouseEnterHandler"><span class="type">EntityMouseEnterHandler</span></a>)</code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">registerEntityMouseEnterHandler</span>(<span class="variable">handler</span>:<span class="type">EntityMouseEnterHandler</span>) </code></pre>
 </div>
-<div role="article" class="class" id="dispatcher.unregisterentitymouseenterhandler(handler:)">
+</div>
+<div role="article" class="function" id="dispatcher.unregisterentitymouseenterhandler(handler:)">
     <h3>
         <code>unregister​Entity​Mouse​Enter​Handler(handler:​)</code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">unregisterEntityMouseEnterHandler</span>(<span class="variable">handler</span>: <a href="EntityMouseEnterHandler"><span class="type">EntityMouseEnterHandler</span></a>)</code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">unregisterEntityMouseEnterHandler</span>(<span class="variable">handler</span>:<span class="type">EntityMouseEnterHandler</span>) </code></pre>
 </div>
-<div role="article" class="class" id="dispatcher.registerentitymouseleavehandler(handler:)">
+</div>
+<div role="article" class="function" id="dispatcher.registerentitymouseleavehandler(handler:)">
     <h3>
         <code>register​Entity​Mouse​Leave​Handler(handler:​)</code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">registerEntityMouseLeaveHandler</span>(<span class="variable">handler</span>: <a href="EntityMouseLeaveHandler"><span class="type">EntityMouseLeaveHandler</span></a>)</code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">registerEntityMouseLeaveHandler</span>(<span class="variable">handler</span>:<span class="type">EntityMouseLeaveHandler</span>) </code></pre>
 </div>
-<div role="article" class="class" id="dispatcher.unregisterentitymouseleavehandler(handler:)">
+</div>
+<div role="article" class="function" id="dispatcher.unregisterentitymouseleavehandler(handler:)">
     <h3>
         <code>unregister​Entity​Mouse​Leave​Handler(handler:​)</code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">unregisterEntityMouseLeaveHandler</span>(<span class="variable">handler</span>: <a href="EntityMouseLeaveHandler"><span class="type">EntityMouseLeaveHandler</span></a>)</code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">unregisterEntityMouseLeaveHandler</span>(<span class="variable">handler</span>:<span class="type">EntityMouseLeaveHandler</span>) </code></pre>
 </div>
-<div role="article" class="class" id="dispatcher.registerentitymouseuphandler(handler:)">
+</div>
+<div role="article" class="function" id="dispatcher.registerentitymouseuphandler(handler:)">
     <h3>
         <code>register​Entity​Mouse​UpHandler(handler:​)</code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">registerEntityMouseUpHandler</span>(<span class="variable">handler</span>: <a href="EntityMouseUpHandler"><span class="type">EntityMouseUpHandler</span></a>)</code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">registerEntityMouseUpHandler</span>(<span class="variable">handler</span>:<span class="type">EntityMouseUpHandler</span>) </code></pre>
 </div>
-<div role="article" class="class" id="dispatcher.unregisterentitymouseuphandler(handler:)">
+</div>
+<div role="article" class="function" id="dispatcher.unregisterentitymouseuphandler(handler:)">
     <h3>
         <code>unregister​Entity​Mouse​UpHandler(handler:​)</code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">unregisterEntityMouseUpHandler</span>(<span class="variable">handler</span>: <a href="EntityMouseUpHandler"><span class="type">EntityMouseUpHandler</span></a>)</code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">unregisterEntityMouseUpHandler</span>(<span class="variable">handler</span>:<span class="type">EntityMouseUpHandler</span>) </code></pre>
 </div>
-<div role="article" class="class" id="dispatcher.registerentitymouseclickhandler(handler:)">
+</div>
+<div role="article" class="function" id="dispatcher.registerentitymouseclickhandler(handler:)">
     <h3>
         <code>register​Entity​Mouse​Click​Handler(handler:​)</code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">registerEntityMouseClickHandler</span>(<span class="variable">handler</span>: <a href="EntityMouseClickHandler"><span class="type">EntityMouseClickHandler</span></a>)</code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">registerEntityMouseClickHandler</span>(<span class="variable">handler</span>:<span class="type">EntityMouseClickHandler</span>) </code></pre>
 </div>
-<div role="article" class="class" id="dispatcher.unregisterentitymouseclickhandler(handler:)">
+</div>
+<div role="article" class="function" id="dispatcher.unregisterentitymouseclickhandler(handler:)">
     <h3>
         <code>unregister​Entity​Mouse​Click​Handler(handler:​)</code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">unregisterEntityMouseClickHandler</span>(<span class="variable">handler</span>: <a href="EntityMouseClickHandler"><span class="type">EntityMouseClickHandler</span></a>)</code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">unregisterEntityMouseClickHandler</span>(<span class="variable">handler</span>:<span class="type">EntityMouseClickHandler</span>) </code></pre>
 </div>
-<div role="article" class="class" id="dispatcher.registerentitymousedraghandler(handler:)">
+</div>
+<div role="article" class="function" id="dispatcher.registerentitymousedraghandler(handler:)">
     <h3>
         <code>register​Entity​Mouse​Drag​Handler(handler:​)</code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">registerEntityMouseDragHandler</span>(<span class="variable">handler</span>: <a href="EntityMouseDragHandler"><span class="type">EntityMouseDragHandler</span></a>)</code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">registerEntityMouseDragHandler</span>(<span class="variable">handler</span>:<span class="type">EntityMouseDragHandler</span>) </code></pre>
 </div>
-<div role="article" class="class" id="dispatcher.unregisterentitymousedraghandler(handler:)">
+</div>
+<div role="article" class="function" id="dispatcher.unregisterentitymousedraghandler(handler:)">
     <h3>
         <code>unregister​Entity​Mouse​Drag​Handler(handler:​)</code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">unregisterEntityMouseDragHandler</span>(<span class="variable">handler</span>: <a href="EntityMouseDragHandler"><span class="type">EntityMouseDragHandler</span></a>)</code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">unregisterEntityMouseDragHandler</span>(<span class="variable">handler</span>:<span class="type">EntityMouseDragHandler</span>) </code></pre>
+</div>
 </div>
     </section>
 
@@ -214,7 +285,7 @@
 
     <footer>
         <p>
-    Generated on <time datetime="2020-05-01T17:29:39-0500">May 1, 2020</time> using <a href="https://github.com/SwiftDocOrg/swift-doc">swift-doc</a> <span class="version">1.0.0-beta.2</span>.
+    Generated on <time datetime="2021-04-25T15:45:06-0500">April 25, 2021</time> using <a href="https://github.com/SwiftDocOrg/swift-doc">swift-doc</a> <span class="version">1.0.0-beta.6</span>.
 </p>
     </footer>
 </body>
