@@ -21,6 +21,8 @@ import Igis
 /// a `ContainableRenderableEntity`, building a hierarchy of such
 /// containers is possible.
 open class RenderableEntityContainer : ContainableRenderableEntity {
+    /// The children `ContainableRenderableEntity`s, if any.
+    /// This is updated when entities are inserted into this container.
     public private(set) var children : [ContainableRenderableEntity]
 
     public override init(name:String?=nil,
@@ -30,48 +32,48 @@ open class RenderableEntityContainer : ContainableRenderableEntity {
                    topLeft:topLeft, fixedSize:fixedSize)
     }
 
-    // ********************************************************************************
+    // *****************************************************************
     // Functions for internal use
-    // ********************************************************************************
-    
-    /// Children invoke this method when they change their *currentCalculatedSize*.
-    /// This method should never be invoked outside of that context.
-    internal func childDidSetCurrentCalculatedSize(child:ContainableRenderableEntity, newSize:Size?) {
-        // Determine if we need to recalculate our own size
-        // If the child set a non-nil newSize, examine the other children
-        // If all children have sizes, then we should *recalculateSize()*
-        if newSize != nil {
-            let childCalculatedSizeReady = children.filter { $0.currentCalculatedSize != nil }
-            let shouldRecalculateSize = children.count == childCalculatedSizeReady.count
-            if shouldRecalculateSize {
-                currentCalculatedSize = nil
-                recalculateSize()
+    // *****************************************************************
+
+    // sets *currentCalculatedSize* of all children before addressing itself.
+    internal override func setCurrentCalculatedSize() {
+        for child in children {
+            if child.currentCalculatedSize == nil {
+                child.setCurrentCalculatedSize()
             }
+        }
+
+        // make sure all childRects are set before calculating size.
+        if childRects != nil {
+            super.setCurrentCalculatedSize()
         }
     }
 
-    // ********************************************************************************
+    // *****************************************************************
     // API FOLLOWS
-    // ********************************************************************************
+    // *****************************************************************
+    
+    /// Returns an array of all descendants of this `RenderableEntityContainer`.
+    /// This includes this containers children, as well as any grandchildren,
+    /// great grandchildren, etc.
+    public var descendants : [ContainableRenderableEntity] {
+        var descendants = children
+        for child in children {
+            if let entityContainer = child as? RenderableEntityContainer {
+                descendants.append(contentsOf:entityContainer.descendants)
+            }
+        }
 
-    /// Inserts the specified `ContainableRenderableEntity` into this container AND
-    /// into the specified `Layer` immediately above this container.
-    /// The entity's owningContainer is set to this container.
-    /// The entity is repositioned relative to this container
-    public func insert(owningLayer:Layer, entity:ContainableRenderableEntity) {
-        precondition(entity.owningContainer == nil,
-                     "While attempting to insert entity into container, the entity \(entity.name) was already inserted into \(entity.owningContainer!.name)")
-        entity.owningContainer = self
-        children.append(entity)
-        owningLayer.insert(entity:entity, at:.inFrontOf(object:self))
-        entity.topLeft += topLeft
+        return descendants
     }
-
-    /// Provides or sets the childRect for all children 
-    /// In order to get, all children must have a *currentCalculatedSize*, otherwise nil is returned.
+    
+    /// Provides or sets the childRect for all children.
+    /// In order to get, all children must have a *currentCalculatedSize*, otherwise
+    /// nil is returned.
     /// In order to set, the count of childRects must exactly match the count of children,
     /// The childRects are applied in order.
-    /// NB: A get reads the *currentCaclulcatedSize*, a set writes the *externalSize*
+    /// NB: A get reads the *currentCaclulcatedSize*, a set writes the *externalSize*.
     public var childRects : [Rect]? {
         get {
             let unreadyChildren = children.filter {$0.currentCalculatedSize == nil} 
@@ -93,23 +95,16 @@ open class RenderableEntityContainer : ContainableRenderableEntity {
         }
     }
 
-
-
-    // ********************************************************************************
-    // API FOLLOWS
-    // These functions should be over-ridden by descendant classes
-    // ********************************************************************************
-
-    /// This method is invoked when all children have either calculated their size
-    /// This container should then query the children and determine the size of itself.
-    /// It may also optionally resize the children (setting their *specifiedSize*) and/or
-    /// reposition them (setting their *topLeft*).
-    /// In the case where this container relies on information which is not yet available,
-    /// it's OK to simply set a flag and complete the calculation later in the *calculate()*
-    /// method.
-    open func recalculateSize() {
+    /// Inserts the specified `ContainableRenderableEntity` into this container AND
+    /// into the specified `Layer` immediately above this container.
+    /// The entity's owningContainer is set to this container.
+    /// The entity is repositioned relative to this container
+    public func insert(owningLayer:Layer, entity:ContainableRenderableEntity) {
+        precondition(entity.owningContainer == nil,
+                     "While attempting to insert entity into container, the entity \(entity.name) was already inserted into \(entity.owningContainer!.name)")
+        entity.owningContainer = self
+        children.append(entity)
+        owningLayer.insert(entity:entity, at:.inFrontOf(object:self))
+        entity.topLeft += topLeft
     }
-
-    
-
 }

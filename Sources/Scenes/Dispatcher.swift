@@ -242,33 +242,39 @@ public class Dispatcher {
 
     internal func raiseEntityMouseDownEvent(globalLocation:Point) {
         // We only need to proceed if we have either EntityMouseDown, EntityMouseClick, or EntityMouseDrag handlers
-        if !registeredEntityMouseDownHandlers.isEmpty || !registeredEntityMouseClickHandlers.isEmpty || !registeredEntityMouseDragHandlers.isEmpty {
-            // Find the frontMostEntity (if any).  This entity will receive the event(s) provided that it's defined a handler
-            if let entity = frontMostEntity(atGlobalLocation:globalLocation, ignoreIsMouseTransparent:true) {
-                
-                // Find a candidates for EntityMouseDown, EntityMouseClick, and EntityMouseDrag which may (or may not defined) for this object
-                let entityMouseDownHandler  = registeredEntityMouseDownHandlers.find(handlerName:entity.name)
-                let entityMouseClickHandler = registeredEntityMouseClickHandlers.find(handlerName:entity.name)
-                let entityMouseDragHandler  = registeredEntityMouseDragHandlers.find(handlerName:entity.name)
-
-                // Track to see if we consume the event so that we can offer a helpful error message
-                var eventWasConsumed = false
-
-                // Handle EntityMouseDown
-                if let handler = entityMouseDownHandler {
-                    handler.onEntityMouseDown(globalLocation:globalLocation)
-                    eventWasConsumed = true
-                }
-
-                // and/or handle EntityMouseDrag or EntityMouseClick
-                if entityMouseClickHandler != nil || entityMouseDragHandler != nil {
-                    mostRecentEntityNameForMouseClickOrDrag = entity.name
-                    eventWasConsumed = true
-                }
-
-                if !eventWasConsumed {
-                    print("WARNING: hitTest for entity '\(entity.name)' intercepted hit for raiseEntityMouseDown/Click/Drag event but is unregistered")
-                }
+        guard !registeredEntityMouseDownHandlers.isEmpty || !registeredEntityMouseClickHandlers.isEmpty || !registeredEntityMouseDragHandlers.isEmpty else {
+            return
+        }
+        
+        // Find the frontMostEntity (if any). This entity will receive the event(s) provided that it's defined a handler
+        if let entity = frontMostEntity(atGlobalLocation:globalLocation, ignoreIsMouseTransparent:true) {
+            // We only need to proceed is entity is either an EntityMouseDownHandler, EntityMouseClickHandler, or EntityMouseDragHandler
+            guard entity is EntityMouseDownHandler || entity is EntityMouseClickHandler || entity is EntityMouseDragHandler else {
+                return
+            }
+            
+            // Find a candidates for EntityMouseDown, EntityMouseClick, and EntityMouseDrag which may (or may not defined) for this object
+            let entityMouseDownHandler  = registeredEntityMouseDownHandlers.find(handlerName:entity.name)
+            let entityMouseClickHandler = registeredEntityMouseClickHandlers.find(handlerName:entity.name)
+            let entityMouseDragHandler  = registeredEntityMouseDragHandlers.find(handlerName:entity.name)
+            
+            // Track to see if we consume the event so that we can offer a helpful error message
+            var eventWasConsumed = false
+            
+            // Handle EntityMouseDown
+            if let handler = entityMouseDownHandler {
+                handler.onEntityMouseDown(globalLocation:globalLocation)
+                eventWasConsumed = true
+            }
+            
+            // and/or handle EntityMouseDrag or EntityMouseClick
+            if entityMouseClickHandler != nil || entityMouseDragHandler != nil {
+                mostRecentEntityNameForMouseClickOrDrag = entity.name
+                eventWasConsumed = true
+            }
+            
+            if !eventWasConsumed {
+                print("WARNING: hitTest for entity '\(entity.name)' intercepted hit for raiseEntityMouseDown/Click/Drag event but is unregistered")
             }
         }
     }
@@ -284,31 +290,32 @@ public class Dispatcher {
 
     internal func raiseEntityMouseEnterLeaveHandler(globalLocation:Point) {
         // We only need to proceed if we have an entityMouseEnter/entityMouseLeave handler
-        if !registeredEntityMouseEnterHandlers.isEmpty || !registeredEntityMouseLeaveHandlers.isEmpty {
-            // Find the frontMostEntity
-            let entity = frontMostEntity(atGlobalLocation:globalLocation, ignoreIsMouseTransparent:true)
-
-            // If we currently have an entity which received an enter and we are no longer on that entity,
-            // we issue a mouseLeave (it it handles this event)
-            if let mostRecentEntityNameForMouseEnterOrLeave = mostRecentEntityNameForMouseEnterOrLeave,
-               entity == nil || (entity!.name != mostRecentEntityNameForMouseEnterOrLeave),
-               let handler = registeredEntityMouseLeaveHandlers.find(handlerName:mostRecentEntityNameForMouseEnterOrLeave) {
-                handler.onEntityMouseLeave(globalLocation:globalLocation)
-            }
-            
-            // If we have a frontMostEntity which is different than the current entity,
-            // we issue a mouseEnter (if it handles this event)
-            if let entity = entity,
-               (mostRecentEntityNameForMouseEnterOrLeave == nil) || (mostRecentEntityNameForMouseEnterOrLeave! != entity.name),
-                let handler = registeredEntityMouseEnterHandlers.find(handlerName:entity.name) {
-                    handler.onEntityMouseEnter(globalLocation:globalLocation)
-            }
-            
-            // Set the new most recent entity to the frontMost entity (if any)
-            self.mostRecentEntityNameForMouseEnterOrLeave = entity?.name
+        guard !registeredEntityMouseEnterHandlers.isEmpty || !registeredEntityMouseLeaveHandlers.isEmpty else {
+            return
         }
+        
+        // Find the frontMostEntity
+        let entity = frontMostEntity(atGlobalLocation:globalLocation, ignoreIsMouseTransparent:true)
+        
+        // If we currently have an entity which received an enter and we are no longer on that entity,
+        // we issue a mouseLeave (it it handles this event)
+        if let mostRecentEntityNameForMouseEnterOrLeave = mostRecentEntityNameForMouseEnterOrLeave,
+           entity == nil || (entity!.name != mostRecentEntityNameForMouseEnterOrLeave),
+           let handler = registeredEntityMouseLeaveHandlers.find(handlerName:mostRecentEntityNameForMouseEnterOrLeave) {
+            handler.onEntityMouseLeave(globalLocation:globalLocation)
+        }
+        
+        // If we have a frontMostEntity which is different than the current entity,
+        // we issue a mouseEnter (if it handles this event)
+        if let entity = entity,
+           (mostRecentEntityNameForMouseEnterOrLeave == nil) || (mostRecentEntityNameForMouseEnterOrLeave! != entity.name),
+           let handler = registeredEntityMouseEnterHandlers.find(handlerName:entity.name) {
+            handler.onEntityMouseEnter(globalLocation:globalLocation)
+        }
+        
+        // Set the new most recent entity to the frontMost entity (if any)
+        self.mostRecentEntityNameForMouseEnterOrLeave = entity?.name
     }
-
     
     // ========== EntityMouseEnterLeave ==========
     public func registerEntityMouseLeaveHandler(handler:EntityMouseLeaveHandler) {
@@ -338,37 +345,43 @@ public class Dispatcher {
 
     internal func raiseEntityMouseUpEvent(globalLocation:Point) {
         // We only need to proceed if we have either EntityMouseUpHandlers or EntityMouseClickHandlers
-        if !registeredEntityMouseUpHandlers.isEmpty || !registeredEntityMouseClickHandlers.isEmpty {
-            // Find the frontMostEntity (if any).  This entity will receive the event(s) provided that it's defined a handler
-            if let entity = frontMostEntity(atGlobalLocation:globalLocation, ignoreIsMouseTransparent:true) {
-                // Find a candidate for EntityMouseUp
-                let entityMouseUpHandler = registeredEntityMouseUpHandlers.find(handlerName:entity.name)
-
-                // Track to see if we consume the event so that we can offer a helpful error message
-                var wasEventConsumed = false
-
-                // Handle EntityMouseClick
-                if let mostRecentEntityNameForMouseClickOrDrag = mostRecentEntityNameForMouseClickOrDrag,
-                   entity.name == mostRecentEntityNameForMouseClickOrDrag {
-                    // Find a candiate for EntityMouseClick
-                    let entityMouseClickHandler = registeredEntityMouseClickHandlers.find(handlerName:entity.name)
-
-                    if let handler = entityMouseClickHandler {
-                        handler.onEntityMouseClick(globalLocation:globalLocation)
-                        wasEventConsumed = true
-                    }
-                }
+        guard !registeredEntityMouseUpHandlers.isEmpty || !registeredEntityMouseClickHandlers.isEmpty else {
+            return
+        }
+        
+        // Find the frontMostEntity (if any).  This entity will receive the event(s) provided that it's defined a handler
+        if let entity = frontMostEntity(atGlobalLocation:globalLocation, ignoreIsMouseTransparent:true) {
+            // We only need to proceed if entity is either an EntityMouseUpHandler or EntityMouseClickHandler
+            guard entity is EntityMouseUpHandler || entity is EntityMouseClickHandler else {
+                return
+            }
+            
+            // Find a candidate for EntityMouseUp
+            let entityMouseUpHandler = registeredEntityMouseUpHandlers.find(handlerName:entity.name)
+            
+            // Track to see if we consume the event so that we can offer a helpful error message
+            var wasEventConsumed = false
+            
+            // Handle EntityMouseClick
+            if let mostRecentEntityNameForMouseClickOrDrag = mostRecentEntityNameForMouseClickOrDrag,
+               entity.name == mostRecentEntityNameForMouseClickOrDrag {
+                // Find a candiate for EntityMouseClick
+                let entityMouseClickHandler = registeredEntityMouseClickHandlers.find(handlerName:entity.name)
                 
-                // and/or Handle EntityMouseUp
-                if let handler = entityMouseUpHandler {
-                    handler.onEntityMouseUp(globalLocation:globalLocation)
-                    wasEventConsumed = true
+                if let handler = entityMouseClickHandler {
+                    handler.onEntityMouseClick(globalLocation:globalLocation)
+                        wasEventConsumed = true
                 }
-
-                if !wasEventConsumed {
-                    print("WARNING: hitTest for entity '\(entity.name)' intercepted hit for raiseEntityMouseUp/Click event but is unregistered")
-                }
-
+            }
+            
+            // and/or Handle EntityMouseUp
+            if let handler = entityMouseUpHandler {
+                handler.onEntityMouseUp(globalLocation:globalLocation)
+                wasEventConsumed = true
+            }
+            
+            if !wasEventConsumed {
+                print("WARNING: hitTest for entity '\(entity.name)' intercepted hit for raiseEntityMouseUp/Click event but is unregistered")
             }
         }
     }

@@ -83,7 +83,4 @@ internal class EventHandlers<EventHandlerType> {
             doStatement(wrapper.handler)
         }
     }
-
-    
-    
 }
