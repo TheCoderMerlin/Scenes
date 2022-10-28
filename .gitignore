@@ -5,3 +5,5 @@
 Package.resolved
 .dir-locals.el
 *~
+\#*\#
+
